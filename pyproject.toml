@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tkdeft"
-version = "0.0.2"
+version = "0.0.3"
 description = "使用tkinter+tksvg开发的现代化界面库"
 authors = ["XiangQinxi <xiangqinxi@outlook.com>"]
 readme = "README.md"
@@ -9,6 +9,7 @@ documentation = "https://tkdeft.netlify.app"
 [tool.poetry.dependencies]
 python = "^3.7"
 tkextrafont = "^0.6.3"
+svgwrite = "^1.4.3"
 
 [build-system]
 requires = ["poetry-core"]
