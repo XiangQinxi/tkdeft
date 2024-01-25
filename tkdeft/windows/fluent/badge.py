@@ -38,27 +38,17 @@ class DBadgeCanvas(DCanvas):
 
 
 class DBadge(DBadgeCanvas, DDrawWidget):
-    from easydict import EasyDict
-
-    attributes = EasyDict(
-        {
-            "text": "",
-            "command": None,
-            "font": None,
-
-            "back_color": "#f0f0f0",
-            "border_color": "#f0f0f0",
-            "border_width": 1,
-            "text_color": "#191919",
-        }
-    )
 
     def __init__(self, *args,
                  text="",
                  width=70,
                  height=30,
                  font=None,
+                 mode="light",
+                 style="standard",
                  **kwargs):
+        self._init(mode, style)
+
         super().__init__(*args, width=width, height=height, **kwargs)
 
         self.dconfigure(
@@ -71,11 +61,28 @@ class DBadge(DBadgeCanvas, DDrawWidget):
             from ...utility.fonts import SegoeFont
             self.attributes.font = SegoeFont()
 
+    def _init(self, mode, style):
+        from easydict import EasyDict
+
+        self.attributes = EasyDict(
+            {
+                "text": "",
+                "command": None,
+                "font": None,
+
+                "back_color": None,
+                "border_color": None,
+                "border_width": None,
+                "text_color": None
+            }
+        )
+
+        self.theme(mode, style)
+
     def _draw(self, event=None):
         super()._draw(event)
 
         self.delete("all")
-
 
         _back_color = self.attributes.back_color
         _border_color = self.attributes.border_color
@@ -92,19 +99,46 @@ class DBadge(DBadgeCanvas, DDrawWidget):
             fill=_text_color, text=self.attributes.text, font=self.attributes.font
         )
 
+    def theme(self, mode, style):
+        if mode.lower() == "dark":
+            if style.lower() == "accent":
+                self._dark_accent()
+            else:
+                self._dark()
+        else:
+            if style.lower() == "accent":
+                self._light_accent()
+            else:
+                self._light()
 
-class DDarkBadge(DBadge):
-    from easydict import EasyDict
+    def _light(self):
+        self.dconfigure(
+            back_color="#f0f0f0",
+            border_color="#f0f0f0",
+            border_width=1,
+            text_color="#191919",
+        )
 
-    attributes = EasyDict(
-        {
-            "text": "",
-            "command": None,
-            "font": None,
+    def _light_accent(self):
+        self.dconfigure(
+            back_color="#005fb8",
+            border_color="#005fb8",
+            border_width=1,
+            text_color="#ffffff",
+        )
 
-            "back_color": "#242424",
-            "border_color": "#242424",
-            "border_width": 1,
-            "text_color": "#ffffff",
-        }
-    )
+    def _dark(self):
+        self.dconfigure(
+            back_color="#242424",
+            border_color="#242424",
+            border_width=1,
+            text_color="#ffffff",
+        )
+
+    def _dark_accent(self):
+        self.dconfigure(
+            back_color="#60cdff",
+            border_color="#60cdff",
+            border_width=1,
+            text_color="#000000",
+        )

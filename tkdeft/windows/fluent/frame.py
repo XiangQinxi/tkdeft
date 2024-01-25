@@ -52,19 +52,14 @@ from ...object import DObject
 
 
 class DFrame(Frame, DObject):
-    from easydict import EasyDict
-
-    attributes = EasyDict(
-        {
-            "back_color": "#ffffff",
-            "border_color": "#ebebeb",
-            "border_color2": "#e4e4e4",
-            "border_width": 1,
-            "radius": 6,
-        }
-    )
-
-    def __init__(self, master=None, *args, width=300, height=150, **kwargs):
+    def __init__(self,
+                 master=None,
+                 *args,
+                 width=300,
+                 height=150,
+                 mode="light",
+                 **kwargs,
+                 ):
         from tempfile import mkstemp
         _, self.temppath = mkstemp(suffix=".svg", prefix="tkdeft.temp.")
 
@@ -72,12 +67,53 @@ class DFrame(Frame, DObject):
 
         super().__init__(master=self.canvas)
 
+        self._init(mode)
+
         self.enter = False
         self.button1 = False
 
         self._draw(None)
 
         self.canvas.bind("<Configure>", self._event_configure, add="+")
+
+    def _init(self, mode):
+        from easydict import EasyDict
+
+        self.attributes = EasyDict(
+            {
+                "back_color": None,
+                "border_color": None,
+                "border_color2": None,
+                "border_width": None,
+                "radius": None,
+            }
+        )
+
+        self.theme(mode)
+
+    def theme(self, mode="light"):
+        if mode.lower() == "dark":
+            self._dark()
+        else:
+            self._light()
+
+    def _light(self):
+        self.dconfigure(
+            back_color="#ffffff",
+            border_color="#ebebeb",
+            border_color2="#e4e4e4",
+            border_width=1,
+            radius=6,
+        )
+
+    def _dark(self):
+        self.dconfigure(
+            back_color="#242424",
+            border_color="#303030",
+            border_color2="#282828",
+            border_width=1,
+            radius=6,
+        )
 
     def pack_info(self):
         return self.canvas.pack_info()
@@ -108,10 +144,10 @@ class DFrame(Frame, DObject):
     def grid_remove(self):
         return self.canvas.grid_remove()
 
-    def grid_anchor(self, anchor = ...):
+    def grid_anchor(self, anchor=...):
         return self.canvas.grid_anchor(anchor)
 
-    def grid_slaves(self, row = ..., column = ...):
+    def grid_slaves(self, row=..., column=...):
         return self.canvas.grid_slaves(row=row, column=column)
 
     def grid_propagate(self, flag):
@@ -173,17 +209,3 @@ class DFrame(Frame, DObject):
 
     def _event_configure(self, event=None):
         self._draw(event)
-
-
-class DDarkFrame(DFrame):
-    from easydict import EasyDict
-
-    attributes = EasyDict(
-        {
-            "back_color": "#242424",
-            "border_color": "#303030",
-            "border_color2": "#282828",
-            "border_width": 1,
-            "radius": 6,
-        }
-    )

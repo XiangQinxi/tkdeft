@@ -35,6 +35,9 @@ class DDrawWidget(DDrawWidgetCanvas, DObject):
         self.bind("<FocusIn>", self._event_focus_in, add="+")
         self.bind("<FocusOut>", self._event_focus_out, add="+")
 
+    def _init(self):
+        pass
+
     def _draw(self, event=None):
         self.config(background=self.master.cget("background"))
 

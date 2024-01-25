@@ -47,51 +47,17 @@ class DButtonCanvas(DCanvas):
 
 
 class DButton(DButtonCanvas, DDrawWidget):
-    from easydict import EasyDict
-
-    attributes = EasyDict(
-        {
-            "text": "",
-            "command": None,
-            "font": None,
-
-            "rest": {
-                "back_color": "#ffffff",
-                "border_color": "#f0f0f0",
-                "border_color2": "#d6d6d6",
-                "border_width": 1,
-                "radius": 6,
-                "text_color": "#1b1b1b",
-            },
-
-            "hover": {
-                "back_color": "#fcfcfc",
-                "border_color": "#f0f0f0",
-                "border_color2": "#d6d6d6",
-                "border_width": 1,
-                "radius": 6,
-                "text_color": "#1b1b1b",
-            },
-
-            "pressed": {
-                "back_color": "#fdfdfd",
-                "border_color": "#f0f0f0",
-                "border_color2": "#f0f0f0",
-                "border_width": 1,
-                "radius": 6,
-                "text_color": "#636363",
-            }
-
-        }
-    )
-
     def __init__(self, *args,
                  text="",
                  width=120,
                  height=32,
                  command=None,
                  font=None,
+                 mode="light",
+                 style="standard",
                  **kwargs):
+        self._init(mode, style)
+
         super().__init__(*args, width=width, height=height, **kwargs)
 
         if command is None:
@@ -110,6 +76,45 @@ class DButton(DButtonCanvas, DDrawWidget):
         if font is None:
             from ...utility.fonts import SegoeFont
             self.attributes.font = SegoeFont()
+
+    def _init(self, mode, style):
+
+        from easydict import EasyDict
+
+        self.attributes = EasyDict(
+            {
+                "text": "",
+                "command": None,
+                "font": None,
+
+                "rest": {
+                    "back_color": "#ffffff",
+                    "border_color": "#f0f0f0",
+                    "border_color2": "#d6d6d6",
+                    "border_width": 1,
+                    "radius": 6,
+                    "text_color": "#1b1b1b",
+                },
+                "hover": {
+                    "back_color": "#fcfcfc",
+                    "border_color": "#f0f0f0",
+                    "border_color2": "#d6d6d6",
+                    "border_width": 1,
+                    "radius": 6,
+                    "text_color": "#1b1b1b",
+                },
+                "pressed": {
+                    "back_color": "#fdfdfd",
+                    "border_color": "#f0f0f0",
+                    "border_color2": "#f0f0f0",
+                    "border_width": 1,
+                    "radius": 6,
+                    "text_color": "#636363",
+                }
+            }
+        )
+
+        self.theme(mode=mode, style=style)
 
     def _draw(self, event=None):
         super()._draw(event)
@@ -143,62 +148,54 @@ class DButton(DButtonCanvas, DDrawWidget):
             0, 0, self.winfo_width(), self.winfo_height(), _radius, temppath=self.temppath,
             fill=_back_color, outline=_border_color, outline2=_border_color2, width=_border_width
         )
-
         self.element_text = self.create_text(
             self.winfo_width() / 2, self.winfo_height() / 2, anchor="center",
             fill=_text_color, text=self.attributes.text, font=self.attributes.font
         )
 
+    def theme(self, mode="light", style="standard"):
+        if mode.lower() == "dark":
+            if style.lower() == "accent":
+                self._dark_accent()
+            else:
+                self._dark()
+        else:
+            if style.lower() == "accent":
+                self._light_accent()
+            else:
+                self._light()
 
-class DDarkButton(DButton):
-    from easydict import EasyDict
-
-    attributes = EasyDict(
-        {
-            "text": "",
-            "command": None,
-            "font": None,
-
-            "rest": {
-                "back_color": "#272727",
-                "border_color": "#303030",
-                "border_color2": "#262626",
+    def _light(self):
+        self.dconfigure(
+            rest={
+                "back_color": "#ffffff",
+                "border_color": "#f0f0f0",
+                "border_color2": "#d6d6d6",
                 "border_width": 1,
                 "radius": 6,
-                "text_color": "#ffffff",
+                "text_color": "#1b1b1b",
             },
-
-            "hover": {
-                "back_color": "#2d2d2d",
-                "border_color": "#303030",
-                "border_color2": "#262626",
+            hover={
+                "back_color": "#fcfcfc",
+                "border_color": "#f0f0f0",
+                "border_color2": "#d6d6d6",
                 "border_width": 1,
                 "radius": 6,
-                "text_color": "#ffffff",
+                "text_color": "#1b1b1b",
             },
-
-            "pressed": {
-                "back_color": "#212121",
-                "border_color": "#2a2a2a",
-                "border_color2": "#262626",
+            pressed={
+                "back_color": "#fdfdfd",
+                "border_color": "#f0f0f0",
+                "border_color2": "#f0f0f0",
                 "border_width": 1,
                 "radius": 6,
-                "text_color": "#cfcfcf",
+                "text_color": "#636363",
             }
-        }
-    )
+        )
 
-
-class DAccentButton(DButton):
-    from easydict import EasyDict
-
-    attributes = EasyDict(
-        {
-            "text": "",
-            "command": None,
-            "font": None,
-
-            "rest": {
+    def _light_accent(self):
+        self.dconfigure(
+            rest={
                 "back_color": "#005fb8",
                 "border_color": "#146cbe",
                 "border_color2": "#00396e",
@@ -206,8 +203,7 @@ class DAccentButton(DButton):
                 "radius": 6,
                 "text_color": "#ffffff",
             },
-
-            "hover": {
+            hover={
                 "back_color": "#0359a9",
                 "border_color": "#1766b0",
                 "border_color2": "#0f4373",
@@ -215,8 +211,7 @@ class DAccentButton(DButton):
                 "radius": 6,
                 "text_color": "#ffffff",
             },
-
-            "pressed": {
+            pressed={
                 "back_color": "#005fb8",
                 "border_color": "#4389ca",
                 "border_color2": "#4389ca",
@@ -224,20 +219,39 @@ class DAccentButton(DButton):
                 "radius": 6,
                 "text_color": "#b4cbe0",
             }
-        }
-    )
+        )
 
+    def _dark(self):
+        self.dconfigure(
+            rest={
+                "back_color": "#272727",
+                "border_color": "#303030",
+                "border_color2": "#262626",
+                "border_width": 1,
+                "radius": 6,
+                "text_color": "#ffffff",
+            },
+            hover={
+                "back_color": "#2d2d2d",
+                "border_color": "#303030",
+                "border_color2": "#262626",
+                "border_width": 1,
+                "radius": 6,
+                "text_color": "#ffffff",
+            },
+            pressed={
+                "back_color": "#212121",
+                "border_color": "#2a2a2a",
+                "border_color2": "#262626",
+                "border_width": 1,
+                "radius": 6,
+                "text_color": "#cfcfcf",
+            }
+        )
 
-class DDarkAccentButton(DButton):
-    from easydict import EasyDict
-
-    attributes = EasyDict(
-        {
-            "text": "",
-            "command": None,
-            "font": None,
-
-            "rest": {
+    def _dark_accent(self):
+        self.dconfigure(
+            rest={
                 "back_color": "#60cdff",
                 "border_color": "#6cd1ff",
                 "border_color2": "#56b4df",
@@ -245,8 +259,7 @@ class DDarkAccentButton(DButton):
                 "radius": 6,
                 "text_color": "#000000",
             },
-
-            "hover": {
+            hover={
                 "back_color": "#5abce9",
                 "border_color": "#67c1eb",
                 "border_color2": "#50a5cc",
@@ -254,8 +267,7 @@ class DDarkAccentButton(DButton):
                 "radius": 6,
                 "text_color": "#000000",
             },
-
-            "pressed": {
+            pressed={
                 "back_color": "#52a9d1",
                 "border_color": "#60b0d5",
                 "border_color2": "#60b0d5",
@@ -263,5 +275,4 @@ class DDarkAccentButton(DButton):
                 "radius": 6,
                 "text_color": "#295468",
             }
-        }
-    )
+        )

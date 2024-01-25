@@ -16,7 +16,7 @@ class DEntryDraw(DSvgDraw):
         drawing = self.create_drawing(x2 - x1, y2 - y1, temppath=temppath)
         border = drawing[1].linearGradient(start=(x1, y1), end=(x1, y2), id="DButton.Border")
         border.add_stop_color("0%", outline)
-        border.add_stop_color("80%", outline)
+        border.add_stop_color("50%", outline)
         border.add_stop_color("100%", outline2)
         drawing[1].defs.add(border)
         drawing[1].add(
@@ -48,40 +48,15 @@ class DEntryCanvas(DCanvas):
 
 
 class DEntry(DEntryCanvas, DDrawWidget):
-    from easydict import EasyDict
-
-    attributes = EasyDict(
-        {
-            "font": None,
-
-            "rest": {
-                "back_color": "#ffffff",
-                "border_color": "#f0f0f0",
-                "border_color2": "#8d8d8d",
-                "border_width": 1,
-                "radius": 6,
-                "text_color": "#646464",
-            },
-
-            "focus": {
-                "back_color": "#ffffff",
-                "border_color": "#f0f0f0",
-                "border_color2": "#005fb8",
-                "border_width": 2,
-                "radius": 6,
-                "text_color": "#636363",
-            }
-
-        }
-    )
-
     def __init__(self, *args,
                  width=120,
                  height=32,
                  font=None,
                  cursor="xterm",
                  textvariable=None,
+                 mode="light",
                  **kwargs):
+        self._init(mode)
 
         from tkinter import Entry
 
@@ -99,6 +74,22 @@ class DEntry(DEntryCanvas, DDrawWidget):
         if font is None:
             from ...utility.fonts import SegoeFont
             self.attributes.font = SegoeFont()
+
+    def _init(self, mode):
+        from easydict import EasyDict
+
+        self.attributes = EasyDict(
+            {
+                "font": None,
+
+                "rest": {},
+
+                "focus": {}
+
+            }
+        )
+
+        self.theme(mode=mode)
 
     def _draw(self, event=None):
         super()._draw(event)
@@ -141,24 +132,40 @@ class DEntry(DEntryCanvas, DDrawWidget):
 
         self._draw(event)
 
-        print(1)
-
     def _event_focus_out(self, event=None):
         self.isfocus = False
 
         self._draw(event)
 
-        print(2)
+    def theme(self, mode="light"):
+        if mode.lower() == "dark":
+            self._dark()
+        else:
+            self._light()
 
+    def _light(self):
+        self.dconfigure(
+            rest={
+                "back_color": "#ffffff",
+                "border_color": "#f0f0f0",
+                "border_color2": "#8d8d8d",
+                "border_width": 1,
+                "radius": 6,
+                "text_color": "#646464",
+            },
+            focus={
+                "back_color": "#ffffff",
+                "border_color": "#f0f0f0",
+                "border_color2": "#005fb8",
+                "border_width": 2,
+                "radius": 6,
+                "text_color": "#636363",
+            }
+        )
 
-class DDarkEntry(DEntry):
-    from easydict import EasyDict
-
-    attributes = EasyDict(
-        {
-            "font": None,
-
-            "rest": {
+    def _dark(self):
+        self.dconfigure(
+            rest={
                 "back_color": "#272727",
                 "border_color": "#2c2c2c",
                 "border_color2": "#979797",
@@ -166,15 +173,12 @@ class DDarkEntry(DEntry):
                 "radius": 6,
                 "text_color": "#ffffff",
             },
-
-            "focus": {
+            focus={
                 "back_color": "#1d1d1d",
                 "border_color": "#272727",
                 "border_color2": "#60cdff",
-                "border_width": 1,
+                "border_width": 2,
                 "radius": 6,
                 "text_color": "#ffffff",
             }
-
-        }
-    )
+        )

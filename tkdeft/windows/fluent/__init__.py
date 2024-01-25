@@ -7,9 +7,10 @@
 -------------
 """
 
-from .badge import DBadgeDraw, DBadgeCanvas, DBadge, DDarkBadge
-from .button import DButtonDraw, DButtonCanvas, DButton, DDarkButton, DAccentButton, DDarkAccentButton
-from .entry import DEntryDraw, DEntryCanvas, DEntry, DDarkEntry
-from .frame import DFrameDraw, DFrameCanvas, DFrame, DDarkFrame
-from .text import DTextDraw, DTextCanvas, DText, DDarkText
+from .badge import DBadge
+from .button import DButton
+from .entry import DEntry
+from .frame import DFrame
+from .label import DLabel
+from .text import DText
 from .window import DWindow
