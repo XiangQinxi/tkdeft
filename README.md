@@ -38,3 +38,6 @@
 发布`0.0.3` `0.0.4`版本，粗心了，两次补充依赖
 发布`0.0.5`版本，模板组件主题由`theme(mode=..., style=...)`设置，不再使用如`DDarkButton`这样的，添加`DWindow.wincustom`自定义窗口（仅限Windows）
 发布`0.0.6`版本，模板组件`DBadge`补充样式`style=accent`，并对自定义窗口进行稍微调整
+
+### 2023-01-26
+发布`0.0.7`版本，模板库`Fluent`已移至`tkfluent`库
