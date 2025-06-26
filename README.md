@@ -9,15 +9,23 @@
 > 开发中
 
 ---
+## 注意
+这里呢，已经成为[tkfluent](https://pypi.org/project/tkfluent)的基础库了，不含[tkfluent](https://pypi.org/project/tkfluent)的组件。
+
+如果你想体验扩展界面库的效果，请去[tkfluent](https://pypi.org/project/tkfluent)查阅。
+
 
 ## 原理
 先使用`svgwrite`进行矢量作图（默认会将其存储到临时文件夹中），再用`tksvg`打开图片，将图片利用`Canvas`或`Label`显示出来
-
-> 这其中还是有些坑的，比如图片不显示等
+[index.md](docs/docs/index.md)
+> 这其中还是有些坑的，比如图片不显示等，导致我以前想做，却放弃了，现在知道错误所在了
 
 
 ## 计划
-未来我打算先制作出`SunValley`设计的库然后就去做别的项目
+未来我打算先制作出`SunValley`设计的库然后就去做别的项目，[tkfluent](https://pypi.org/project/tkfluent)
+
+至于完整文档，我后面会加紧制作的。
+
 
 设计来源： https://pixso.cn/community/file/ItC5JH1TOwj15EeOPcY7LQ?from_share
 
@@ -41,3 +49,9 @@
 
 ### 2023-01-26
 发布`0.0.7`版本，模板库`Fluent`已移至`tkfluent`库
+
+### 2024-09-16
+发布`0.0.9`版本，一些小修改
+
+### 2025-06-26
+发布`0.1.0`版本，完善功能

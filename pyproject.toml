@@ -1,12 +1,13 @@
 [tool.poetry]
 name = "tkdeft"
-version = "0.0.7"
+version = "0.1.0"
 description = "使用tkinter+tksvg开发的现代化界面库"
 authors = ["XiangQinxi <xiangqinxi@outlook.com>"]
 readme = "README.md"
 documentation = "https://tkdeft.netlify.app"
 
 [tool.poetry.dependencies]
+easydict = "^1.13"
 python = "^3.7"
 tksvg = "^0.7.4"
 tkextrafont = "^0.6.3"

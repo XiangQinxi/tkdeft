@@ -4,4 +4,4 @@
 
 所以我们只能自定义组件实现
 
-这里我自己做了一个组件库，供大家当做模板参考：`tkdeft/windows/fluent`
+这里我自己做了一个组件库，供大家当做模板参考：[tkfluent](https://pypi.org/project/tkfluent)

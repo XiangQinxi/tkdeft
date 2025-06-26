@@ -20,6 +20,7 @@ class DDrawWidget(DDrawWidgetCanvas, DObject):
 
         from tempfile import mkstemp
         _, self.temppath = mkstemp(suffix=".svg", prefix="tkdeft.temp.")
+        _, self.temppath2 = mkstemp(suffix=".svg", prefix="tkdeft.temp.")
 
         self.enter = False
         self.button1 = False

@@ -8,26 +8,20 @@ class DDraw(object):
         from PIL.Image import open
         from PIL.ImageTk import PhotoImage
         image = open(path)
-        tkimage = PhotoImage(image=image)
-        return tkimage
-
-    """def svg_to_png(self, svgpath):
-        import cairosvg
-        from tempfile import mkstemp
-        _, path = mkstemp(suffix=".png", prefix="tkdeft.temp.")
-        cairosvg.svg2png(file_obj=open(svgpath), write_to=path)
-        return path
-    """
+        self.tkimage = PhotoImage(image=image)
+        return self.tkimage
 
 
 class DSvgDraw(DDraw):
-    def create_drawing(self, width, height, temppath=None):
-        if temppath:
-            path = temppath
-        else:
+    def temppath(self, path=None):
+        if not path:
             from tempfile import mkstemp
             _, path = mkstemp(suffix=".svg", prefix="tkdeft.temp.")
+        return path
+
+    def create_drawing(self, width, height, temppath=None, **kwargs):
+        path = self.temppath(temppath)
         import svgwrite
-        dwg = svgwrite.Drawing(path, width=width, height=height)
+        dwg = svgwrite.Drawing(path, width=width, height=height, **kwargs)
 
         return path, dwg
