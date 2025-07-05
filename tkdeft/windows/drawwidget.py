@@ -41,6 +41,8 @@ class DDrawWidget(DDrawWidgetCanvas, DObject):
 
     def _draw(self, event=None):
         self.config(background=self.master.cget("background"))
+        if not self.winfo_ismapped():
+            return
 
     def _event_configure(self, event=None):
         self._draw(event)
