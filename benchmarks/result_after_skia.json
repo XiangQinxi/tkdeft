@@ -1,0 +1,48 @@
+{
+  "label": "after-skia",
+  "renderer": 2,
+  "python": "3.13.5",
+  "tk": "8.6.15",
+  "svg_gen": {
+    "mean_ms": 0.8712,
+    "median_ms": 0.8151,
+    "p95_ms": 1.3905,
+    "min_ms": 0.3901
+  },
+  "svg_raster": {
+    "mean_ms": 2.6317,
+    "median_ms": 2.749,
+    "p95_ms": 3.5771,
+    "min_ms": 1.3599
+  },
+  "roundrect_vary": {
+    "mean_ms": 1.2554,
+    "median_ms": 1.2257,
+    "p95_ms": 1.8492,
+    "min_ms": 0.5912
+  },
+  "roundrect_same": {
+    "mean_ms": 0.0225,
+    "median_ms": 0.0219,
+    "p95_ms": 0.0255,
+    "min_ms": 0.0212
+  },
+  "button_draw": {
+    "mean_ms": 0.1508,
+    "median_ms": 0.1339,
+    "p95_ms": 0.258,
+    "min_ms": 0.1184
+  },
+  "button_hover": {
+    "mean_ms": 0.2629,
+    "median_ms": 0.2481,
+    "p95_ms": 0.4163,
+    "min_ms": 0.1022
+  },
+  "batch_20": {
+    "mean_ms": 2.9272,
+    "median_ms": 3.0151,
+    "p95_ms": 4.238,
+    "min_ms": 1.4938
+  }
+}

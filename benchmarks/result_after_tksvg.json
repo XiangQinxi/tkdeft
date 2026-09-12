@@ -1,0 +1,48 @@
+{
+  "label": "after-tksvg",
+  "renderer": 0,
+  "python": "3.13.5",
+  "tk": "8.6.15",
+  "svg_gen": {
+    "mean_ms": 0.4503,
+    "median_ms": 0.4236,
+    "p95_ms": 0.6152,
+    "min_ms": 0.3787
+  },
+  "svg_raster": {
+    "mean_ms": 1.4844,
+    "median_ms": 1.3651,
+    "p95_ms": 2.1893,
+    "min_ms": 1.2508
+  },
+  "roundrect_vary": {
+    "mean_ms": 4.9408,
+    "median_ms": 4.7892,
+    "p95_ms": 6.3005,
+    "min_ms": 3.6085
+  },
+  "roundrect_same": {
+    "mean_ms": 4.3344,
+    "median_ms": 4.1873,
+    "p95_ms": 5.4249,
+    "min_ms": 3.5056
+  },
+  "button_draw": {
+    "mean_ms": 2.8595,
+    "median_ms": 2.7214,
+    "p95_ms": 3.8817,
+    "min_ms": 2.2776
+  },
+  "button_hover": {
+    "mean_ms": 6.0844,
+    "median_ms": 5.6036,
+    "p95_ms": 9.1842,
+    "min_ms": 4.6821
+  },
+  "batch_20": {
+    "mean_ms": 110.4397,
+    "median_ms": 108.3305,
+    "p95_ms": 179.7255,
+    "min_ms": 52.2472
+  }
+}

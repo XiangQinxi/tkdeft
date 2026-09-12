@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tkdeft"
-version = "0.1.1"
+version = "0.2.0"
 description = "使用tkinter+tksvg开发的现代化界面库"
 authors = ["XiangQinxi <xiangqinxi@outlook.com>"]
 readme = "README.md"
@@ -12,7 +12,21 @@ python = "^3.7"
 tksvg = "^0.7.4"
 tkextrafont = "^0.6.3"
 svgwrite = "^1.4.3"
-pillow = "^10.2.0"
+# 不设上界：Pillow 10 / 11 / 12 都实测可用（^10.2.0 会逼 pip 把已经装好的
+# 新版 Pillow 降级，影响同一环境里的其它项目）。用到的最低特性是
+# ImageDraw.rounded_rectangle（Pillow 8.2 引入）。
+pillow = ">=10.2"
+numpy = "*"
+
+# 可选的进程内栅格绘制引擎。不装也能用（会退回 tksvg 或 Pillow 引擎）。
+skia-python = { version = "^138.0", optional = true }
+pycairo = { version = "^1.29", optional = true }
+
+[tool.poetry.extras]
+# 画质与速度最好的一组后端，推荐安装
+skia = ["skia-python"]
+cairo = ["pycairo"]
+raster = ["skia-python", "pycairo"]
 
 [build-system]
 requires = ["poetry-core"]

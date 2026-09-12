@@ -6,6 +6,13 @@ plugins:
   - search:
       lang: zh
   - offline
+  # API 文档由源码的文档字符串自动生成（与 tkfluent 文档保持一致）
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [..]
+          options:
+            allow_inspection: true
   - blog:
       post_dir: "blog/posts"
   - rss:
@@ -63,9 +70,26 @@ markdown_extensions:
 nav:
   - 主页: "index.md"
   - 使用:
-      - 安装: "usage/index.md"
-      - 自定义绘画引擎: "usage/custom-drawing.md"
+      - 安装与使用: "usage/index.md"
+      - 绘制引擎: "usage/custom-drawing.md"
       - 自定义组件: "usage/custom-widget.md"
+  - API:
+      - api/index.md
+      - 绘制引擎:
+          - api/tkdeft.engines.md
+          - api/tkdeft.engines.base.md
+          - api/tkdeft.engines.cache.md
+          - api/tkdeft.engines.skia_engine.md
+          - api/tkdeft.engines.pillow_engine.md
+          - api/tkdeft.engines.cairo_engine.md
+      - 图形与画布:
+          - api/tkdeft.svg.md
+          - api/tkdeft.windows.canvas.md
+          - api/tkdeft.windows.draw.md
+          - api/tkdeft.windows.drawwidget.md
+      - 基础:
+          - api/tkdeft.object.md
+          - api/tkdeft.utility.md
   - 模板:
       - 什么是模板: "template/index.md"
   - 博客:
