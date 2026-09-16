@@ -1,0 +1,3056 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://tkdeft.netlify.app/usage/faq.html">
+      
+      
+        <link rel="prev" href="benchmarks.html">
+      
+      
+        <link rel="next" href="upgrade-0.3.html">
+      
+      
+        
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS 订阅" href="../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="已更新内容的 RSS 订阅" href="../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>常见问题与排查 - tkdeft开发文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+        <script src="https://unpkg.com/iframe-worker/shim"></script>
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../index.html" title="tkdeft开发文档" class="md-header__button md-logo" aria-label="tkdeft开发文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            tkdeft开发文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              常见问题与排查
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  主页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../getstarted/install.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  开始
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  指南
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../api/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../template/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  模板
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../blog/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  更新日志
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="tkdeft开发文档" class="md-nav__button md-logo" aria-label="tkdeft开发文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    tkdeft开发文档
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    主页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    开始
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    开始
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getstarted/install.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getstarted/quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    快速上手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getstarted/concepts.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概念与架构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    指南
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    指南
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="custom-drawing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    绘制引擎
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="custom-widget.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自定义组件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="benchmarks.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    回归与性能
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    常见问题与排查
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="faq.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    常见问题与排查
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、画面不对
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、画面不对">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 画布上的图片变成空白
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-canvasdeleteall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. canvas.delete("all") 把叠加内容一起删掉
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、尺寸与布局
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、尺寸与布局">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-withdraw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. withdraw() 状态下量不到尺寸
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-lentext-n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 不要用 len(text) * N 估算文本宽度
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、生命周期与资源
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、生命周期与资源">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-root-after_cancel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 不要直接对 root 调 after_cancel()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-mkstemp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 临时文件与文件描述符：不要自己 mkstemp()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 长期运行程序的句柄回收
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tk-master" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、Tk 解释器与 master
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、Tk 解释器与 master">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-master" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 创建控件不传 master
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、绘制引擎
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、绘制引擎">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 引擎装了却用不了
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-svg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 想固定走 SVG 做对照
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. 引擎渲染失败不会被抛出来
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-skia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. 以为开了 skia，其实还在走慢路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、验证手段
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、验证手段">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#13-tk-pilimagegrab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. 截 Tk 窗口不要用 PIL.ImageGrab
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="upgrade-0.3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    从 0.2 升级到 0.3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../api/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    顶层
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    顶层
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tkdeft · 顶层接口
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    绘制引擎
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    绘制引擎
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.engines.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    engines · 绘制引擎层入口
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.engines.base.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    engines.base · 引擎基类与规格
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.engines.cache.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    engines.cache · 图片缓存
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.engines.colors.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    engines.colors · 颜色解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.engines.skia_engine.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    engines.skia · Skia 引擎
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.engines.pillow_engine.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    engines.pillow · Pillow 引擎
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.engines.cairo_engine.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    engines.cairo · Cairo 引擎
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图形与画布
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    图形与画布
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.svg.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    svg · SVG 形状助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.windows.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    windows · 画布与绘制后端
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.windows.canvas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    windows.canvas · 带绘制的画布
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.windows.draw.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    windows.draw · 绘制后端
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.windows.drawwidget.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    windows.drawwidget · 交互控件基类
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    基础
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    基础
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.object.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    object · DObject 配置容器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tkdeft.utility.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    utility · 字体等工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../template/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模板
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    模板
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../blog/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    更新日志
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    更新日志
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    归档
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    归档
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../blog/archive/2026.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../blog/archive/2025.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../blog/archive/2024.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分类
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    分类
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../blog/category/%E6%96%87%E6%A1%A3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    文档
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../blog/category/%E6%A8%A1%E5%9D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模块
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../blog/category/%E6%A8%A1%E6%9D%BF.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../blog/category/%E7%89%88%E6%9C%AC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    版本
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、画面不对
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、画面不对">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 画布上的图片变成空白
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-canvasdeleteall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. canvas.delete("all") 把叠加内容一起删掉
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、尺寸与布局
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、尺寸与布局">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-withdraw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. withdraw() 状态下量不到尺寸
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-lentext-n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 不要用 len(text) * N 估算文本宽度
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、生命周期与资源
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、生命周期与资源">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-root-after_cancel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 不要直接对 root 调 after_cancel()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-mkstemp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 临时文件与文件描述符：不要自己 mkstemp()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 长期运行程序的句柄回收
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tk-master" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、Tk 解释器与 master
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、Tk 解释器与 master">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-master" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 创建控件不传 master
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、绘制引擎
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、绘制引擎">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 引擎装了却用不了
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-svg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 想固定走 SVG 做对照
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. 引擎渲染失败不会被抛出来
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-skia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. 以为开了 skia，其实还在走慢路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、验证手段
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、验证手段">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#13-tk-pilimagegrab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. 截 Tk 窗口不要用 PIL.ImageGrab
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">常见问题与排查</h1>
+<p>这一页收集的是<strong>真实踩过的坑</strong>——大部分来自 Tkinter 本身的语义，而不是 <code>tkdeft</code>
+的 bug。每条都按 <strong>症状 / 原因 / 怎么办</strong> 写，配可运行的片段。</p>
+<p>排查顺序建议：</p>
+<ol>
+<li>先看当前引擎对不对：<code>python -c "from tkdeft.engines import get_engine_name; print(get_engine_name())"</code></li>
+<li>再跑一遍自检：<code>python -m tkflu --check -r &lt;引擎名&gt;</code></li>
+<li>还不对就跑回归：<code>python benchmarks/run_all.py --quick</code>（详见 <a href="benchmarks.html">回归与性能</a>）</li>
+</ol>
+<hr />
+<h2 id="_2">一、画面不对</h2>
+<h3 id="1">1. 画布上的图片变成空白</h3>
+<p><strong>症状</strong>：同一画布上画了多张图片，过一会儿（触发 GC 后）除最后一张外<strong>全部变空白</strong>；
+或者窗口 resize 之后图元消失。</p>
+<p><strong>原因</strong>：Tkinter 的画布元素<strong>不会</strong>替 Python 侧持有 <code>PhotoImage</code> 引用。图片对象一旦被
+垃圾回收，对应的 canvas item 就变成空白——这是 Tkinter 的经典陷阱。历史代码只用
+<code>self._tkimg</code> 保存"最后一张"，所以画第二张时第一张就失去了引用。</p>
+<p><strong>怎么办</strong>：让画布替你保管引用，或者直接用统一入口（内部已经保活）。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ✓ 推荐：统一入口自己会 _keep_photo，返回的一定是 canvas item id</span>
+<span class="n">item</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">draw_roundrect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;#ffffff&quot;</span><span class="p">)</span>
+
+<span class="c1"># ✓ 手工绘制：把 PhotoImage 交给画布保管</span>
+<span class="n">photo</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">svgdraw</span><span class="o">.</span><span class="n">create_svg_image</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">item</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">create_image</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s2">&quot;nw&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">photo</span><span class="p">)</span>
+<span class="n">canvas</span><span class="o">.</span><span class="n">_keep_photo</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">photo</span><span class="p">)</span>          <span class="c1"># ← 关键的一行</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># ✗ 历史错误写法：只存&quot;最后一张&quot;</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_tkimg</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">svgdraw</span><span class="o">.</span><span class="n">create_svg_image</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">canvas</span><span class="o">.</span><span class="n">create_image</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s2">&quot;nw&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_tkimg</span><span class="p">)</span>
+<span class="c1"># 下一次绘制覆盖 self._tkimg 后，上一张就可能在 GC 时变空白</span>
+</code></pre></div>
+<p><code>DCanvas._keep_photo(item, photo)</code> 按 item id 记录引用，并在元素失效后自动清理；
+<code>draw_roundrect</code> / <code>draw_track</code> / <code>draw_thumb</code> 内部都调了它。</p>
+<div class="admonition tip">
+<p class="admonition-title">为什么缓存不做 LRU 淘汰</p>
+<p>因为"淘汰"就等于"回收图片"就等于"画面变空白"。缓存改用像素预算
+（默认 8M 像素，满了就不再写入），已经发出去的图片永远存活。
+详见 <a href="custom-drawing.html">绘制引擎</a>。</p>
+</div>
+<h3 id="2-canvasdeleteall">2. <code>canvas.delete("all")</code> 把叠加内容一起删掉</h3>
+<p><strong>症状</strong>：自己往画布上追加的元素（文字、图元、内嵌控件）在组件下一次重绘后消失。</p>
+<p><strong>原因</strong>：<code>delete("all")</code> 删除的是<strong>画布上的全部 item</strong>，包括子窗口 item 和所有叠加元素。
+"整幅重绘"风格的组件会在 <code>_draw()</code> 开头调用它，于是你以为"加进去了"的东西立刻被擦掉。</p>
+<p><strong>怎么办</strong>：叠加内容要放在 <code>delete("all")</code> <strong>之后</strong>画；稳妥的做法是覆盖 <code>_draw</code>，
+先让基类画完背景，再画自己的东西。<code>FluFrame</code>（tkfluent）这类"画布 + 内嵌控件"的结构
+必须这样处理。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.windows.canvas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DCanvas</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.windows.drawwidget</span><span class="w"> </span><span class="kn">import</span> <span class="n">DDrawWidget</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyCanvas</span><span class="p">(</span><span class="n">DCanvas</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;只提供绘制后端——注意 _draw 不在 DCanvas 上，而在 DDrawWidget 上。&quot;&quot;&quot;</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyWidget</span><span class="p">(</span><span class="n">MyCanvas</span><span class="p">,</span> <span class="n">DDrawWidget</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_draw</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>           <span class="c1"># 基类：同步背景色；未映射时它会提前返回</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">winfo_ismapped</span><span class="p">():</span>  <span class="c1"># 但那只是结束 super()，这里要自己再判一次</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>             <span class="c1"># 整幅重绘：清掉画布上的全部 item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_roundrect</span><span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">winfo_width</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">winfo_height</span><span class="p">(),</span> <span class="mi">6</span><span class="p">,</span>
+            <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;#ffffff&quot;</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="s2">&quot;#000000&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tag_raise</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">)</span>   <span class="c1"># 需要压在最上层时显式抬升</span>
+</code></pre></div>
+<p>更多"怎么搭一个自己的控件"见 <a href="custom-widget.html">自定义组件</a>。</p>
+<hr />
+<h2 id="_3">二、尺寸与布局</h2>
+<h3 id="3-withdraw">3. <code>withdraw()</code> 状态下量不到尺寸</h3>
+<p><strong>症状</strong>：控件的 <code>winfo_width()</code> 恒为 <code>1</code>，布局断言全部失败，按尺寸画的图只有一个小点。</p>
+<p><strong>原因</strong>：窗口未映射时 Tk 不做几何计算，<code>winfo_width()/winfo_height()</code> 一律返回 <code>1</code>
+（它们反映的是"最后一次 <code>&lt;Configure&gt;</code> 确定的几何"，而还没映射时压根没有这个事件）。</p>
+<p><strong>怎么办</strong>：先让窗口真实映射并 <code>update()</code>，再测量。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">tkinter</span>
+
+<span class="n">root</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+<span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s2">&quot;640x480&quot;</span><span class="p">)</span>
+<span class="n">root</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>                     <span class="c1"># ← 让 Tk 完成一次布局</span>
+
+<span class="n">widget</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+<span class="n">root</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">widget</span><span class="o">.</span><span class="n">winfo_width</span><span class="p">())</span>       <span class="c1"># 现在才是真实宽度</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">写布局检查时</p>
+<p>没有可用桌面会话的环境里应当<strong>跳过而不是失败</strong>——
+<code>benchmarks/check_layout.py</code> 就是这么做的。</p>
+</div>
+<h3 id="4-lentext-n">4. 不要用 <code>len(text) * N</code> 估算文本宽度</h3>
+<p><strong>症状</strong>：中文菜单项/标签被裁掉，或者按钮挤成一团（<code>"文件"</code> 按 <code>len * 8</code> 只算出 <strong>16px</strong>）。</p>
+<p><strong>原因</strong>：CJK 是<strong>宽字符</strong>，一个汉字大约等于两个西文字符的宽度；按字符个数乘常数
+严重偏窄，中英文混排时误差更大。</p>
+<p><strong>怎么办</strong>：向 Tk 要真实字体度量。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkinter.font</span><span class="w"> </span><span class="kn">import</span> <span class="n">Font</span>
+
+<span class="n">font</span> <span class="o">=</span> <span class="n">Font</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Segoe UI&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">width</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="s2">&quot;文件&quot;</span><span class="p">)</span>      <span class="c1"># ✓ 真实像素宽度</span>
+<span class="c1"># width = len(&quot;文件&quot;) * 8         # ✗ 对中文差一倍以上</span>
+</code></pre></div>
+<hr />
+<h2 id="_4">三、生命周期与资源</h2>
+<h3 id="5-root-after_cancel">5. 不要直接对 root 调 <code>after_cancel()</code></h3>
+<p><strong>症状</strong>：关窗时刷 <code>TclError: can't delete Tcl command</code>；严重时 <code>root.destroy()</code>
+根本没销毁窗口、<code>tkinter._default_root</code> 残留，之后再建窗口就撞
+<code>bad window path name</code>。</p>
+<p><strong>原因</strong>：<code>after</code> 回调注册在 <strong>Tcl 解释器</strong>上，而生成的 Tcl 命令名记在<strong>发起控件</strong>的
+<code>_tclCommands</code> 列表里。直接对 root 调 <code>after_cancel()</code> 会删掉那条 Tcl 命令，但
+<code>root._tclCommands.remove(name)</code> 会<strong>静默失败</strong>（名字不在 root 的列表里）；等那个控件
+自己被销毁时，<code>Misc.destroy</code> 拿这个已经删掉的命令再删一次 → 抛异常 → 异常一路冒到
+<code>root.destroy()</code>。</p>
+<p><strong>怎么办</strong>：<strong>谁注册，谁取消</strong>。<code>tkfluent</code> 的做法是把 after id 记在控件上，
+销毁时用控件自己取消（实现见 <code>tkflu/_after.py</code>）。</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MyWidget</span><span class="p">(</span><span class="n">DCanvas</span><span class="p">,</span> <span class="n">DDrawWidget</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_after_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Destroy&gt;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_destroy</span><span class="p">,</span> <span class="n">add</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_after_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">after</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deferred_update</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_deferred_update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_after_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">winfo_exists</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_on_destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">event</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">event</span><span class="o">.</span><span class="n">widget</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">return</span>          <span class="c1"># 子控件的 &lt;Destroy&gt; 也会冒泡到父控件</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_after_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">after_cancel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_after_id</span><span class="p">)</span>   <span class="c1"># self 就是注册者，正确</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_after_id</span> <span class="o">=</span> <span class="kc">None</span>
+</code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">别图省事</p>
+<p><code>root.after_cancel(some_id)</code> 往往"看起来能跑"——代价要到控件销毁时才结算，
+而且症状出现在<strong>关窗</strong>那一刻，很难联想到元凶。</p>
+</div>
+<h3 id="6-mkstemp">6. 临时文件与文件描述符：不要自己 <code>mkstemp()</code></h3>
+<p><strong>症状</strong>：长跑程序句柄耗尽；系统临时目录里堆满 <code>tkdeft.temp.*</code>。历史实测：
+20 个按钮泄漏 <strong>80 个文件 + 80 个 fd</strong>。</p>
+<p><strong>原因</strong>：旧实现每次绘制都 <code>mkstemp()</code> 新建文件，且从不 <code>close(fd)</code>。</p>
+<p><strong>怎么办</strong>：用绘制对象提供的 scratch 路径——惰性创建、复用一个文件、控件销毁时回收。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ✓ 绘制后端：同一个 slot 始终复用同一个路径</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">scratch_path</span><span class="p">(</span><span class="s2">&quot;.svg&quot;</span><span class="p">,</span> <span class="n">slot</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># ✓ 控件内部：直接用现成的 temppath ~ temppath4（惰性属性）</span>
+<span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_roundrect</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">temppath</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">temppath</span><span class="p">,</span> <span class="n">temppath2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">temppath3</span><span class="p">)</span>
+
+<span class="c1"># ✗ 不要自己建</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tempfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">mkstemp</span>
+<span class="n">fd</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">mkstemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.svg&quot;</span><span class="p">)</span>   <span class="c1"># fd 忘了关 → 每帧泄漏一个</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">谁负责回收</p>
+<p><code>DSvgDraw.cleanup()</code> 会删掉本对象创建的 scratch 文件；<code>DCanvas</code> 在
+<code>&lt;Destroy&gt;</code> 事件里自动调用它。</p>
+</div>
+<h3 id="7">7. 长期运行程序的句柄回收</h3>
+<p><strong>症状</strong>：反复创建/销毁控件后，临时文件不减少、图片引用（<code>_photo_refs</code>）一直涨。</p>
+<p><strong>原因</strong>：清理动作挂在 <code>&lt;Destroy&gt;</code> 事件上。如果你覆盖了
+<code>DCanvas._event_destroy_draw</code> 却没有调用 <code>super()</code>，或者用的是裸 <code>tkinter.Canvas</code>
+而不是 <code>DCanvas</code>，清理就不会发生。</p>
+<p><strong>怎么办</strong>：别丢掉父类实现。</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">_event_destroy_draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_event_destroy_draw</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>   <span class="c1"># ← cleanup() + 清空 _photo_refs</span>
+    <span class="c1"># 自己的清理逻辑写在这里</span>
+</code></pre></div>
+<p>它做两件事：调用 <code>svgdraw.cleanup()</code> 删除 scratch 临时文件；清空 <code>_photo_refs</code>。</p>
+<hr />
+<h2 id="tk-master">四、Tk 解释器与 master</h2>
+<h3 id="8-master">8. 创建控件不传 <code>master</code></h3>
+<p><strong>症状</strong>：内嵌控件"跑到别的窗口去了"、控件销毁后内嵌的原生控件不回收、多 <code>Toplevel</code>
+场景下嵌不进去。</p>
+<p><strong>原因</strong>：不传 <code>master</code> 时，Tkinter 会把控件挂到<strong>默认根窗口</strong>（<code>tkinter._default_root</code>），
+而不是你正在构造的那个控件。</p>
+<p><strong>怎么办</strong>：显式传 <code>master</code>；自定义控件里创建原生控件时传 <code>master=self</code>。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkinter</span><span class="w"> </span><span class="kn">import</span> <span class="n">Entry</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyEntry</span><span class="p">(</span><span class="n">DCanvas</span><span class="p">,</span> <span class="n">DDrawWidget</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>      <span class="c1"># ✓ 挂到自身，随自身一起销毁</span>
+        <span class="c1"># Entry()                     # ✗ 不传 master → 挂到默认根窗口</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">图片也绑定解释器</p>
+<p><code>PhotoImage</code> 同样绑定在具体的 Tk 解释器上，所以创建图片时要带
+<code>master=</code>（<code>DCanvas</code> 会把自身注入给绘制后端）。多解释器场景下漏传会报
+<code>image "pyimage1" doesn't exist</code>。</p>
+</div>
+<hr />
+<h2 id="_5">五、绘制引擎</h2>
+<h3 id="9">9. 引擎装了却用不了</h3>
+<p><strong>症状</strong>：<code>set_engine("skia")</code> 抛 <code>ValueError</code>，提示缺少依赖。</p>
+<p><strong>原因</strong>：依赖确实没装（或装在另一个 Python 解释器里），于是该引擎的 <code>available()</code>
+为 <code>False</code>。<code>tkdeft</code> 宁可报错也不静默退回慢路径。</p>
+<p><strong>怎么办</strong>：先看清单，再切。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.engines</span><span class="w"> </span><span class="kn">import</span> <span class="n">list_engines</span><span class="p">,</span> <span class="n">describe_engines</span><span class="p">,</span> <span class="n">set_engine</span>
+
+<span class="n">list_engines</span><span class="p">()</span>          <span class="c1"># {&#39;tksvg&#39;: True, &#39;wand&#39;: True, &#39;skia&#39;: True, ...}</span>
+<span class="n">describe_engines</span><span class="p">()</span>      <span class="c1"># 每项的编号 / 类型 / 依赖 / 是否可用 / 是否当前</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">describe_engines</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;available&quot;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="s2">&quot;缺少依赖：&quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;requires&quot;</span><span class="p">])</span>
+
+<span class="n">set_engine</span><span class="p">(</span><span class="s2">&quot;skia&quot;</span><span class="p">)</span>      <span class="c1"># 缺依赖时抛 ValueError，并说明缺哪个包</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">名字拼错会怎样</p>
+<p>拼错会抛 <code>UnknownEngineError</code>（<code>ValueError</code> 的子类），错误信息里附带
+"你是不是想用 …" 的提示。引擎清单与自定义引擎见
+<a href="custom-drawing.html">绘制引擎</a> 与 <a href="../api/tkdeft.engines.html">engines API</a>。</p>
+</div>
+<h3 id="10-svg">10. 想固定走 SVG 做对照</h3>
+<p><strong>症状</strong>：想验证"栅格引擎和 <code>tksvg</code> 画得是不是一样"，或想排查只在 SVG 路径下出现的问题，
+但默认已经走了快速路径。</p>
+<p><strong>怎么办</strong>：按画布关，或按单次调用关。</p>
+<div class="highlight"><pre><span></span><code><span class="n">canvas</span><span class="o">.</span><span class="n">raster_enabled</span> <span class="o">=</span> <span class="kc">False</span>             <span class="c1"># 这个画布之后全走 SVG</span>
+<span class="n">canvas</span><span class="o">.</span><span class="n">draw_roundrect</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">raster</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># 只这一次走 SVG</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.engines</span><span class="w"> </span><span class="kn">import</span> <span class="n">reset_engine</span>
+<span class="n">reset_engine</span><span class="p">()</span>                            <span class="c1"># 引擎整体退回默认 tksvg（=0）</span>
+</code></pre></div>
+<h3 id="11">11. 引擎渲染失败不会被抛出来</h3>
+<p><strong>症状</strong>：界面"看着不太对"，但控制台只有一条 <code>RuntimeWarning</code>（每个引擎只警告一次），
+之后再无任何提示。</p>
+<p><strong>原因</strong>：单个引擎渲染失败会<strong>自动回退到 SVG 路径</strong>，以免整个界面挂掉；错误只记录
+最后一次。这是刻意的容错设计，但也就意味着异常不会冒泡到你面前。</p>
+<p><strong>怎么办</strong>：主动查。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.engines</span><span class="w"> </span><span class="kn">import</span> <span class="n">last_engine_error</span><span class="p">,</span> <span class="n">clear_engine_error</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">last_engine_error</span><span class="p">())</span>   <span class="c1"># -&gt; &quot;skia: ValueError: ...&quot; 或 None（正常）</span>
+<span class="n">clear_engine_error</span><span class="p">()</span>         <span class="c1"># 清掉记录，允许下次失败时重新警告一次</span>
+</code></pre></div>
+<h3 id="12-skia">12. 以为开了 skia，其实还在走慢路径</h3>
+<p><strong>症状</strong>：切了引擎但没变快。</p>
+<p><strong>原因</strong>：设置被别处覆盖了（环境变量、子进程、其他模块导入时又调 <code>set_renderer(0)</code>），
+或者当前根本就没切成功。</p>
+<p><strong>怎么办</strong>：别凭记忆，直接问当前状态。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.engines</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_engine_name</span><span class="p">,</span> <span class="n">get_engine</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">get_engine_name</span><span class="p">())</span>     <span class="c1"># -&gt; &quot;skia&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">get_engine</span><span class="p">()</span><span class="o">.</span><span class="n">kind</span><span class="p">)</span>     <span class="c1"># -&gt; &quot;raster&quot;（只有栅格引擎才走快速路径）</span>
+
+<span class="c1"># tkfluent 里对应的是：</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tkflu.designs.renderer</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_renderer</span><span class="p">,</span> <span class="n">get_renderer_name</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">get_renderer</span><span class="p">(),</span> <span class="n">get_renderer_name</span><span class="p">())</span>    <span class="c1"># -&gt; 2 skia</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">环境变量里也有一份</p>
+<p><code>tkfluent</code> 会把当前编号记在环境变量 <code>tkfluent.renderer</code> 里，便于子进程继承；
+直接对比它与 <code>get_engine_name()</code>，就能确认两边是否一致。</p>
+</div>
+<hr />
+<h2 id="_6">六、验证手段</h2>
+<h3 id="13-tk-pilimagegrab">13. 截 Tk 窗口不要用 <code>PIL.ImageGrab</code></h3>
+<p><strong>症状</strong>：截出来的图是<strong>别的窗口</strong>（例如浏览器），或者内容错位、缺一块。</p>
+<p><strong>原因</strong>：<code>ImageGrab</code> 按<strong>屏幕坐标</strong>抓取，在 DPI 缩放、多虚拟桌面、窗口被遮挡的情况下
+都会抓错对象。</p>
+<p><strong>怎么办</strong>：按<strong>窗口句柄</strong>抓（Win32 <code>PrintWindow</code>）——既不受遮挡影响，也不受坐标映射影响。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 把整个组件画廊真实显示出来并截图，输出到 benchmarks/_out/</span>
+python<span class="w"> </span>benchmarks/visual_demo.py<span class="w"> </span>light<span class="w"> </span>skia
+python<span class="w"> </span>benchmarks/visual_demo.py<span class="w"> </span>dark<span class="w"> </span>pillow
+</code></pre></div>
+<p>实现见 <code>benchmarks/visual_demo.py</code> 里的 <code>capture_window()</code> / <code>grab()</code>；更多见
+<a href="benchmarks.html">回归与性能</a>。</p>
+<div class="admonition note">
+<p class="admonition-title">截图前记得让窗口映射</p>
+<p>窗口处于 <code>withdraw()</code> 状态时 <code>PrintWindow</code> 抓到的是空白——截图前先
+<code>deiconify()</code> 或 <code>update()</code>。</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="benchmarks.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 回归与性能">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                回归与性能
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="upgrade-0.3.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 从 0.2 升级到 0.3">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                从 0.2 升级到 0.3
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2025 XiangQinxi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://gitlab.com/XiangQinxi" target="_blank" rel="noopener" title="gitlab.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m504 204.6-.7-1.8L433.6 21c-1.4-3.6-3.9-6.6-7.2-8.6-2.4-1.6-5.1-2.5-8-2.8s-5.7.1-8.4 1.1-5.1 2.7-7.1 4.8c-1.9 2.1-3.3 4.7-4.1 7.4l-47 144H161.3l-47.1-144c-.8-2.8-2.2-5.3-4.1-7.4-2-2.1-4.4-3.7-7.1-4.8-2.6-1-5.5-1.4-8.4-1.1s-5.6 1.2-8 2.8c-3.2 2-5.8 5.1-7.2 8.6L9.8 202.8l-.8 1.8c-10 26.2-11.3 55-3.5 82 7.7 26.9 24 50.7 46.4 67.6l.3.2.6.4 106 79.5c38.5 29.1 66.7 50.3 84.6 63.9 3.7 1.9 8.3 4.3 13 4.3s9.3-2.4 13-4.3c17.9-13.5 46.1-34.9 84.6-63.9l106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/XiangQinxi" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1379773753" target="_blank" rel="noopener" title="AddContact" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M434.1 420.4c-11.5 1.4-44.9-52.7-44.9-52.7 0 31.3-16.1 72.2-51 101.8 16.8 5.2 54.8 19.2 45.8 34.4-7.3 12.3-125.5 7.9-159.6 4-34.1 3.8-152.3 8.3-159.6-4-9-15.2 28.9-29.2 45.8-34.4-34.9-29.5-51.1-70.4-51.1-101.8 0 0-33.3 54.1-44.9 52.7-5.4-.6-12.4-29.6 9.3-99.7 10.3-33 22-60.5 40.1-105.8C60.9 98 109.2-.1 224.3-.1 338-.1 387.5 96 384.6 214.9c18.1 45.2 29.9 72.9 40.1 105.8 21.8 70.1 14.7 99.1 9.3 99.7z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://space.bilibili.com/471425191" target="_blank" rel="noopener" title="space.bilibili.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M488.6 104.1c16.7 18.1 24.4 39.7 23.3 65.7v202.4c-.4 26.4-9.2 48.1-26.5 65.1-17.2 17-39.1 25.9-65.5 26.7H92c-26.4-.8-48.2-9.8-65.3-27.2S.7 396.5 0 368.2V169.8c.8-26 9.7-47.6 26.7-65.7C43.8 87.8 65.5 78.8 92 78h29.4L96 52.2c-5.7-5.7-8.6-13-8.6-21.8S90.3 14.3 96 8.6 109 0 117.9 0s16.1 2.9 21.9 8.6L213.1 78h88l74.5-69.4C381.7 2.9 389.2 0 398 0s16.1 2.9 21.9 8.6c5.7 5.7 8.6 13 8.6 21.8s-2.9 16.1-8.6 21.8L394.6 78h29.3c26.4.8 48 9.8 64.7 26.1m-38.8 69.7c-.4-9.6-3.7-17.4-10.7-23.5-5.2-6.1-14-9.4-22.7-9.8H96c-9.6.4-17.4 3.7-23.6 9.8-6.1 6.1-9.4 13.9-9.8 23.5v194.4c0 9.2 3.3 17 9.8 23.5s14.4 9.8 23.6 9.8h320.4c9.2 0 17-3.3 23.3-9.8s9.7-14.3 10.1-23.5zm-264.3 42.7c6.3 6.3 9.7 14.1 10.1 23.2V273c-.4 9.2-3.7 16.9-9.8 23.2-6.2 6.3-14 9.5-23.6 9.5s-17.5-3.2-23.6-9.5-9.4-14-9.8-23.2v-33.3c.4-9.1 3.8-16.9 10.1-23.2s13.2-9.6 23.3-10c9.2.4 17 3.7 23.3 10m191.5 0c6.3 6.3 9.7 14.1 10.1 23.2V273c-.4 9.2-3.7 16.9-9.8 23.2s-14 9.5-23.6 9.5-17.4-3.2-23.6-9.5c-7-6.3-9.4-14-9.7-23.2v-33.3c.3-9.1 3.7-16.9 10-23.2s14.1-9.6 23.3-10c9.2.4 17 3.7 23.3 10"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.footer", "content.tooltips", "blog", "navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.indexes"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

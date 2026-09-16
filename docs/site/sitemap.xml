@@ -21,6 +21,10 @@
          <lastmod>2026-09-16</lastmod>
     </url>
     <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.engines.colors.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
          <loc>https://tkdeft.netlify.app/api/tkdeft.engines.html</loc>
          <lastmod>2026-09-16</lastmod>
     </url>
@@ -30,6 +34,10 @@
     </url>
     <url>
          <loc>https://tkdeft.netlify.app/api/tkdeft.engines.skia_engine.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.html</loc>
          <lastmod>2026-09-16</lastmod>
     </url>
     <url>
@@ -57,6 +65,10 @@
          <lastmod>2026-09-16</lastmod>
     </url>
     <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.windows.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
          <loc>https://tkdeft.netlify.app/blog/index.html</loc>
          <lastmod>2026-09-16</lastmod>
     </url>
@@ -69,11 +81,47 @@
          <lastmod>2026-09-16</lastmod>
     </url>
     <url>
+         <loc>https://tkdeft.netlify.app/blog/2024/01/26/%E6%97%A9%E6%9C%9F%E7%89%88%E6%9C%AC%E5%9B%9E%E9%A1%BE001--007.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/blog/2024/09/16/%E5%8F%91%E5%B8%83-009.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/blog/2025/06/26/%E5%8F%91%E5%B8%83-010.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/blog/2026/09/12/%E5%8F%91%E5%B8%83-020%E5%8F%AF%E6%8F%92%E6%8B%94%E7%9A%84%E7%BB%98%E5%88%B6%E5%BC%95%E6%93%8E%E5%B1%82.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/blog/2026/09/13/%E5%8F%91%E5%B8%83-030%E6%8A%8A%E6%8E%A5%E5%8F%A3%E8%A1%A5%E9%BD%90%E8%AE%B2%E6%B8%85%E6%A5%9A.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/getstarted/concepts.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/getstarted/install.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/getstarted/quickstart.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
          <loc>https://tkdeft.netlify.app/template/index.html</loc>
          <lastmod>2026-09-16</lastmod>
     </url>
     <url>
          <loc>https://tkdeft.netlify.app/usage/index.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/usage/benchmarks.html</loc>
          <lastmod>2026-09-16</lastmod>
     </url>
     <url>
@@ -85,7 +133,27 @@
          <lastmod>2026-09-16</lastmod>
     </url>
     <url>
+         <loc>https://tkdeft.netlify.app/usage/faq.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/usage/upgrade-0.3.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/blog/archive/2026.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/blog/archive/2025.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
          <loc>https://tkdeft.netlify.app/blog/archive/2024.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/blog/category/%E7%89%88%E6%9C%AC.html</loc>
          <lastmod>2026-09-16</lastmod>
     </url>
     <url>
