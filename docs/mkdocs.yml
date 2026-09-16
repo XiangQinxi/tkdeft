@@ -117,7 +117,7 @@ nav:
           - api/tkdeft.utility.md
   - 模板:
       - 什么是模板: "template/index.md"
-  - 博客:
+  - 更新日志:
       - blog/index.md
 
 extra_css:

@@ -140,41 +140,12 @@ print(cache_stats())       # 缓存命中率，便于诊断
 
 ## 更新日志
 
-### 2026-09-13
-发布`0.3.0`版本：**把对外接口补齐、讲清楚**
+版本变更统一记录在文档站的[更新日志](https://tkdeft.netlify.app/blog/)里
+（源文件在 `docs/docs/blog/posts/`），按时间倒序排列：
 
-* 引擎层：`describe_engines()` / `available_engines()` / `engine_index()` /
-  `reset_engine()` / `unregister_engine()` / `render(spec)` / `RENDERERS` /
-  `last_engine_error()`；规格新增 `from_box()` / `pixels` / `kind`；
-  拼错引擎名抛 `UnknownEngineError`（带"你是不是想用 …"提示）
-* 画布层：新增统一入口 `draw_roundrect()` / `draw_track()` / `draw_thumb()`
-  （栅格优先、自动回退 SVG，返回值一定是 item id）与可覆盖的 `draw_*_svg` 钩子、
-  `draw_svg_item()`、`raster_enabled` 开关
-* 绘制后端：`DSvgDraw` 补齐通用图元 `create_roundrect()` / `create_track()` /
-  `create_thumb()`；`create_svg_image(way=None)` 按当前引擎自动选后端
-* `tkdeft.svg` 新增 `svg_paint()` / `gradient_stop()`，两条路径对"没有颜色"的处理一致
-* `DObject` 补全 `dget` / `dhas` / `dkeys` / `dcopy` / `dreset` 等接口
-* 文档站：新增安装 / 快速上手 / 概念与架构 / 回归与性能 / 常见问题 / 升级指南，
-  插图由 `docs/gen_figures.py` 用真实引擎生成
-
-### 2026-09-12
-发布`0.2.0`版本：
-
-* 新增 `tkdeft.engines` 绘制引擎层，可插拔切换 `tksvg` / `wand` / `skia` / `pillow` / `cairo`
-* 新增进程内栅格引擎（skia-python / Pillow / pycairo），完全不落盘
-* 新增按规格缓存的图片缓存，参数相同的绘制结果直接复用
-* 新增 SVG 形状助手 `tkdeft.svg`，统一并修正圆角矩形几何
-* 修复临时文件 / fd 泄漏、`PhotoImage` 被 GC 导致画面空白、
-  `RenderManager` 的 `winfo_zorder` 崩溃等问题
-* 详细缺陷清单与性能数据见 [benchmarks/](benchmarks/)
-
-### 更早的版本
-
-| 日期 | 版本 | 内容 |
+| 版本 | 一句话 | 发布说明 |
 | --- | --- | --- |
-| 2025-06-26 | `0.1.0` | 完善功能 |
-| 2024-09-16 | `0.0.9` | 一些小修改 |
-| 2023-01-26 | `0.0.7` | 模板库 `Fluent` 已移至 `tkfluent` 库 |
-| 2023-01-25 | `0.0.3`–`0.0.6` | 补依赖；主题改为 `theme(mode=..., style=...)`；`DBadge` 增加 `style=accent` |
-| 2023-01-23 | `0.0.2` | 补充模板组件 `DEntry`、`DFrame`、`DText`、`DBadge` |
-| 2024-01-22 | `0.0.1` | 首个版本，模板组件 `DButton` |
+| `0.3.0` | 把对外接口补齐：统一绘制入口、引擎查询、`DObject` 补全 | [2026-09-13](docs/docs/blog/posts/2026-09-13.md) |
+| `0.2.0` | 可插拔绘制引擎层 + 进程内栅格引擎 + 规格缓存 | [2026-09-12](docs/docs/blog/posts/2026-09-12.md) |
+| `0.1.0` | 完善功能 | [2025-06-26](docs/docs/blog/posts/2025-06-26.md) |
+| 更早 | `0.0.1` – `0.0.9` 的起步阶段 | [回顾](docs/docs/blog/posts/2024-01-26.md) |

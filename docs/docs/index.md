@@ -136,69 +136,14 @@ python benchmarks/run_all.py              # 9 项
 
 ## 更新日志
 
-### 2026-09-13
-发布`0.3.0`版本，主要工作是**把接口补齐、讲清楚**：
+版本变更（新增了什么、修掉了什么、升级要注意什么）统一记录在
+**[更新日志](blog/index.md)** 里，按时间倒序排列：
 
-* **绘制引擎层**
-    * 引擎注册表补充 `available_engines()` / `engine_names()` / `engine_index()` /
-      `engine_from_index()` / `describe_engines()` / `reset_engine()` / `unregister_engine()`
-    * 引擎基类新增 `render(spec)`（按规格类型分发）、`supports(kind)`、`info()`、`index`
-    * 拼错引擎名现在抛 `UnknownEngineError`，并给出"你是不是想用 …"的提示
-    * 渲染入口新增 `render(spec)` 与 `RENDERERS`；渲染失败可用
-      `last_engine_error()` / `clear_engine_error()` 查询
-    * 三种规格补齐 `from_box()`（按坐标对构造）、`pixels`、`to_dict()`、`describe()`、`kind`
-* **画布层**
-    * `DCanvas` 新增统一绘制入口 `draw_roundrect()` / `draw_track()` / `draw_thumb()`：
-      有栅格引擎就走位图快速路径，否则自动回退 SVG，返回值一定是 item id
-    * 新增可覆盖的 SVG 钩子 `draw_roundrect_svg()` / `draw_track_svg()` /
-      `draw_thumb_svg()` 与 `draw_svg_item()`，组件不必再抄一遍回退逻辑
-    * `raster_enabled` / `raster=False` 可以强制走 SVG（做引擎对照时很方便）
-* **绘制后端**
-    * `DSvgDraw` 补齐通用图元 `create_roundrect()` / `create_track()` / `create_thumb()`
-    * `create_svg_image(..., way=None)` 默认按当前引擎自动挑 tksvg / Wand
-    * `tkdeft.svg` 新增 `svg_paint()` / `gradient_stop()`：`None` 与 `"transparent"`
-      不再让 svgwrite 抛 `TypeError`，两条路径对"没有颜色"的处理终于一致
-* **基础件**
-    * `DObject` 补全 `dget` / `dhas` / `dkeys` / `dcopy` / `dreset` 等接口，
-      实例现在拥有自己的属性字典（不再共享类级默认值）
-    * 顶层 `tkdeft` 再导出常用名字；新增 `__version_info__`
-* **文档**
-    * 新增[安装](getstarted/install.md)/[快速上手](getstarted/quickstart.md)/
-      [概念与架构](getstarted/concepts.md)三页，补上[回归与性能](usage/benchmarks.md)、
-      [常见问题与排查](usage/faq.md)、[从 0.2 升级到 0.3](usage/upgrade-0.3.md)
-    * 插图由 `docs/gen_figures.py` 用**真实引擎**生成，可重新跑
-    * `tkfluent` 同步跟进：组件里的回退样板收敛到 tkdeft（9 个模块约 -400 行）
+| 版本 | 一句话 |
+| --- | --- |
+| [`0.3.0`](blog/posts/2026-09-13.md) | 把对外接口补齐：统一绘制入口、引擎查询、`DObject` 接口补全 |
+| [`0.2.0`](blog/posts/2026-09-12.md) | 可插拔绘制引擎层 + 进程内栅格引擎 + 规格缓存 |
+| [`0.1.0`](blog/posts/2025-06-26.md) | 完善功能，定位收敛为"tkfluent 的底层零件库" |
+| [更早](blog/posts/2024-01-26.md) | `0.0.1` – `0.0.9` 的起步阶段 |
 
-### 2026-09-12
-发布`0.2.0`版本：
-
-* 新增 `tkdeft.engines` 绘制引擎层，可插拔切换 `tksvg` / `wand` / `skia` / `pillow` / `cairo`
-* 新增进程内栅格引擎（skia-python / Pillow / pycairo），完全不落盘
-* 新增按规格缓存的图片缓存，参数相同的绘制结果直接复用
-* 新增 SVG 形状助手 `tkdeft.svg`，统一并修正圆角矩形几何
-* 修复临时文件 / fd 泄漏、`PhotoImage` 被 GC 导致画面空白、
-  `RenderManager` 的 `winfo_zorder` 崩溃等问题
-* 文档补齐：[绘制引擎](usage/custom-drawing.md)、[自定义组件](usage/custom-widget.md)、
-  [API 文档](api/index.md)
-
-### 2025-06-26
-发布`0.1.0`版本，完善功能
-
-### 2024-09-16
-发布`0.0.9`版本，一些小修改
-
-### 2023-01-26
-发布`0.0.7`版本，模板库`Fluent`已移至`tkfluent`库
-
-### 2023-01-25
-发布`0.0.3` `0.0.4`版本，粗心了，两次补充依赖
-
-发布`0.0.5`版本，模板组件主题由`theme(mode=..., style=...)`设置，不再使用如`DDarkButton`这样的，添加`DWindow.wincustom`自定义窗口（仅限Windows）
-
-发布`0.0.6`版本，模板组件`DBadge`补充样式`style=accent`，并对自定义窗口进行稍微调整
-
-### 2023-01-23
-发布`0.0.2`版本，补充模板组件`DEntry`、`DFrame`、`DText`, `DBadge`
-
-### 2024-01-22
-发布`0.0.1`版本，模板组件包括`DButton`
+完整列表见 [更新日志](blog/index.md)。
