@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://tkdeft.netlify.app/usage/custom-drawing.html">
+        <link rel="canonical" href="https://tkdeft.netlify.app/api/tkdeft.svg.html">
       
       
-        <link rel="prev" href="index.html">
+        <link rel="prev" href="tkdeft.engines.cairo_engine.html">
       
       
-        <link rel="next" href="custom-widget.html">
+        <link rel="next" href="tkdeft.windows.canvas.html">
       
       
         
@@ -28,7 +28,7 @@
     
     
       
-        <title>绘制引擎 - tkdeft开发文档</title>
+        <title>svg · SVG 形状助手 - tkdeft开发文档</title>
       
     
     
@@ -85,7 +85,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#svg-svg" class="md-skip">
           跳转至
         </a>
       
@@ -119,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              绘制引擎
+              svg · SVG 形状助手
             
           </span>
         </div>
@@ -245,13 +245,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="index.html" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../usage/index.html" class="md-tabs__link">
           
   
   
@@ -269,11 +267,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="index.html" class="md-tabs__link">
           
   
   
@@ -395,8 +395,6 @@
       
   
   
-    
-  
   
   
     
@@ -414,21 +412,18 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="index.html" class="md-nav__link ">
+            <a href="../usage/index.html" class="md-nav__link ">
               
   
   
@@ -446,13 +441,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -469,37 +464,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    绘制引擎
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="custom-drawing.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../usage/custom-drawing.html" class="md-nav__link">
         
   
   
@@ -515,92 +483,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        内置引擎
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        切换引擎
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        直接渲染一张图
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        缓存
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        自己写一个引擎
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        坐标与描边约定
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -613,7 +495,7 @@
   
   
     <li class="md-nav__item">
-      <a href="custom-widget.html" class="md-nav__link">
+      <a href="../usage/custom-widget.html" class="md-nav__link">
         
   
   
@@ -645,6 +527,8 @@
       
   
   
+    
+  
   
   
     
@@ -664,18 +548,21 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
+            <a href="index.html" class="md-nav__link ">
               
   
   
@@ -693,13 +580,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -783,7 +670,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.engines.html" class="md-nav__link">
+      <a href="tkdeft.engines.html" class="md-nav__link">
         
   
   
@@ -811,7 +698,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.engines.base.html" class="md-nav__link">
+      <a href="tkdeft.engines.base.html" class="md-nav__link">
         
   
   
@@ -839,7 +726,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.engines.cache.html" class="md-nav__link">
+      <a href="tkdeft.engines.cache.html" class="md-nav__link">
         
   
   
@@ -867,7 +754,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.engines.skia_engine.html" class="md-nav__link">
+      <a href="tkdeft.engines.skia_engine.html" class="md-nav__link">
         
   
   
@@ -895,7 +782,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.engines.pillow_engine.html" class="md-nav__link">
+      <a href="tkdeft.engines.pillow_engine.html" class="md-nav__link">
         
   
   
@@ -923,7 +810,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.engines.cairo_engine.html" class="md-nav__link">
+      <a href="tkdeft.engines.cairo_engine.html" class="md-nav__link">
         
   
   
@@ -956,8 +843,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -976,11 +865,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
@@ -1001,7 +890,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1016,10 +905,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../api/tkdeft.svg.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    svg · SVG 形状助手
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="tkdeft.svg.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1035,6 +951,76 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tkdeft.svg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        svg
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="svg">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tkdeft.svg--_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么需要它
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tkdeft.svg.add_roundrect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_roundrect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tkdeft.svg.roundrect_geometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roundrect_geometry
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1047,7 +1033,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.windows.canvas.html" class="md-nav__link">
+      <a href="tkdeft.windows.canvas.html" class="md-nav__link">
         
   
   
@@ -1075,7 +1061,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.windows.draw.html" class="md-nav__link">
+      <a href="tkdeft.windows.draw.html" class="md-nav__link">
         
   
   
@@ -1103,7 +1089,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.windows.drawwidget.html" class="md-nav__link">
+      <a href="tkdeft.windows.drawwidget.html" class="md-nav__link">
         
   
   
@@ -1195,7 +1181,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.object.html" class="md-nav__link">
+      <a href="tkdeft.object.html" class="md-nav__link">
         
   
   
@@ -1223,7 +1209,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.utility.html" class="md-nav__link">
+      <a href="tkdeft.utility.html" class="md-nav__link">
         
   
   
@@ -1677,10 +1663,38 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#tkdeft.svg" class="md-nav__link">
     <span class="md-ellipsis">
       
-        内置引擎
+        svg
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="svg">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tkdeft.svg--_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么需要它
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tkdeft.svg.add_roundrect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_roundrect
       
     </span>
   </a>
@@ -1688,54 +1702,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#tkdeft.svg.roundrect_geometry" class="md-nav__link">
     <span class="md-ellipsis">
       
-        切换引擎
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        直接渲染一张图
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        缓存
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        自己写一个引擎
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        坐标与描边约定
+        roundrect_geometry
       
     </span>
   </a>
@@ -1759,123 +1729,344 @@
 
 
 
-<h1 id="_1">绘制引擎</h1>
-<p><code>tkdeft</code> 把"<strong>画什么</strong>"和"<strong>用什么画</strong>"分开了。</p>
-<p>组件不再直接拼 SVG，而是描述一个 <strong>绘制规格（spec）</strong>——尺寸、圆角、填充色、
-描边色与透明度……然后把它交给<strong>当前引擎</strong>去栅格化。换引擎不需要改一行业务代码。</p>
-<h2 id="_2">内置引擎</h2>
-<table>
-<thead>
-<tr>
-<th>引擎</th>
-<th>类型</th>
-<th>说明</th>
-<th>额外依赖</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>tksvg</code></td>
-<td>SVG</td>
-<td>默认。<code>svgwrite</code> 生成 SVG → <code>tksvg</code> 栅格化，保持历史行为</td>
-<td>无</td>
-</tr>
-<tr>
-<td><code>wand</code></td>
-<td>SVG</td>
-<td>经 Wand(ImageMagick) 转 PNG</td>
-<td><code>Wand</code></td>
-</tr>
-<tr>
-<td><code>skia</code></td>
-<td>栅格</td>
-<td><code>skia-python</code>，进程内直接出位图，速度与画质最好</td>
-<td><code>pip install tkdeft[skia]</code></td>
-</tr>
-<tr>
-<td><code>pillow</code></td>
-<td>栅格</td>
-<td>Pillow 超采样抗锯齿，<strong>永远可用</strong></td>
-<td>无（Pillow 是硬依赖）</td>
-</tr>
-<tr>
-<td><code>cairo</code></td>
-<td>栅格</td>
-<td><code>pycairo</code></td>
-<td><code>pip install tkdeft[cairo]</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="_3">切换引擎</h2>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.engines</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_engine</span><span class="p">,</span> <span class="n">get_engine</span><span class="p">,</span> <span class="n">list_engines</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">list_engines</span><span class="p">())</span>
-<span class="c1"># {&#39;tksvg&#39;: True, &#39;wand&#39;: True, &#39;skia&#39;: True, &#39;pillow&#39;: True, &#39;cairo&#39;: True}</span>
-
-<span class="n">set_engine</span><span class="p">(</span><span class="s2">&quot;skia&quot;</span><span class="p">)</span>     <span class="c1"># 按名字</span>
-<span class="n">set_engine</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>          <span class="c1"># 或按编号：0=tksvg 1=wand 2=skia 3=pillow 4=cairo</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">get_engine</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</code></pre></div>
-<p>引擎不可用时 <code>set_engine</code> 会抛 <code>ValueError</code>（而不是静默退回慢路径），
-免得你以为开了 <code>skia</code>、其实还在走磁盘。</p>
-<h2 id="_4">直接渲染一张图</h2>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.engines</span><span class="w"> </span><span class="kn">import</span> <span class="n">RoundRectSpec</span><span class="p">,</span> <span class="n">render_roundrect</span>
-
-<span class="n">spec</span> <span class="o">=</span> <span class="n">RoundRectSpec</span><span class="p">(</span>
-    <span class="n">width</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">rx</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
-    <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;#ffffff&quot;</span><span class="p">,</span> <span class="n">fill_opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">outline</span><span class="o">=</span><span class="s2">&quot;#000000&quot;</span><span class="p">,</span> <span class="n">outline_opacity</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-    <span class="n">outline_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">photo</span> <span class="o">=</span> <span class="n">render_roundrect</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">master</span><span class="o">=</span><span class="n">widget</span><span class="p">)</span>   <span class="c1"># -&gt; tkinter.PhotoImage</span>
-</code></pre></div>
-<p>当前引擎是 SVG 系时返回 <code>None</code>，表示"这条路径我不参与"，
-调用方应当回退到既有的 <code>svgwrite</code> + <code>tksvg</code> 流程。</p>
-<p>可用的规格有三类：<code>RoundRectSpec</code>（圆角矩形）、<code>TrackSpec</code>（滑块进度条槽）、
-<code>ThumbSpec</code>（滑块圆形把手）。</p>
-<h2 id="_5">缓存</h2>
-<p>渲染结果按 <code>(引擎名, 图元类型, spec)</code> 缓存。因为 spec 是不可变的，
-<strong>同尺寸同配色的一组控件会共用同一张 <code>PhotoImage</code></strong>。</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.engines</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache_stats</span><span class="p">,</span> <span class="n">set_cache_budget</span><span class="p">,</span> <span class="n">clear_cache</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">cache_stats</span><span class="p">())</span>
-<span class="c1"># {&#39;interpreters&#39;: 1, &#39;entries&#39;: 62, &#39;pixels&#39;: 169244, &#39;budget&#39;: 8000000,</span>
-<span class="c1">#  &#39;hits&#39;: 178, &#39;misses&#39;: 99, &#39;hit_rate&#39;: 0.642, &#39;overflow&#39;: 0}</span>
-
-<span class="n">set_cache_budget</span><span class="p">(</span><span class="mi">16_000_000</span><span class="p">)</span>   <span class="c1"># 调大像素预算</span>
-<span class="n">clear_cache</span><span class="p">()</span>                  <span class="c1"># 清空（注意：会清掉已发出的图片引用）</span>
-</code></pre></div>
-<p>缓存<strong>不做 LRU 淘汰</strong>。原因是 <code>PhotoImage</code> 一旦被回收，
-引用它的 canvas item 会变成<strong>空白</strong>——这是 Tkinter 的经典陷阱。
-所以这里采用"像素预算 + 满了就不再写入"：已经发出去的图片永远保持存活，
-缓存不下的规格退化为"每次重新渲染"，只损失速度，绝不损坏画面。</p>
-<h2 id="_6">自己写一个引擎</h2>
-<p>继承 <code>DrawEngine</code>，实现需要的渲染方法，然后注册：</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.engines</span><span class="w"> </span><span class="kn">import</span> <span class="n">DrawEngine</span><span class="p">,</span> <span class="n">register_engine</span>
+<h1 id="svg-svg">svg · SVG 形状助手</h1>
 
 
-<span class="k">class</span><span class="w"> </span><span class="nc">MyEngine</span><span class="p">(</span><span class="n">DrawEngine</span><span class="p">):</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;myengine&quot;</span>
-    <span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;raster&quot;</span>                  <span class="c1"># 只有 raster 会走快速路径</span>
-    <span class="n">requires</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;mylib&quot;</span><span class="p">,)</span>            <span class="c1"># 用于 available() 探测</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">render_roundrect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">):</span>
-        <span class="c1"># 返回 PIL.Image（RGBA）即可</span>
-        <span class="o">...</span>
+<div class="doc doc-object doc-module">
 
 
-<span class="n">register_engine</span><span class="p">(</span><span class="n">MyEngine</span><span class="p">())</span>
-</code></pre></div>
-<p><code>requirements</code> 里的模块探测不到时，<code>set_engine("myengine")</code> 会报错并说明缺什么。</p>
-<h2 id="_7">坐标与描边约定</h2>
-<p>所有 spec 的坐标都以自身左上角为 <code>(0, 0)</code>，并且<strong>描边是居中的</strong>：
-几何会被向内收缩半个线宽，使描边的外沿正好贴合图片边缘。</p>
-<p>这正是历史上出问题的地方——旧代码把矩形放在 <code>(0.5, 0.5)</code> 却仍用整宽整高，
-描边中心线正好压在画布边界上，于是<strong>下边框和右边框被整个裁掉</strong>。
-<code>tkdeft.svg.roundrect_geometry()</code> 用同一套规则计算 SVG 几何，
-保证 SVG 引擎与栅格引擎画面一致。</p>
+
+<a id="tkdeft.svg"></a>
+    <div class="doc doc-contents first">
+
+        <p>svgwrite 形状助手。</p>
+<h3 id="tkdeft.svg--_1">为什么需要它</h3>
+<p>tkfluent 里原先每个组件都手写一遍圆角矩形的 SVG 拼装，几何写法各不相同，
+并且普遍踩了同一个坑：</p>
+<p>.. code-block:: python</p>
+<pre><code>dwg.rect((x1, y1), (x2 - x1, y2 - y1), rx, ry,
+         stroke="#000", stroke_width=1,
+         transform="translate(0.500000 0.500000)")
+</code></pre>
+<p>SVG 的描边是<strong>以路径为中心线</strong>向两侧各画半个线宽。上面这种写法把矩形放到
+<code>(0.5, 0.5)</code>、尺寸仍然是整宽整高，于是矩形右边界正好落在 <code>x = w + 0.5</code>：
+右边和下边的描边被整个推到画布之外，<strong>完全不可见</strong>——按钮看起来只有上边框和
+左边框。frame / listbox 用的是不加 translate 的版本，四边各被削掉一半厚度。</p>
+<p>正确做法是把几何<strong>向内收缩半个线宽</strong>，让描边的外沿正好贴合画布边缘。
+栅格引擎（skia / pillow / cairo）本来就是这么算的，本模块让 SVG 引擎与之对齐。</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tkdeft.svg.add_roundrect" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">add_roundrect</span><span class="p">(</span><span class="n">dwg</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">radiusy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;transparent&#39;</span><span class="p">,</span> <span class="n">fill_opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">outline2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outline_opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">outline2_opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">gradient</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">gradient_id</span><span class="o">=</span><span class="s1">&#39;DButton.Border&#39;</span><span class="p">,</span> <span class="n">gradient_stop1</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">gradient_stop2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">extra</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>往 svgwrite 的 <code>Drawing</code> 里加一个四边描边都完整的圆角矩形。</p>
+<p>:param dwg: <code>svgwrite.Drawing</code> 内部的画布对象（通常是 <code>drawing[1]</code>）
+:param fill: 填充色，<code>"transparent"</code> 表示不填充
+:param fill_opacity: 填充透明度
+:param outline: 描边色
+:param outline2: 渐变描边的第二个颜色；为空则用纯色描边
+:param outline_opacity: 描边透明度
+:param outline2_opacity: 渐变描边第二个颜色的透明度
+:param width: 描边宽度（描边以路径为中心线，几何会自动内缩半个线宽）
+:param gradient: 允许使用渐变描边；置 <code>False</code> 可强制纯色
+:param gradient_id: 渐变定义的 id
+:param gradient_stop1: 第一个 stop 的位置（0-1）
+:param gradient_stop2: 第二个 stop 的位置（0-1）
+:param extra: 其余关键字直接透传给 <code>rect()</code>（例如 <code>id=".Badge"</code>）</p>
+<p>:returns: <code>(insert, size, rx, ry)</code></p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>源代码位于： <code>tkdeft\svg.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_roundrect</span><span class="p">(</span>
+    <span class="n">dwg</span><span class="p">,</span>
+    <span class="n">x1</span><span class="p">,</span>
+    <span class="n">y1</span><span class="p">,</span>
+    <span class="n">x2</span><span class="p">,</span>
+    <span class="n">y2</span><span class="p">,</span>
+    <span class="n">radius</span><span class="p">,</span>
+    <span class="n">radiusy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;transparent&quot;</span><span class="p">,</span>
+    <span class="n">fill_opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">outline</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="n">outline2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">outline_opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">outline2_opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">gradient</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">gradient_id</span><span class="o">=</span><span class="s2">&quot;DButton.Border&quot;</span><span class="p">,</span>
+    <span class="n">gradient_stop1</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+    <span class="n">gradient_stop2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">extra</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Geometry</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;往 svgwrite 的 ``Drawing`` 里加一个四边描边都完整的圆角矩形。</span>
+
+<span class="sd">    :param dwg: ``svgwrite.Drawing`` 内部的画布对象（通常是 ``drawing[1]``）</span>
+<span class="sd">    :param fill: 填充色，``&quot;transparent&quot;`` 表示不填充</span>
+<span class="sd">    :param fill_opacity: 填充透明度</span>
+<span class="sd">    :param outline: 描边色</span>
+<span class="sd">    :param outline2: 渐变描边的第二个颜色；为空则用纯色描边</span>
+<span class="sd">    :param outline_opacity: 描边透明度</span>
+<span class="sd">    :param outline2_opacity: 渐变描边第二个颜色的透明度</span>
+<span class="sd">    :param width: 描边宽度（描边以路径为中心线，几何会自动内缩半个线宽）</span>
+<span class="sd">    :param gradient: 允许使用渐变描边；置 ``False`` 可强制纯色</span>
+<span class="sd">    :param gradient_id: 渐变定义的 id</span>
+<span class="sd">    :param gradient_stop1: 第一个 stop 的位置（0-1）</span>
+<span class="sd">    :param gradient_stop2: 第二个 stop 的位置（0-1）</span>
+<span class="sd">    :param extra: 其余关键字直接透传给 ``rect()``（例如 ``id=&quot;.Badge&quot;``）</span>
+
+<span class="sd">    :returns: ``(insert, size, rx, ry)``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">insert</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">rx</span><span class="p">,</span> <span class="n">ry</span> <span class="o">=</span> <span class="n">roundrect_geometry</span><span class="p">(</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">radiusy</span><span class="p">,</span> <span class="n">width</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">gradient</span> <span class="ow">and</span> <span class="n">outline2</span><span class="p">:</span>
+        <span class="n">border</span> <span class="o">=</span> <span class="n">dwg</span><span class="o">.</span><span class="n">linearGradient</span><span class="p">(</span>
+            <span class="n">start</span><span class="o">=</span><span class="p">(</span><span class="n">insert</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">insert</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="n">end</span><span class="o">=</span><span class="p">(</span><span class="n">insert</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">insert</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">gradient_id</span><span class="p">,</span>
+            <span class="n">gradientUnits</span><span class="o">=</span><span class="s2">&quot;userSpaceOnUse&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">border</span><span class="o">.</span><span class="n">add_stop_color</span><span class="p">(</span><span class="n">gradient_stop1</span><span class="p">,</span> <span class="n">outline</span><span class="p">,</span> <span class="n">outline_opacity</span><span class="p">)</span>
+        <span class="n">border</span><span class="o">.</span><span class="n">add_stop_color</span><span class="p">(</span><span class="n">gradient_stop2</span><span class="p">,</span> <span class="n">outline2</span><span class="p">,</span> <span class="n">outline2_opacity</span><span class="p">)</span>
+        <span class="n">dwg</span><span class="o">.</span><span class="n">defs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">border</span><span class="p">)</span>
+        <span class="n">stroke</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;url(#</span><span class="si">{</span><span class="n">border</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="n">stroke_opacity</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">stroke</span> <span class="o">=</span> <span class="n">outline</span>
+        <span class="n">stroke_opacity</span> <span class="o">=</span> <span class="n">outline_opacity</span>
+
+    <span class="n">dwg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">dwg</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
+            <span class="n">insert</span><span class="p">,</span>
+            <span class="n">size</span><span class="p">,</span>
+            <span class="n">rx</span><span class="p">,</span>
+            <span class="n">ry</span><span class="p">,</span>
+            <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">,</span>
+            <span class="n">fill_opacity</span><span class="o">=</span><span class="n">fill_opacity</span><span class="p">,</span>
+            <span class="n">stroke</span><span class="o">=</span><span class="n">stroke</span><span class="p">,</span>
+            <span class="n">stroke_width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">stroke_opacity</span><span class="o">=</span><span class="n">stroke_opacity</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">extra</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">insert</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">rx</span><span class="p">,</span> <span class="n">ry</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tkdeft.svg.roundrect_geometry" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">roundrect_geometry</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">radiusy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>按"描边居中"规则把圆角矩形几何内缩。</p>
+<p>对退化尺寸做了保护：控件在布局完成之前宽高可能是 0、1 甚至负数
+（<code>FluSlider</code> 构造时 <code>winfo_width()</code> 就是 1）。SVG 里
+<code>width</code> / <code>height</code> 一旦 <code>&lt;= 0</code>，tksvg 会直接抛
+<code>couldn't recognize image data</code>，所以这里把边长和内缩量都夹到安全范围。</p>
+
+
+    <p><span class="doc-section-title">返回：</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>类型</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="tkdeft.svg.Geometry">Geometry</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p><code>(insert, size, rx, ry)</code>，可直接喂给 <code>svgwrite</code> 的 <code>rect()</code>。</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>源代码位于： <code>tkdeft\svg.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">roundrect_geometry</span><span class="p">(</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">radiusy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Geometry</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;按&quot;描边居中&quot;规则把圆角矩形几何内缩。</span>
+
+<span class="sd">    对退化尺寸做了保护：控件在布局完成之前宽高可能是 0、1 甚至负数</span>
+<span class="sd">    （``FluSlider`` 构造时 ``winfo_width()`` 就是 1）。SVG 里</span>
+<span class="sd">    ``width`` / ``height`` 一旦 ``&lt;= 0``，tksvg 会直接抛</span>
+<span class="sd">    ``couldn&#39;t recognize image data``，所以这里把边长和内缩量都夹到安全范围。</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ``(insert, size, rx, ry)``，可直接喂给 ``svgwrite`` 的 ``rect()``。</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># 边长下限 0.5：既能被 tksvg 接受，视觉上也不可见</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">y2</span><span class="p">)</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="n">y1</span><span class="p">))</span>
+
+    <span class="n">inset</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">stroke_width</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="k">if</span> <span class="n">stroke_width</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="c1"># 内缩量最多用掉一半可用空间，否则同样会退化成非正尺寸</span>
+    <span class="n">inset</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">inset</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">))</span>
+
+    <span class="n">rx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">radius</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">inset</span><span class="p">)</span>
+    <span class="n">ry</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">radiusy</span> <span class="k">if</span> <span class="n">radiusy</span> <span class="k">else</span> <span class="n">radius</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">inset</span><span class="p">)</span>
+    <span class="n">insert</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">inset</span><span class="p">,</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">inset</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span><span class="p">,</span> <span class="n">h</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inset</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">insert</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">rx</span><span class="p">,</span> <span class="n">ry</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
 
 
 
@@ -1905,7 +2096,7 @@
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="index.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 安装与使用">
+          <a href="tkdeft.engines.cairo_engine.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: engines.cairo · Cairo 引擎">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1915,20 +2106,20 @@
                 上一页
               </span>
               <div class="md-ellipsis">
-                安装与使用
+                engines.cairo · Cairo 引擎
               </div>
             </div>
           </a>
         
         
           
-          <a href="custom-widget.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 自定义组件">
+          <a href="tkdeft.windows.canvas.html" class="md-footer__link md-footer__link--next" aria-label="下一页: windows.canvas · 带绘制的画布">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                自定义组件
+                windows.canvas · 带绘制的画布
               </div>
             </div>
             <div class="md-footer__button md-icon">

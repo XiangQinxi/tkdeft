@@ -5,19 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8716afb-f046-47d6-8168-639aaf09d5a4" name="更改" comment="0.1.0">
-      <change beforePath="$PROJECT_DIR$/.idea/tkdeft.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/tkdeft.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs/index.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/docs/usage/custom-drawing.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs/usage/custom-drawing.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/docs/usage/custom-widget.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs/usage/custom-widget.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/docs/usage/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs/usage/index.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/mkdocs.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tkdeft/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/tkdeft/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tkdeft/windows/canvas.py" beforeDir="false" afterPath="$PROJECT_DIR$/tkdeft/windows/canvas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tkdeft/windows/draw.py" beforeDir="false" afterPath="$PROJECT_DIR$/tkdeft/windows/draw.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tkdeft/windows/drawwidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/tkdeft/windows/drawwidget.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +18,7 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="108" />
+    <option name="cachedIndexableFilesCount" value="190" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -62,6 +50,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.gen_api_pages.executor": "Run",
     "Python.run_all.executor": "Run",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -85,7 +74,31 @@
       <recent name="C:\Users\Xiang\PycharmProjects\tkdeft" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.gen_api_pages">
+    <configuration name="gen_api_pages" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tkdeft" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/docs" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/docs/gen_api_pages.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="run_all" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tkdeft" />
       <option name="ENV_FILES" value="" />
@@ -112,6 +125,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.gen_api_pages" />
         <item itemvalue="Python.run_all" />
       </list>
     </recent_temporary>

@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://tkdeft.netlify.app/usage/custom-drawing.html">
+        <link rel="canonical" href="https://tkdeft.netlify.app/api/tkdeft.windows.drawwidget.html">
       
       
-        <link rel="prev" href="index.html">
+        <link rel="prev" href="tkdeft.windows.draw.html">
       
       
-        <link rel="next" href="custom-widget.html">
+        <link rel="next" href="tkdeft.object.html">
       
       
         
@@ -28,7 +28,7 @@
     
     
       
-        <title>绘制引擎 - tkdeft开发文档</title>
+        <title>windows.drawwidget · 交互控件基类 - tkdeft开发文档</title>
       
     
     
@@ -85,7 +85,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#windowsdrawwidget" class="md-skip">
           跳转至
         </a>
       
@@ -119,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              绘制引擎
+              windows.drawwidget · 交互控件基类
             
           </span>
         </div>
@@ -245,13 +245,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="index.html" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../usage/index.html" class="md-tabs__link">
           
   
   
@@ -269,11 +267,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="index.html" class="md-tabs__link">
           
   
   
@@ -395,8 +395,6 @@
       
   
   
-    
-  
   
   
     
@@ -414,21 +412,18 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="index.html" class="md-nav__link ">
+            <a href="../usage/index.html" class="md-nav__link ">
               
   
   
@@ -446,13 +441,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -469,37 +464,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    绘制引擎
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="custom-drawing.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../usage/custom-drawing.html" class="md-nav__link">
         
   
   
@@ -515,92 +483,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        内置引擎
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        切换引擎
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        直接渲染一张图
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        缓存
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        自己写一个引擎
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        坐标与描边约定
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -613,7 +495,7 @@
   
   
     <li class="md-nav__item">
-      <a href="custom-widget.html" class="md-nav__link">
+      <a href="../usage/custom-widget.html" class="md-nav__link">
         
   
   
@@ -645,6 +527,8 @@
       
   
   
+    
+  
   
   
     
@@ -664,18 +548,21 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
+            <a href="index.html" class="md-nav__link ">
               
   
   
@@ -693,13 +580,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -783,7 +670,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.engines.html" class="md-nav__link">
+      <a href="tkdeft.engines.html" class="md-nav__link">
         
   
   
@@ -811,7 +698,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.engines.base.html" class="md-nav__link">
+      <a href="tkdeft.engines.base.html" class="md-nav__link">
         
   
   
@@ -839,7 +726,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.engines.cache.html" class="md-nav__link">
+      <a href="tkdeft.engines.cache.html" class="md-nav__link">
         
   
   
@@ -867,7 +754,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.engines.skia_engine.html" class="md-nav__link">
+      <a href="tkdeft.engines.skia_engine.html" class="md-nav__link">
         
   
   
@@ -895,7 +782,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.engines.pillow_engine.html" class="md-nav__link">
+      <a href="tkdeft.engines.pillow_engine.html" class="md-nav__link">
         
   
   
@@ -923,7 +810,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.engines.cairo_engine.html" class="md-nav__link">
+      <a href="tkdeft.engines.cairo_engine.html" class="md-nav__link">
         
   
   
@@ -956,8 +843,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -976,11 +865,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
@@ -1001,7 +890,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1019,7 +908,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.svg.html" class="md-nav__link">
+      <a href="tkdeft.svg.html" class="md-nav__link">
         
   
   
@@ -1047,7 +936,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.windows.canvas.html" class="md-nav__link">
+      <a href="tkdeft.windows.canvas.html" class="md-nav__link">
         
   
   
@@ -1075,7 +964,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.windows.draw.html" class="md-nav__link">
+      <a href="tkdeft.windows.draw.html" class="md-nav__link">
         
   
   
@@ -1100,10 +989,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../api/tkdeft.windows.drawwidget.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    windows.drawwidget · 交互控件基类
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="tkdeft.windows.drawwidget.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1119,6 +1035,37 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tkdeft.windows.drawwidget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        drawwidget
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1195,7 +1142,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.object.html" class="md-nav__link">
+      <a href="tkdeft.object.html" class="md-nav__link">
         
   
   
@@ -1223,7 +1170,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tkdeft.utility.html" class="md-nav__link">
+      <a href="tkdeft.utility.html" class="md-nav__link">
         
   
   
@@ -1677,65 +1624,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#tkdeft.windows.drawwidget" class="md-nav__link">
     <span class="md-ellipsis">
       
-        内置引擎
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        切换引擎
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        直接渲染一张图
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        缓存
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        自己写一个引擎
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        坐标与描边约定
+        drawwidget
       
     </span>
   </a>
@@ -1759,123 +1651,56 @@
 
 
 
-<h1 id="_1">绘制引擎</h1>
-<p><code>tkdeft</code> 把"<strong>画什么</strong>"和"<strong>用什么画</strong>"分开了。</p>
-<p>组件不再直接拼 SVG，而是描述一个 <strong>绘制规格（spec）</strong>——尺寸、圆角、填充色、
-描边色与透明度……然后把它交给<strong>当前引擎</strong>去栅格化。换引擎不需要改一行业务代码。</p>
-<h2 id="_2">内置引擎</h2>
-<table>
-<thead>
-<tr>
-<th>引擎</th>
-<th>类型</th>
-<th>说明</th>
-<th>额外依赖</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>tksvg</code></td>
-<td>SVG</td>
-<td>默认。<code>svgwrite</code> 生成 SVG → <code>tksvg</code> 栅格化，保持历史行为</td>
-<td>无</td>
-</tr>
-<tr>
-<td><code>wand</code></td>
-<td>SVG</td>
-<td>经 Wand(ImageMagick) 转 PNG</td>
-<td><code>Wand</code></td>
-</tr>
-<tr>
-<td><code>skia</code></td>
-<td>栅格</td>
-<td><code>skia-python</code>，进程内直接出位图，速度与画质最好</td>
-<td><code>pip install tkdeft[skia]</code></td>
-</tr>
-<tr>
-<td><code>pillow</code></td>
-<td>栅格</td>
-<td>Pillow 超采样抗锯齿，<strong>永远可用</strong></td>
-<td>无（Pillow 是硬依赖）</td>
-</tr>
-<tr>
-<td><code>cairo</code></td>
-<td>栅格</td>
-<td><code>pycairo</code></td>
-<td><code>pip install tkdeft[cairo]</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="_3">切换引擎</h2>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.engines</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_engine</span><span class="p">,</span> <span class="n">get_engine</span><span class="p">,</span> <span class="n">list_engines</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">list_engines</span><span class="p">())</span>
-<span class="c1"># {&#39;tksvg&#39;: True, &#39;wand&#39;: True, &#39;skia&#39;: True, &#39;pillow&#39;: True, &#39;cairo&#39;: True}</span>
-
-<span class="n">set_engine</span><span class="p">(</span><span class="s2">&quot;skia&quot;</span><span class="p">)</span>     <span class="c1"># 按名字</span>
-<span class="n">set_engine</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>          <span class="c1"># 或按编号：0=tksvg 1=wand 2=skia 3=pillow 4=cairo</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">get_engine</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</code></pre></div>
-<p>引擎不可用时 <code>set_engine</code> 会抛 <code>ValueError</code>（而不是静默退回慢路径），
-免得你以为开了 <code>skia</code>、其实还在走磁盘。</p>
-<h2 id="_4">直接渲染一张图</h2>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.engines</span><span class="w"> </span><span class="kn">import</span> <span class="n">RoundRectSpec</span><span class="p">,</span> <span class="n">render_roundrect</span>
-
-<span class="n">spec</span> <span class="o">=</span> <span class="n">RoundRectSpec</span><span class="p">(</span>
-    <span class="n">width</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">rx</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
-    <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;#ffffff&quot;</span><span class="p">,</span> <span class="n">fill_opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">outline</span><span class="o">=</span><span class="s2">&quot;#000000&quot;</span><span class="p">,</span> <span class="n">outline_opacity</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-    <span class="n">outline_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">photo</span> <span class="o">=</span> <span class="n">render_roundrect</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">master</span><span class="o">=</span><span class="n">widget</span><span class="p">)</span>   <span class="c1"># -&gt; tkinter.PhotoImage</span>
-</code></pre></div>
-<p>当前引擎是 SVG 系时返回 <code>None</code>，表示"这条路径我不参与"，
-调用方应当回退到既有的 <code>svgwrite</code> + <code>tksvg</code> 流程。</p>
-<p>可用的规格有三类：<code>RoundRectSpec</code>（圆角矩形）、<code>TrackSpec</code>（滑块进度条槽）、
-<code>ThumbSpec</code>（滑块圆形把手）。</p>
-<h2 id="_5">缓存</h2>
-<p>渲染结果按 <code>(引擎名, 图元类型, spec)</code> 缓存。因为 spec 是不可变的，
-<strong>同尺寸同配色的一组控件会共用同一张 <code>PhotoImage</code></strong>。</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.engines</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache_stats</span><span class="p">,</span> <span class="n">set_cache_budget</span><span class="p">,</span> <span class="n">clear_cache</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">cache_stats</span><span class="p">())</span>
-<span class="c1"># {&#39;interpreters&#39;: 1, &#39;entries&#39;: 62, &#39;pixels&#39;: 169244, &#39;budget&#39;: 8000000,</span>
-<span class="c1">#  &#39;hits&#39;: 178, &#39;misses&#39;: 99, &#39;hit_rate&#39;: 0.642, &#39;overflow&#39;: 0}</span>
-
-<span class="n">set_cache_budget</span><span class="p">(</span><span class="mi">16_000_000</span><span class="p">)</span>   <span class="c1"># 调大像素预算</span>
-<span class="n">clear_cache</span><span class="p">()</span>                  <span class="c1"># 清空（注意：会清掉已发出的图片引用）</span>
-</code></pre></div>
-<p>缓存<strong>不做 LRU 淘汰</strong>。原因是 <code>PhotoImage</code> 一旦被回收，
-引用它的 canvas item 会变成<strong>空白</strong>——这是 Tkinter 的经典陷阱。
-所以这里采用"像素预算 + 满了就不再写入"：已经发出去的图片永远保持存活，
-缓存不下的规格退化为"每次重新渲染"，只损失速度，绝不损坏画面。</p>
-<h2 id="_6">自己写一个引擎</h2>
-<p>继承 <code>DrawEngine</code>，实现需要的渲染方法，然后注册：</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.engines</span><span class="w"> </span><span class="kn">import</span> <span class="n">DrawEngine</span><span class="p">,</span> <span class="n">register_engine</span>
+<h1 id="windowsdrawwidget">windows.drawwidget · 交互控件基类</h1>
 
 
-<span class="k">class</span><span class="w"> </span><span class="nc">MyEngine</span><span class="p">(</span><span class="n">DrawEngine</span><span class="p">):</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;myengine&quot;</span>
-    <span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;raster&quot;</span>                  <span class="c1"># 只有 raster 会走快速路径</span>
-    <span class="n">requires</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;mylib&quot;</span><span class="p">,)</span>            <span class="c1"># 用于 available() 探测</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">render_roundrect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">):</span>
-        <span class="c1"># 返回 PIL.Image（RGBA）即可</span>
-        <span class="o">...</span>
+<div class="doc doc-object doc-module">
 
 
-<span class="n">register_engine</span><span class="p">(</span><span class="n">MyEngine</span><span class="p">())</span>
-</code></pre></div>
-<p><code>requirements</code> 里的模块探测不到时，<code>set_engine("myengine")</code> 会报错并说明缺什么。</p>
-<h2 id="_7">坐标与描边约定</h2>
-<p>所有 spec 的坐标都以自身左上角为 <code>(0, 0)</code>，并且<strong>描边是居中的</strong>：
-几何会被向内收缩半个线宽，使描边的外沿正好贴合图片边缘。</p>
-<p>这正是历史上出问题的地方——旧代码把矩形放在 <code>(0.5, 0.5)</code> 却仍用整宽整高，
-描边中心线正好压在画布边界上，于是<strong>下边框和右边框被整个裁掉</strong>。
-<code>tkdeft.svg.roundrect_geometry()</code> 用同一套规则计算 SVG 几何，
-保证 SVG 引擎与栅格引擎画面一致。</p>
+
+<a id="tkdeft.windows.drawwidget"></a>
+    <div class="doc doc-contents first">
+
+        <p>可交互的绘制控件基类。</p>
+<p><code>DDrawWidget</code> 是一个"用画布画出来的控件"：它把自身四个临时文件路径
+（<code>temppath</code> / <code>temppath2</code> / <code>temppath3</code> / <code>temppath4</code>）以 <strong>惰性属性</strong>
+的形式暴露出来，兼容既有子类代码。</p>
+<p>旧实现在 <code>__init__</code> 里对这四个路径一律 <code>mkstemp()</code>，且从不关闭返回的 fd：</p>
+<ul>
+<li>每个控件一创建就 <strong>泄漏 4 个文件描述符</strong>（20 个按钮 = 80 个），
+  长跑程序会撞上 Windows 的句柄上限；</li>
+<li>即使随后改用了 tksvg / skia 引擎，那 4 个临时文件依然躺在地盘上。</li>
+</ul>
+<p>现在改为<strong>按需创建</strong>：只有在真正用到某个路径时才建文件，并且每个控件
+的生命周期结束时由 :meth:<code>~tkdeft.windows.draw.DSvgDraw.cleanup</code> 回收。</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
 
 
 
@@ -1905,7 +1730,7 @@
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="index.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 安装与使用">
+          <a href="tkdeft.windows.draw.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: windows.draw · 绘制后端">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1915,20 +1740,20 @@
                 上一页
               </span>
               <div class="md-ellipsis">
-                安装与使用
+                windows.draw · 绘制后端
               </div>
             </div>
           </a>
         
         
           
-          <a href="custom-widget.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 自定义组件">
+          <a href="tkdeft.object.html" class="md-footer__link md-footer__link--next" aria-label="下一页: object · DObject 配置容器">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                自定义组件
+                object · DObject 配置容器
               </div>
             </div>
             <div class="md-footer__button md-icon">

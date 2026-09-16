@@ -2,50 +2,102 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://tkdeft.netlify.app/index.html</loc>
-         <lastmod>2025-06-26</lastmod>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/index.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.engines.base.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.engines.cache.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.engines.cairo_engine.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.engines.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.engines.pillow_engine.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.engines.skia_engine.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.object.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.svg.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.utility.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.windows.canvas.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.windows.draw.html</loc>
+         <lastmod>2026-09-16</lastmod>
+    </url>
+    <url>
+         <loc>https://tkdeft.netlify.app/api/tkdeft.windows.drawwidget.html</loc>
+         <lastmod>2026-09-16</lastmod>
     </url>
     <url>
          <loc>https://tkdeft.netlify.app/blog/index.html</loc>
-         <lastmod>2025-06-26</lastmod>
+         <lastmod>2026-09-16</lastmod>
     </url>
     <url>
          <loc>https://tkdeft.netlify.app/blog/2024/01/23/%E5%BC%80%E5%A7%8B%E5%88%B6%E4%BD%9C%E6%96%87%E6%A1%A3.html</loc>
-         <lastmod>2025-06-26</lastmod>
+         <lastmod>2026-09-16</lastmod>
     </url>
     <url>
          <loc>https://tkdeft.netlify.app/blog/2024/01/25/%E5%8F%91%E5%B8%83002-003-004%E7%89%88%E6%9C%AC.html</loc>
-         <lastmod>2025-06-26</lastmod>
+         <lastmod>2026-09-16</lastmod>
     </url>
     <url>
          <loc>https://tkdeft.netlify.app/template/index.html</loc>
-         <lastmod>2025-06-26</lastmod>
+         <lastmod>2026-09-16</lastmod>
     </url>
     <url>
          <loc>https://tkdeft.netlify.app/usage/index.html</loc>
-         <lastmod>2025-06-26</lastmod>
+         <lastmod>2026-09-16</lastmod>
     </url>
     <url>
          <loc>https://tkdeft.netlify.app/usage/custom-drawing.html</loc>
-         <lastmod>2025-06-26</lastmod>
+         <lastmod>2026-09-16</lastmod>
     </url>
     <url>
          <loc>https://tkdeft.netlify.app/usage/custom-widget.html</loc>
-         <lastmod>2025-06-26</lastmod>
+         <lastmod>2026-09-16</lastmod>
     </url>
     <url>
          <loc>https://tkdeft.netlify.app/blog/archive/2024.html</loc>
-         <lastmod>2025-06-26</lastmod>
+         <lastmod>2026-09-16</lastmod>
     </url>
     <url>
          <loc>https://tkdeft.netlify.app/blog/category/%E6%A8%A1%E5%9D%97.html</loc>
-         <lastmod>2025-06-26</lastmod>
+         <lastmod>2026-09-16</lastmod>
     </url>
     <url>
          <loc>https://tkdeft.netlify.app/blog/category/%E6%A8%A1%E6%9D%BF.html</loc>
-         <lastmod>2025-06-26</lastmod>
+         <lastmod>2026-09-16</lastmod>
     </url>
     <url>
          <loc>https://tkdeft.netlify.app/blog/category/%E6%96%87%E6%A1%A3.html</loc>
-         <lastmod>2025-06-26</lastmod>
+         <lastmod>2026-09-16</lastmod>
     </url>
 </urlset>
