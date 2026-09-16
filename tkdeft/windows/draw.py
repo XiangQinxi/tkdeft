@@ -387,6 +387,8 @@ class DSvgDraw(DDraw):
         :param rail_opacity: 未选中底轨的透明度
         :returns: 生成好的 SVG 文件路径
         """
+        from ..svg import svg_paint
+
         path, drawing = self.create_drawing(
             width, height, temppath=temppath, fill_opacity=0
         )
@@ -395,7 +397,7 @@ class DSvgDraw(DDraw):
                 (0, 0),
                 (width2, height),
                 rx=radius,
-                fill=track_fill,
+                fill=svg_paint(track_fill),
                 fill_opacity=track_opacity,
                 fill_rule="evenodd",
             )
@@ -405,7 +407,7 @@ class DSvgDraw(DDraw):
                 (width2, 0),
                 (width - width2, height),
                 rx=radius,
-                fill=rail_fill,
+                fill=svg_paint(rail_fill),
                 fill_opacity=rail_opacity,
             )
         )  # 滑块进度未选中区域（占全部）
@@ -445,6 +447,8 @@ class DSvgDraw(DDraw):
         :param inner_fill_opacity: 内圆填充透明度
         :returns: 生成好的 SVG 文件路径
         """
+        from ..svg import gradient_stop, svg_paint
+
         path, drawing = self.create_drawing(
             width, height, temppath=temppath, fill_opacity=0
         )
@@ -454,8 +458,10 @@ class DSvgDraw(DDraw):
             id="DButton.Border",
             gradientUnits="userSpaceOnUse",
         )
-        border.add_stop_color(0.500208, outline, outline_opacity)
-        border.add_stop_color(0.954545, outline2, outline2_opacity)
+        stop1_color, stop1_opacity = gradient_stop(outline, outline_opacity)
+        stop2_color, stop2_opacity = gradient_stop(outline2, outline2_opacity)
+        border.add_stop_color(0.500208, stop1_color, stop1_opacity)
+        border.add_stop_color(0.954545, stop2_color, stop2_opacity)
         drawing.defs.add(border)
         stroke = f"url(#{border.get_id()})"
 
@@ -472,7 +478,7 @@ class DSvgDraw(DDraw):
             drawing.circle(
                 (width / 2, height / 2),
                 r1 - 1,
-                fill=fill,
+                fill=svg_paint(fill),
                 fill_opacity=fill_opacity,
                 fill_rule="nonzero",
             )
@@ -481,7 +487,7 @@ class DSvgDraw(DDraw):
             drawing.circle(
                 (width / 2, height / 2),
                 r2,
-                fill=inner_fill,
+                fill=svg_paint(inner_fill),
                 fill_opacity=inner_fill_opacity,
                 fill_rule="nonzero",
             )

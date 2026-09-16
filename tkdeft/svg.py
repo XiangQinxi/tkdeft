@@ -24,10 +24,48 @@ from __future__ import annotations
 
 from typing import Tuple
 
-__all__ = ["Geometry", "roundrect_geometry", "add_roundrect"]
+__all__ = ["Geometry", "roundrect_geometry", "add_roundrect", "svg_paint", "gradient_stop"]
 
 #: ``(insert, size, rx, ry)`` —— 可直接喂给 ``svgwrite`` 的 ``rect()``
 Geometry = Tuple[Tuple[float, float], Tuple[float, float], float, float]
+
+#: 表示"不绘制"的各种写法。栅格引擎（skia / pillow / cairo）把这几个值都当成
+#: "这一层不画"，但 **svgwrite 的属性校验器只认 ``"none"``**：
+#: ``None`` 会抛 ``TypeError: 'None' is not a valid value for attribute 'stroke'``，
+#: 设计稿里常见的 ``"transparent"`` 同样被拒。
+_NO_PAINT = frozenset({"", "none", "transparent", "null", "nil"})
+
+
+def svg_paint(value, default: str = "none"):
+    """把"没有颜色"的写法统一成 svgwrite 认识的 ``"none"``。
+
+    :param value: 颜色，可能是 ``None`` / ``"transparent"`` / ``"none"`` / 真颜色
+    :param default: 不绘制时返回什么（默认 ``"none"``）
+    :returns: 可直接交给 svgwrite 的取值
+
+    没有这一步时，同一份规格在两条路径上的行为并不一致——
+    ``RoundRectSpec(outline=None)`` 用 skia 渲染正常，换到 tksvg 就抛
+    ``TypeError``；``"transparent"`` 也一样。这里统一之后，
+    "描边 / 填充留空"的写法在五个引擎上都能跑。
+    """
+    if value is None:
+        return default
+    return default if str(value).strip().lower() in _NO_PAINT else value
+
+
+def gradient_stop(color, opacity):
+    """把渐变 stop 归一成 ``(颜色, 透明度)``。
+
+    SVG 里没有 ``transparent`` 这个关键字，渐变要"淡出到透明"只能写成
+    「某个颜色 + ``stop-opacity="0"``」，所以这里把"不绘制"翻译成
+    ``("#000000", 0.0)``；其余颜色原样返回。
+
+    :returns: ``(颜色, 透明度)``
+    """
+    if color is None or str(color).strip().lower() in _NO_PAINT:
+        return "#000000", 0.0
+    return color, opacity
+
 
 
 def roundrect_geometry(
@@ -110,13 +148,15 @@ def add_roundrect(
             id=gradient_id,
             gradientUnits="userSpaceOnUse",
         )
-        border.add_stop_color(gradient_stop1, outline, outline_opacity)
-        border.add_stop_color(gradient_stop2, outline2, outline2_opacity)
+        stop1_color, stop1_opacity = gradient_stop(outline, outline_opacity)
+        stop2_color, stop2_opacity = gradient_stop(outline2, outline2_opacity)
+        border.add_stop_color(gradient_stop1, stop1_color, stop1_opacity)
+        border.add_stop_color(gradient_stop2, stop2_color, stop2_opacity)
         dwg.defs.add(border)
         stroke = f"url(#{border.get_id()})"
         stroke_opacity = 1
     else:
-        stroke = outline
+        stroke = svg_paint(outline)
         stroke_opacity = outline_opacity
 
     dwg.add(
@@ -125,7 +165,7 @@ def add_roundrect(
             size,
             rx,
             ry,
-            fill=fill,
+            fill=svg_paint(fill),
             fill_opacity=fill_opacity,
             stroke=stroke,
             stroke_width=width,
