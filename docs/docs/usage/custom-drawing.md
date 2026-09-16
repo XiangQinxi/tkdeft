@@ -5,6 +5,18 @@
 组件不再直接拼 SVG，而是描述一个 **绘制规格（spec）**——尺寸、圆角、填充色、
 描边色与透明度……然后把它交给**当前引擎**去栅格化。换引擎不需要改一行业务代码。
 
+<figure markdown>
+  ![两条绘制路径](../assets/engine-paths.png)
+  <figcaption>同一份规格的两条路：SVG 系落文件，栅格系进程内出图；结果都按规格缓存</figcaption>
+</figure>
+
+同一份规格在各引擎下的实际结果：
+
+<figure markdown>
+  ![各引擎渲染同一份规格](../assets/engines-compare.png)
+  <figcaption>5 个内置引擎渲染同一组规格（圆角矩形 / 胶囊 / 渐变描边 / 滑块把手 / 进度条槽）。<code>tksvg</code> 是默认引擎，也是保真度比对里的参照</figcaption>
+</figure>
+
 ## 内置引擎
 
 | 编号 | 引擎 | 类型 | 说明 | 额外依赖 |
@@ -90,7 +102,7 @@ RoundRectSpec.from_box(0, 0, 120, 32, radius=6, fill="#ffffff")
 当前引擎是 SVG 系时 `render_*` 返回 `None`，表示"这条路径我不参与"，
 调用方应当回退到既有的 `svgwrite` + `tksvg` 流程。
 
-## 缓存
+## 缓存 { #cache }
 
 渲染结果按 `(引擎名, 图元类型, spec)` 缓存。因为 spec 是不可变的，
 **同尺寸同配色的一组控件会共用同一张 `PhotoImage`**。
@@ -118,6 +130,11 @@ cache.stats()                  # 命中率、条目数、溢出次数
 
 `cache_stats()["overflow"]` 就是"因为超预算而没进缓存"的次数——
 如果它一直涨，说明该调大 `set_cache_budget()` 了。
+
+<figure markdown>
+  ![缓存策略](../assets/cache.png)
+  <figcaption>缓存不做 LRU 淘汰：预算不够时只是"不写入"，已经发出去的图片永远存活</figcaption>
+</figure>
 
 多窗口 / 反复重建 root 的场景下，每个 Tk 解释器有一份独立缓存，
 最多保留 `tkdeft.engines.cache.MAX_INTERPRETERS` 份，销毁的解释器会被回收。
@@ -184,15 +201,38 @@ last_engine_error()    # -> "skia: ValueError: ..." 或 None
 clear_engine_error()   # 清掉记录，允许下次失败时重新警告
 ```
 
+## 换引擎能快多少
+
+同一份工作，几个引擎的端到端耗时（本机实测，数据来自 `benchmarks/result_r*.json`）：
+
+<figure markdown>
+  ![各引擎端到端耗时](../assets/perf-bars.png)
+  <figcaption>柱长为对数刻度（左下角为 0.01 ms 量级，右下角为 100 ms 量级）。命中缓存后差距最大：同规格圆角矩形从 5.48 ms 降到 0.0137 ms（约 400×）</figcaption>
+</figure>
+
+一句话结论：**规格重复度越高、重绘越频繁，换栅格引擎的收益越大**。
+怎么自己跑出这张图，见 [回归与性能](benchmarks.md)。
+
 ## 坐标与描边约定
 
 所有 spec 的坐标都以自身左上角为 `(0, 0)`，并且**描边是居中的**：
 几何会被向内收缩半个线宽，使描边的外沿正好贴合图片边缘。
 
 这正是历史上出问题的地方——旧代码把矩形放在 `(0.5, 0.5)` 却仍用整宽整高，
-描边中心线正好压在画布边界上，于是**下边框和右边框被整个裁掉**。
+描边中心线正好压在画布边界上，于是外侧那半个线宽被裁掉。
 `tkdeft.svg.roundrect_geometry()` 用同一套规则计算 SVG 几何，
-保证 SVG 引擎与栅格引擎画面一致。
+保证 SVG 引擎与栅格引擎画面一致：
+
+<figure markdown>
+  ![描边内缩](../assets/stroke-inset.png)
+  <figcaption>为什么几何必须内缩半个线宽（示意图，线宽已放大到 16px）</figcaption>
+</figure>
+
+!!! tip "「没有颜色」的写法在两条路径上是一致的"
+    栅格引擎接受 `None` / `"transparent"` 表示"这一层不画"，
+    而 svgwrite 的属性校验器**只认 `"none"`**。`tkdeft.svg.svg_paint()`
+    统一了这件事，所以 `RoundRectSpec(outline=None)` 在 5 个引擎上都能跑。
+    渐变里的"透明"由 `gradient_stop()` 转换成「黑色 + `stop-opacity=0`」。
 
 ## 引擎能力差异
 

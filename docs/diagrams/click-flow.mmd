@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant U as 鼠标
+    participant W as DDrawWidget
+    participant D as 你的 _draw()
+
+    U->>W: 按下 <Button-1>
+    W->>W: button1 = True
+    W->>D: _draw()
+    U->>W: 松开 <ButtonRelease-1>
+    W->>W: button1 = False
+    W->>D: _draw()
+    alt 鼠标仍在控件内
+        W->>W: 生成 <<Clicked>>
+    end
+    Note over U,W: <Enter> / <Leave> 同理：更新 enter 后重绘一次

@@ -121,12 +121,10 @@ widget.bind("<<Clicked>>", lambda event: print("clicked"))
 
 ## 一次点击的完整顺序
 
-```text
-<Button-1>        →  button1 = True   → _draw()
-<ButtonRelease-1> →  button1 = False  → _draw()
-                          ↓
-                   鼠标仍在控件内 → 生成 <<Clicked>>
-```
+<figure markdown>
+  ![点击事件的时序](../assets/click-flow.png)
+  <figcaption>一次点击：每个事件都触发一次 <code>_draw()</code>；只有"按下且在控件内松开"才发 <code>&lt;&lt;Clicked&gt;&gt;</code></figcaption>
+</figure>
 
 所以"按住后把鼠标拖出去再松开"不会触发点击，与系统控件行为一致。
 
@@ -140,6 +138,11 @@ widget.bind("<<Clicked>>", lambda event: print("clicked"))
 | `draw_roundrect(x1, y1, x2, y2, radius, radiusy=None, **kwargs)` | 圆角矩形 |
 | `draw_track(x1, y1, width, height, width2, **kwargs)` | 进度条槽 |
 | `draw_thumb(x1, y1, width, height, r1, r2, **kwargs)` | 圆形把手 |
+
+<figure markdown>
+  ![三种图元](../assets/three-primitives.png)
+  <figcaption>三个入口对应的三种绘制规格；图里的渲染来自真实引擎，放大 3 倍</figcaption>
+</figure>
 
 ```python
 item = self.draw_roundrect(

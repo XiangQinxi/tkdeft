@@ -1,70 +1,63 @@
-# 安装与使用
+# 指南总览
 
-## 安装
+`tkdeft` 不带具体组件——它提供的是"把矢量图形变成 Tkinter 控件"的零件。
+下面五页覆盖了从入门到排查的全部内容；如果你是第一次来，按顺序读前三页即可。
 
-```bash
-pip install -U tkdeft
-```
+## 从零开始
 
-`tkdeft` 底层依赖这些库，通常会自动装好：
+| 页面 | 讲什么 | 适合谁 |
+| --- | --- | --- |
+| [安装](../getstarted/install.md) | 环境要求、可选引擎、验证安装、editable 开发 | 还没装好的人 |
+| [快速上手](../getstarted/quickstart.md) | 五分钟：画图元、换引擎、拿 `PhotoImage`、写一个能点的小控件 | 想马上看到效果的人 |
+| [概念与架构](../getstarted/concepts.md) | 规格 / 引擎 / 画布 的关系，一次重绘发生了什么，描边与图片保活的坑 | 想搞清楚"为什么这么设计"的人 |
 
-* `tksvg` —— 让 Tkinter 能显示 SVG（同时也负责矢量绘制）；
-* `tkextrafont` —— 加载内嵌字体，保证跨平台外观一致；
-* `svgwrite` —— 生成矢量图；
-* `pillow` —— 位图处理与 `PhotoImage` 转换；
-* `easydict` —— 组件属性容器。
+## 深入使用
 
-如果安装过程中遇到问题，请先参阅这些项目各自的说明。
+### [绘制引擎](custom-drawing.md)
 
-## 可选：更快的绘制引擎
+"画什么"和"用什么画"是分开的。这一页讲：
 
-默认引擎 `tksvg` 的工作方式是"生成 SVG → 写临时文件 → 再读回来栅格化"，
-每次重绘都要碰磁盘。想更快可以装一个**进程内栅格引擎**：
+* 5 个内置引擎（`tksvg` / `wand` / `skia` / `pillow` / `cairo`）各自的类型与依赖；
+* 怎么切换、怎么查询（`describe_engines()` / `available_engines()` / `engine_index()`）；
+* 缓存为什么**刻意不做 LRU 淘汰**，像素预算怎么调；
+* 颜色的各种写法（`parse_color`）；
+* 怎么自己写一个引擎并注册。
 
-```bash
-pip install "tkdeft[skia]"     # skia-python，速度与画质最好
-pip install "tkdeft[cairo]"    # pycairo
-pip install "tkdeft[raster]"   # 上面两个都装
-```
+### [自定义组件](custom-widget.md)
 
-不装也能用——`Pillow` 引擎（编号 3）零额外依赖，一直在。
+用 `DObject` + `DCanvas` + `DSvgDraw` + `DDrawWidget` 搭一个自己的控件：
 
-```python
-from tkdeft.engines import set_engine, list_engines
+* `DObject` 的属性接口（`dconfigure` / `dcget` / `dkeys` / `dcopy` …）；
+* `DDrawWidget` 的事件 → 状态 → 重绘 骨架；
+* 三个统一绘制入口与两个"强制走某条路"的开关；
+* 怎么写自己的绘制后端（`create_drawing` / `scratch_path` / `cleanup`）。
 
-print(list_engines())
-set_engine("skia")       # 或 set_engine(2)
-```
+### [回归与性能](benchmarks.md)
 
-详见 [绘制引擎](custom-drawing.md)。
+`benchmarks/` 一身两职：回归套件 + 性能基准。
 
-## tkdeft 是什么
+* `python benchmarks/run_all.py`（9 项）与 `--quick`（8 项）；
+* 9 个检查脚本各自覆盖什么；
+* 怎么跑单引擎基准、怎么汇总成对比表；
+* 两条方法论提醒（测试插 `sys.path`、单次运行测不出泄漏）；
+* 新增一个检查的三步。
 
-一句话：**把矢量绘图变成 Tkinter 组件的底座。**
+### [常见问题与排查](faq.md)
 
-它不含任何具体组件（按钮、输入框都没有），只提供零件：
+13 条真实踩过的坑，每条都是 **症状 / 原因 / 怎么办**：
 
-| 模块 | 内容 |
-| --- | --- |
-| `tkdeft.engines` | 可插拔的绘制引擎（tksvg / wand / skia / pillow / cairo）、绘制规格与图片缓存 |
-| `tkdeft.svg` | 修正过的 SVG 形状助手 |
-| `tkdeft.windows` | `DCanvas` / `DDraw` / `DSvgDraw` / `DDrawWidget` |
-| `tkdeft.object` | `DObject` 配置容器 |
-| `tkdeft.utility` | 字体等零碎工具 |
+* 画布上的图片变空白（`PhotoImage` 被 GC）；
+* `delete("all")` 把叠加内容删掉；
+* `withdraw()` 时量不到尺寸；
+* 不要对 root 调 `after_cancel()`（会让 `root.destroy()` 失败）；
+* 临时文件与文件描述符、`master` 传错、引擎装了却用不了；
+* 为什么截 Tk 窗口不能用 `PIL.ImageGrab`。
 
-最常用的名字都从顶层再导出了一份，所以下面两种写法等价：
+### [从 0.2 升级到 0.3](upgrade-0.3.md)
 
-```python
-from tkdeft import DCanvas, DObject, RoundRectSpec, set_engine   # 顶层汇总
-from tkdeft.engines import RoundRectSpec, set_engine             # 原始位置
-from tkdeft.windows import DCanvas                               # 原始位置
-```
+0.3.0 是纯加法升级，没有破坏性改动。这一页给出"值得顺手改的四处"与新老名字对照。
 
-想直接体验"用这套零件搭出来的界面库"，请去看
-[tkfluent](https://pypi.org/project/tkfluent)。
+## 参考
 
-## 目录
-
-* [绘制引擎](custom-drawing.md) —— 引擎列表、切换方式、缓存机制、自己写引擎
-* [自定义组件](custom-widget.md) —— 用 `DObject` + `DDrawWidget` 做一个控件
+* [API 文档](../api/index.md) —— 由源码文档字符串自动生成，覆盖全部公开接口
 * [什么是模板](../template/index.md) —— 为什么这个库不直接做成主题库

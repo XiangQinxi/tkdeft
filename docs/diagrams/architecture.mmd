@@ -1,0 +1,10 @@
+flowchart LR
+    A["你的代码 / 组件"] -->|"描述一份 spec"| B["绘制规格<br/>RoundRectSpec · TrackSpec · ThumbSpec"]
+    B --> C{"当前引擎"}
+    C -->|"tksvg / wand"| D["生成 SVG<br/>→ tksvg / Wand 栅格化"]
+    C -->|"skia / pillow / cairo"| E["进程内直接出位图<br/>（不碰磁盘）"]
+    D --> F["PIL.Image → PhotoImage"]
+    E --> F
+    F --> G["DCanvas 显示"]
+    F -.->|"(引擎名, 类型, spec)"| H[("图片缓存")]
+    H -.-> F

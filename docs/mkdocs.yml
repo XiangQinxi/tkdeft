@@ -2,6 +2,14 @@ site_name: tkdeft开发文档
 copyright: Copyright &copy; 2024 - 2025 XiangQinxi
 site_url: https://tkdeft.netlify.app/
 
+# 断链/断锚点默认只是 INFO，加了 --strict 也不会失败。
+# 这里把锚点提到 warn：中文标题的锚点会被 slugify 成 #_1 这类，
+# 显式写成 `## 标题 { #id }` 再链接才可靠（本仓库已全部改过）。
+validation:
+  links:
+    anchors: warn
+    absolute_links: warn
+
 plugins:
   - search:
       lang: zh
@@ -56,11 +64,17 @@ theme:
 markdown_extensions:
   - abbr
   - attr_list
+  - md_in_html          # 让 <figure markdown> 里的 Markdown 语法生效（插图用）
   - pymdownx.snippets
   - def_list
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      # 注意：这里**刻意不配 mermaid**。Material 的 mermaid 支持是运行时从
+      # unpkg CDN 拉脚本的，而本站启用了 offline 插件——离线打开时图会消失。
+      # 流程图统一放在 docs/diagrams/*.mmd，由 gen_figures.py 预渲染成
+      # docs/docs/assets/*.png，页面只引用图片（见 docs/README.md）。
+      custom_fences: []
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.emoji:
@@ -69,10 +83,17 @@ markdown_extensions:
 
 nav:
   - 主页: "index.md"
-  - 使用:
-      - 安装与使用: "usage/index.md"
+  - 开始:
+      - 安装: "getstarted/install.md"
+      - 快速上手: "getstarted/quickstart.md"
+      - 概念与架构: "getstarted/concepts.md"
+  - 指南:
+      - 指南总览: "usage/index.md"
       - 绘制引擎: "usage/custom-drawing.md"
       - 自定义组件: "usage/custom-widget.md"
+      - 回归与性能: "usage/benchmarks.md"
+      - 常见问题与排查: "usage/faq.md"
+      - 从 0.2 升级到 0.3: "usage/upgrade-0.3.md"
   - API:
       - api/index.md
       - 顶层:

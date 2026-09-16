@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant W as 组件._draw()
+    participant E as 当前引擎
+    participant C as 图片缓存
+    participant T as DCanvas
+
+    W->>E: render(spec, master)
+    E->>C: 查 (引擎名, 图元类型, spec)
+    alt 命中缓存
+        C-->>W: 直接返回同一张 PhotoImage
+    else 未命中
+        E->>E: 栅格化（进程内位图，或 SVG → tksvg）
+        E->>C: 写入缓存（预算够的话）
+        C-->>W: 新的 PhotoImage
+    end
+    W->>T: create_image(...) + _keep_photo 保活
