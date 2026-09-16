@@ -25,6 +25,7 @@ STEPS = [
     ("设计稿画廊（24 个按钮状态 × 各引擎）", "check_gallery.py", False),
     ("全组件冒烟（全部引擎）", "smoke_widgets.py", False),
     ("画布图片保活 + FluImage", "check_canvas_refs.py", False),
+    ("画廊布局（菜单宽度/按钮可见/文字不裁）", "check_layout.py", False),
     ("命令行入口 python -m tkflu", "check_main.py", False),
     ("文档站构建（--strict，无警告）", "check_docs.py", False),
 ]

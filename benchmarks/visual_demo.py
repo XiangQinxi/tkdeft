@@ -1,16 +1,24 @@
-"""真实界面目视验收：把各种组件摆出来截图，逐个引擎对比。
+"""把 tkfluent 的组件画廊真实显示出来并截图。
+
+**为什么不用 PIL.ImageGrab**：它按屏幕坐标抓取，在 DPI 缩放或多虚拟桌面的
+环境里经常抓到别的窗口（表现为"截出来是浏览器 / 视频播放器"）。
+这里改用 Win32 的 ``PrintWindow`` —— 直接按窗口句柄取内容，
+既不受遮挡影响，也不受 DPI 坐标映射影响。
 
 用法::
 
-    python benchmarks/visual_demo.py --engine skia
-    python benchmarks/visual_demo.py --all
+    python benchmarks/visual_demo.py                    # 浅色 + skia
+    python benchmarks/visual_demo.py dark skia
+    python benchmarks/visual_demo.py light pillow 720x760
 """
 
 from __future__ import annotations
 
-import argparse
+import ctypes
 import os
 import sys
+import time
+from ctypes import wintypes
 
 sys.stdout.reconfigure(encoding="utf-8")
 
@@ -22,111 +30,142 @@ for _p in (_TKFLUENT, _ROOT):
         sys.path.insert(0, _p)
 
 OUT = os.path.join(_HERE, "_out")
-os.makedirs(OUT, exist_ok=True)
+
+# ---------------------------------------------------------------------------
+# Win32 截图
+# ---------------------------------------------------------------------------
+user32 = ctypes.WinDLL("user32", use_last_error=True)
+gdi32 = ctypes.WinDLL("gdi32", use_last_error=True)
+
+user32.GetWindowDC.restype = wintypes.HDC
+user32.GetWindowDC.argtypes = [wintypes.HWND]
+user32.GetParent.restype = wintypes.HWND
+user32.GetParent.argtypes = [wintypes.HWND]
+user32.PrintWindow.restype = wintypes.BOOL
+user32.PrintWindow.argtypes = [wintypes.HWND, wintypes.HDC, wintypes.UINT]
+user32.ReleaseDC.argtypes = [wintypes.HWND, wintypes.HDC]
+gdi32.CreateCompatibleDC.restype = wintypes.HDC
+gdi32.CreateCompatibleDC.argtypes = [wintypes.HDC]
+gdi32.CreateCompatibleBitmap.restype = wintypes.HBITMAP
+gdi32.CreateCompatibleBitmap.argtypes = [wintypes.HDC, ctypes.c_int, ctypes.c_int]
+gdi32.SelectObject.restype = wintypes.HGDIOBJ
+gdi32.SelectObject.argtypes = [wintypes.HDC, wintypes.HGDIOBJ]
+gdi32.DeleteObject.argtypes = [wintypes.HGDIOBJ]
+gdi32.DeleteDC.argtypes = [wintypes.HDC]
+gdi32.GetDIBits.argtypes = [
+    wintypes.HDC, wintypes.HBITMAP, wintypes.UINT, wintypes.UINT,
+    ctypes.c_void_p, ctypes.c_void_p, wintypes.UINT,
+]
 
 
-def build(engine: str):
-    import tkinter as tk  # noqa: F401
-
-    import tkflu
-    from tkflu.listbox import FluListBox
-
-    tkflu.set_renderer(engine) if hasattr(tkflu, "set_renderer") else None
-
-    win = tkflu.FluWindow()
-    win.title(f"tkfluent · {engine}")
-    win.geometry("560x420+80+80")
-    win.configure(background="#f3f3f3")
-
-    pad = dict(padx=16, pady=6)
-
-    tkflu.FluLabel(win, text=f"渲染引擎：{engine}").pack(anchor="w", **pad)
-
-    row = tkflu.FluFrame(win, width=520, height=90)
-    row.pack(**pad)
-    inner = tkflu.FluFrame(row, width=480, height=60)
-    tkflu.FluButton(inner, text="标准按钮", width=110).pack(side="left", padx=6, pady=10)
-    tkflu.FluButton(inner, text="强调", style="accent", width=90).pack(side="left", padx=6, pady=10)
-    tkflu.FluButton(inner, text="菜单", style="menu", width=80).pack(side="left", padx=6, pady=10)
-    tkflu.FluButton(inner, text="禁用", state="disabled", width=80).pack(side="left", padx=6, pady=10)
-    inner.pack()
-
-    line = tkflu.FluFrame(win, width=520, height=64)
-    line.pack(**pad)
-    strip = tkflu.FluFrame(line, width=480, height=40)
-    tkflu.FluBadge(strip, text="徽标").pack(side="left", padx=8, pady=6)
-    tkflu.FluToggleButton(strip, text="开关", width=90).pack(side="left", padx=8, pady=6)
-    tkflu.FluSlider(strip, width=140).pack(side="left", padx=8, pady=6)
-    tkflu.FluScrollBar(strip, width=120).pack(side="left", padx=8, pady=6)
-    strip.pack()
-
-    tkflu.FluEntry(win, width=300).pack(anchor="w", **pad)
-    tkflu.FluText(win, width=300, height=70).pack(anchor="w", **pad)
-    FluListBox(win, width=300, height=60).pack(anchor="w", **pad)
-
-    return win
+class _BitmapInfoHeader(ctypes.Structure):
+    _fields_ = [
+        ("biSize", wintypes.DWORD),
+        ("biWidth", ctypes.c_long),
+        ("biHeight", ctypes.c_long),
+        ("biPlanes", wintypes.WORD),
+        ("biBitCount", wintypes.WORD),
+        ("biCompression", wintypes.DWORD),
+        ("biSizeImage", wintypes.DWORD),
+        ("biXPelsPerMeter", ctypes.c_long),
+        ("biYPelsPerMeter", ctypes.c_long),
+        ("biClrUsed", wintypes.DWORD),
+        ("biClrImportant", wintypes.DWORD),
+    ]
 
 
-def grab(win, path):
-    """把窗口抬到最前并等它画完，再截屏。"""
-    import time
+def capture_window(hwnd, width, height, flag=2):
+    """按窗口句柄抓图。
 
-    win.deiconify()
-    win.lift()
-    try:
-        win.attributes("-topmost", True)
-    except Exception:
-        pass
-    # 让 Tk 走完布局与首帧绘制（FluFrame 的内容是异步铺上去的）
-    for _ in range(40):
-        win.update()
-        time.sleep(0.02)
+    ``flag=2`` 是 ``PW_RENDERFULLCONTENT``：抓 DWM 合成后的内容，
+    支持它的系统上效果最好；不支持时退回 ``flag=0``。
+    """
+    from PIL import Image
 
-    target = None
-    try:
-        from PIL import ImageGrab
+    hdc = user32.GetWindowDC(hwnd)
+    memdc = gdi32.CreateCompatibleDC(hdc)
+    bitmap = gdi32.CreateCompatibleBitmap(hdc, width, height)
+    gdi32.SelectObject(memdc, bitmap)
 
-        x = win.winfo_rootx()
-        y = win.winfo_rooty()
-        w = win.winfo_width()
-        h = win.winfo_height()
-        # 多抓几次，避免抓到还没绘制的黑帧
-        best = None
-        for _ in range(6):
-            win.update()
-            img = ImageGrab.grab(bbox=(x, y, x + w, y + h))
-            colors = img.convert("RGB").getcolors(maxcolors=1 << 20)
+    ok = user32.PrintWindow(hwnd, memdc, flag)
+
+    header = _BitmapInfoHeader()
+    header.biSize = ctypes.sizeof(_BitmapInfoHeader)
+    header.biWidth = width
+    header.biHeight = -height  # 负数 = 自上而下
+    header.biPlanes = 1
+    header.biBitCount = 32
+    header.biCompression = 0  # BI_RGB
+
+    buffer = ctypes.create_string_buffer(width * height * 4)
+    gdi32.GetDIBits(memdc, bitmap, 0, height, buffer, ctypes.byref(header), 0)
+    image = Image.frombuffer("RGBA", (width, height), buffer, "raw", "BGRA", 0, 1)
+
+    gdi32.DeleteObject(bitmap)
+    gdi32.DeleteDC(memdc)
+    user32.ReleaseDC(hwnd, hdc)
+    return image.convert("RGB"), bool(ok)
+
+
+def grab(root, path):
+    """把已映射的窗口截到 ``path``，返回一行说明。"""
+    width, height = root.winfo_width(), root.winfo_height()
+    child = int(root.winfo_id())
+    parent = user32.GetParent(child)
+
+    # 父句柄（真正的顶层窗口）抓得更完整；flag=2 与 flag=0 各试一次取内容最丰富的
+    best = None
+    for hwnd, flag in ((parent, 2), (parent, 0), (child, 2)):
+        for _ in range(3):
+            root.update()
+            image, ok = capture_window(hwnd, width, height, flag)
+            colors = image.getcolors(maxcolors=1 << 22)
             score = len(colors) if colors else 0
             if best is None or score > best[0]:
-                best = (score, img)
+                best = (score, image, ok, flag)
             time.sleep(0.05)
-        img = best[1]
-        img.save(path)
-        target = f"{img.width}x{img.height} 色彩数={best[0]} -> {os.path.basename(path)}"
-    except Exception as exc:
-        target = f"截图失败：{type(exc).__name__}: {exc}"
-    return target
+
+    score, image, ok, flag = best
+    image.save(path)
+    return f"{image.width}x{image.height} 色彩数={score} PrintWindow={ok} flag={flag}"
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--engine", default="skia")
-    ap.add_argument("--all", action="store_true")
-    args = ap.parse_args()
+    import tkflu
+    from tkflu.__main__ import build_gallery
 
-    import tkdeft.engines as eng
+    mode = sys.argv[1] if len(sys.argv) > 1 else "light"
+    engine = sys.argv[2] if len(sys.argv) > 2 else "skia"
+    geometry = sys.argv[3] if len(sys.argv) > 3 else "640x680"
+    os.makedirs(OUT, exist_ok=True)
 
-    engines = ([n for n, ok in eng.list_engines().items() if ok]
-               if args.all else [args.engine])
+    tkflu.set_renderer(engine)
+    root = tkflu.FluWindow(mode=mode)
+    root.geometry(f"{geometry}+70+40")
+    root.title(f"tkfluent · {mode} · {engine}")
+    root.deiconify()
+    root.lift()
+    try:
+        root.attributes("-topmost", True)
+    except Exception:
+        pass
 
-    for name in engines:
-        win = build(name)
-        info = grab(win, os.path.join(OUT, f"ui_{name}.png"))
-        print(f"[{name:7s}] {info}")
-        try:
-            win.destroy()
-        except Exception:
-            pass
+    build_gallery(root, mode=mode, log=lambda text: None)
+
+    # 等 Tk 走完布局与首帧绘制，否则会抓到还没画完的内容
+    for _ in range(80):
+        root.update()
+        time.sleep(0.012)
+
+    if not root.winfo_ismapped():
+        print("窗口未能映射（当前会话没有可用桌面），无法截图")
+        root.destroy()
+        return 1
+
+    path = os.path.join(OUT, f"gallery_ui_{mode}_{engine}.png")
+    print(f"[{mode}/{engine}] {grab(root, path)} -> {path}")
+
+    root.destroy()
     return 0
 
 

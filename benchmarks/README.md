@@ -20,11 +20,21 @@ python benchmarks/run_all.py --quick  # 跳过性能基准
 | `check_gallery.py` | 设计稿画廊：取 `tkflu.designs.button` 的**真实配色**，渲染 24 个按钮状态（浅色/深色 × 标准/强调/菜单 × 常态/悬停/按下/禁用），各引擎并排 |
 | `smoke_widgets.py` | 全组件冒烟：在每个引擎下实例化 tkfluent 的**全部组件**并强制走一遍绘制/主题/悬停/按压流程 |
 | `check_canvas_refs.py` | 画布图片保活：同一画布画 5 张图后强制 GC，5 张都必须还在（验证"画面变空白"缺陷已修）；以及 `FluImage` 可正常构造 |
+| `check_layout.py` | **布局回归**：把用户报过的"看得见的毛病"变成断言——菜单项宽度是否容得下中文、底部按钮是否真被挤没了、`FluImage` 是否真的画出图片、`FluLabel` 长文本是否被裁、内嵌 `Entry`/`Text` 是否挂在正确的主控件下 |
 | `check_main.py` | 命令行入口：`--list-engines` / `--help` / 非法引擎的退出码 / `resolve_renderer` 的各分支，以及**逐引擎跑 `--check`** |
 | `check_docs.py` | 构建两个项目的文档站（`mkdocs build --strict`），把 nav 引用缺失、正文死链、docstring 无法解析等问题挡在 CI 里 |
 | `bench_render.py` | 性能基准，可 `--engine` / `--renderer` 选择引擎，`--installed` 用 site-packages 里的旧版跑基线 |
 | `report.py` / `report_before_after.py` | 把上面的 JSON 结果汇总成对比表 |
-| `visual_demo.py` | 摆一个真实界面并截图（需要可用的桌面会话，无人值守环境下可能抓到别的窗口） |
+| `visual_demo.py` | 把组件画廊真实显示并**截图**（用 Win32 `PrintWindow` 按窗口句柄抓，不受遮挡与 DPI 坐标影响） |
+
+!!! note "关于 `check_layout.py` 的前置条件"
+    它必须在窗口**真实映射**的状态下测量——`withdraw()` 时子控件尺寸一律是
+    1x1，量不出任何问题。因此它在没有可用桌面会话时会**跳过**而不是失败。
+
+!!! tip "截图为什么不用 ImageGrab"
+    `PIL.ImageGrab` 按屏幕坐标抓取，在 DPI 缩放 / 多虚拟桌面下经常抓到别的
+    窗口（表现为"截出来是浏览器"）。`visual_demo.py` 改用 Win32
+    `PrintWindow` 直接按窗口句柄取内容。
 
 !!! note "文档构建依赖"
     `check_docs.py` 需要 mkdocs 工具链。未安装时会**跳过并提示**，
