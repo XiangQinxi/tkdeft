@@ -6,8 +6,8 @@
 | 零件 | 作用 |
 | --- | --- |
 | `DObject` | 统一的属性配置接口（`dconfigure` / `dcget`） |
-| `DCanvas` | 带绘制能力的画布 |
-| `DDraw` | 把 SVG / 位图变成 `PhotoImage` |
+| `DCanvas` | 带绘制能力的画布（`draw_roundrect` / `draw_track` / `draw_thumb`） |
+| `DSvgDraw` | 把 SVG / 位图变成 `PhotoImage`（三种图元的 SVG 实现也在这里） |
 | `DDrawWidget` | 事件 → 状态 → 重绘 的交互骨架 |
 
 配套的完整示例可以参考 [tkfluent](https://pypi.org/project/tkfluent)——
@@ -24,12 +24,12 @@ from tkdeft.object import DObject
 
 
 class MyWidget(DObject):
-    def __init__(self):
-        self.attributes = EasyDict({
-            "text": "",
-            "text_color": "#000000",
-            "state": "normal",
-        })
+    # 类上写默认值；实例第一次读写时会拿到自己的副本
+    attributes = EasyDict({
+        "text": "",
+        "text_color": "#000000",
+        "state": "normal",
+    })
 
     def set_text(self, text):
         self.dconfigure(text=text)
@@ -37,16 +37,21 @@ class MyWidget(DObject):
 
 widget = MyWidget()
 widget.set_text("你好")
-print(widget.dcget("text"))      # 你好
-print(widget.dcget("没这个键"))   # None
+print(widget.dcget("text"))       # 你好
+print(widget.dcget("没这个键"))    # None
+print(widget.dcget("没这个键", "-"))  # -（可以给默认值）
 ```
 
 要点：
 
 * `dconfigure(**kwargs)` **只接受已经存在于 `attributes` 里的键**，
-  写错的键会被静默忽略——这是有意的，防止笔误污染组件状态。
+  写错的键会被静默忽略——这是有意的：组件常把"一整份主题字典"直接丢进来，
+  其中难免有当前版本用不到的字段。
 * 所以要新增一个可配置项，必须先把键放进 `attributes`。
-* `dcget(key)` 读不到时返回 `None`，不抛异常。
+* `dconfigure()` 返回 `self`，可以链式调用：`obj.dconfigure(a=1).dconfigure(b=2)`。
+* `dcget(key, default=None)` 读不到时返回默认值，不抛异常。
+* 还提供 `dhas` / `dkeys` / `dvalues` / `ditems` / `dcopy` / `dreset`，
+  以及 `in`、`len()`、迭代（都作用于属性字典）。
 
 ## DDrawWidget：交互骨架
 
@@ -54,25 +59,12 @@ print(widget.dcget("没这个键"))   # None
 **鼠标/焦点事件 → 内部状态 → 重绘** 这条链路：
 
 ```python
-from tkdeft.svg import add_roundrect
 from tkdeft.windows.canvas import DCanvas
-from tkdeft.windows.draw import DSvgDraw
 from tkdeft.windows.drawwidget import DDrawWidget
 
 
-class MyDraw(DSvgDraw):
-    def create_roundrect(self, x1, y1, x2, y2, radius, radiusy=None,
-                         temppath=None, fill="transparent", outline="black",
-                         width=1):
-        drawing = self.create_drawing(x2 - x1, y2 - y1, temppath=temppath)
-        add_roundrect(drawing[1], x1, y1, x2, y2, radius, radiusy,
-                      fill=fill, outline=outline, width=width)
-        drawing[1].save()
-        return drawing[0]
-
-
 class MyCanvas(DCanvas):
-    draw = MyDraw
+    """不需要自定义绘制后端：DSvgDraw 已经带通用图元。"""
 
 
 class MyWidget(MyCanvas, DDrawWidget):
@@ -85,14 +77,16 @@ class MyWidget(MyCanvas, DDrawWidget):
         if hasattr(self, "element"):
             self.delete(self.element)
 
-        if self.button1:
-            color = "#cccccc"
-        elif self.enter:
-            color = "#ffffff"
-        else:
-            color = "#f3f3f3"
+        # interaction_state() 把三个状态位归并成 rest / hover / pressed / disabled
+        color = {
+            "rest": "#f3f3f3",
+            "hover": "#ffffff",
+            "pressed": "#cccccc",
+        }[self.interaction_state()]
 
-        self.element = self.create_roundrect(
+        # 一行画图元：栅格引擎走位图快速路径，否则自动回退 SVG；
+        # 返回的一定是 canvas item id，不需要再判断 None。
+        self.element = self.draw_roundrect(
             0, 0, width, height, 6,
             temppath=self.temppath,
             fill=color, outline="#000000", width=1,
@@ -136,22 +130,53 @@ widget.bind("<<Clicked>>", lambda event: print("clicked"))
 
 所以"按住后把鼠标拖出去再松开"不会触发点击，与系统控件行为一致。
 
-## 换一个绘制引擎
+## 画图元：用统一入口，别自己分岔
 
-你的组件不需要关心底层是 SVG 还是 skia。只要在 `_draw` 里优先走栅格
-快速路径，就能自动获得"进程内出图 + 结果缓存"的收益：
+`DCanvas` 提供三个"图元级"入口，它们内部已经处理好了
+**栅格快速路径 → 失败回退 SVG** 的判定：
+
+| 方法 | 图元 |
+| --- | --- |
+| `draw_roundrect(x1, y1, x2, y2, radius, radiusy=None, **kwargs)` | 圆角矩形 |
+| `draw_track(x1, y1, width, height, width2, **kwargs)` | 进度条槽 |
+| `draw_thumb(x1, y1, width, height, r1, r2, **kwargs)` | 圆形把手 |
 
 ```python
-item = self.create_roundrect_raster(
+item = self.draw_roundrect(
     0, 0, width, height, 6,
     fill="#ffffff", outline="#000000", outline_opacity=0.2,
 )
-if item is None:
-    item = self.create_roundrect(...)      # 回退到 SVG
 ```
 
-`create_roundrect_raster` 在当前引擎是 SVG 系（tksvg / wand）时返回 `None`，
-表示"这条路径我不参与"，于是平稳回退到你自己的 SVG 实现。
+想固定走某一条路，有两个开关：
+
+```python
+self.draw_roundrect(..., raster=False)   # 这一次强制 SVG
+self.raster_enabled = False              # 这个画布都强制 SVG（做对照很有用）
+```
+
+想给某类图元**换一套实现**（比如固定圆角、加滤镜），覆盖对应的
+`draw_*_svg` 方法即可，快速路径的判定仍然由基类负责：
+
+```python
+class BadgeCanvas(DCanvas):
+    def draw_roundrect_svg(self, x1, y1, x2, y2, radius, radiusy=None,
+                           *, temppath=None, temppath2=None, **kwargs):
+        kwargs.setdefault("id", ".Badge")          # 给图元打个标记
+        return super().draw_roundrect_svg(
+            x1, y1, x2, y2, radius, radiusy,
+            temppath=temppath, temppath2=temppath2, **kwargs,
+        )
+```
+
+底层仍然可以按老办法直接用：
+
+* `create_roundrect_raster` / `create_track_raster` / `create_thumb_raster`
+  —— 只看栅格引擎，不支持时返回 `None`；
+* `draw_svg_item(svg_path, temppath2, x, y)` —— 把 SVG 变成画布 item
+  （会按当前引擎自动挑 tksvg / Wand）；
+* `create_round_rectangle(...)` —— 历史方法名，等价于 `draw_roundrect`。
+
 细节见 [绘制引擎](custom-drawing.md)。
 
 ## 别忘了保活图片
@@ -171,4 +196,30 @@ self._keep_photo(item, self._img)
 ```
 
 `DCanvas._keep_photo(item, photo)` 按画布元素 id 记录引用，
-并在元素失效后自动清理。
+并在元素失效后自动清理。用 `draw_roundrect` 这类入口时，
+保活已经替你做完了。
+
+## 写自己的绘制后端
+
+`DSvgDraw` 已经提供三种图元的通用 SVG 实现，多数情况下直接用它就够了。
+如果你要画的是**别的东西**（自定义形状、外部素材），继承它并加方法：
+
+```python
+from tkdeft.windows.draw import DSvgDraw
+
+
+class MyDraw(DSvgDraw):
+    def create_star(self, size, temppath=None, fill="#ffcc00"):
+        """画一个五角星，返回生成好的 SVG 文件路径。"""
+        path, drawing = self.create_drawing(size, size, temppath=temppath)
+        drawing.add(drawing.polygon(points=..., fill=fill))
+        drawing.save()
+        return path
+```
+
+要点：
+
+* `create_drawing()` 返回 `(svg 路径, svgwrite.Drawing)`；
+* 需要重用的临时文件用 `self.scratch_path(".svg", slot=1)` 申请，
+  不要在每次绘制里 `mkstemp()`（会泄漏 fd 与残留文件）；
+* 控件销毁时会调用 `cleanup()` 回收这些 scratch 文件。

@@ -22,9 +22,9 @@ SVG 的描边是**以路径为中心线**向两侧各画半个线宽。上面这
 
 from __future__ import annotations
 
-from typing import Dict, Optional, Tuple
+from typing import Tuple
 
-__all__ = ["roundrect_geometry", "add_roundrect"]
+__all__ = ["Geometry", "roundrect_geometry", "add_roundrect"]
 
 #: ``(insert, size, rx, ry)`` —— 可直接喂给 ``svgwrite`` 的 ``rect()``
 Geometry = Tuple[Tuple[float, float], Tuple[float, float], float, float]
@@ -82,7 +82,8 @@ def add_roundrect(
 ) -> Geometry:
     """往 svgwrite 的 ``Drawing`` 里加一个四边描边都完整的圆角矩形。
 
-    :param dwg: ``svgwrite.Drawing`` 内部的画布对象（通常是 ``drawing[1]``）
+    :param dwg: ``svgwrite.Drawing`` 对象（:meth:`tkdeft.windows.draw.DSvgDraw.create_drawing`
+        返回的第二个元素；各组件的历史写法是 ``drawing[1]``）
     :param fill: 填充色，``"transparent"`` 表示不填充
     :param fill_opacity: 填充透明度
     :param outline: 描边色

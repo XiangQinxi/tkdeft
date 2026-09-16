@@ -46,10 +46,19 @@ set_engine("skia")       # 或 set_engine(2)
 
 | 模块 | 内容 |
 | --- | --- |
-| `tkdeft.engines` | 可插拔的绘制引擎（tksvg / wand / skia / pillow / cairo）与图片缓存 |
+| `tkdeft.engines` | 可插拔的绘制引擎（tksvg / wand / skia / pillow / cairo）、绘制规格与图片缓存 |
 | `tkdeft.svg` | 修正过的 SVG 形状助手 |
-| `tkdeft.windows` | `DCanvas` / `DDraw` / `DDrawWidget` |
+| `tkdeft.windows` | `DCanvas` / `DDraw` / `DSvgDraw` / `DDrawWidget` |
 | `tkdeft.object` | `DObject` 配置容器 |
+| `tkdeft.utility` | 字体等零碎工具 |
+
+最常用的名字都从顶层再导出了一份，所以下面两种写法等价：
+
+```python
+from tkdeft import DCanvas, DObject, RoundRectSpec, set_engine   # 顶层汇总
+from tkdeft.engines import RoundRectSpec, set_engine             # 原始位置
+from tkdeft.windows import DCanvas                               # 原始位置
+```
 
 想直接体验"用这套零件搭出来的界面库"，请去看
 [tkfluent](https://pypi.org/project/tkfluent)。

@@ -19,13 +19,16 @@ DOCS = pathlib.Path(__file__).resolve().parent / "docs"
 
 #: (文档里用的模块名, 显示标题)
 PAGES = [
+    ("tkdeft", "tkdeft · 顶层接口"),
     ("tkdeft.engines", "engines · 绘制引擎层入口"),
     ("tkdeft.engines.base", "engines.base · 引擎基类与规格"),
     ("tkdeft.engines.cache", "engines.cache · 图片缓存"),
+    ("tkdeft.engines.colors", "engines.colors · 颜色解析"),
     ("tkdeft.engines.skia", "engines.skia · Skia 引擎"),
     ("tkdeft.engines.pillow", "engines.pillow · Pillow 引擎"),
     ("tkdeft.engines.cairo", "engines.cairo · Cairo 引擎"),
     ("tkdeft.svg", "svg · SVG 形状助手"),
+    ("tkdeft.windows", "windows · 画布与绘制后端"),
     ("tkdeft.windows.canvas", "windows.canvas · 带绘制的画布"),
     ("tkdeft.windows.draw", "windows.draw · 绘制后端"),
     ("tkdeft.windows.drawwidget", "windows.drawwidget · 交互控件基类"),
@@ -38,6 +41,14 @@ MODULE_MAP = {
     "tkdeft.engines.skia": "tkdeft.engines.skia_engine",
     "tkdeft.engines.pillow": "tkdeft.engines.pillow_engine",
     "tkdeft.engines.cairo": "tkdeft.engines.cairo_engine",
+}
+
+#: 页面专属的 mkdocstrings 选项（键是 ``PAGES`` 里的模块名）。
+#: 顶层 ``tkdeft`` 只是"再导出一份"的汇总页，成员在各自的子模块页里已经
+#: 完整展开，这里只保留模块文档本身，避免同一份内容出现两遍。
+PAGE_OPTIONS = {
+    "tkdeft": "    options:\n      members: false\n      show_source: false\n",
+    "tkdeft.windows": "    options:\n      members: false\n      show_source: false\n",
 }
 
 INDEX = """# API 文档
@@ -55,7 +66,8 @@ INDEX = """# API 文档
 
 | 分组 | 内容 |
 | --- | --- |
-| 绘制引擎 | 引擎注册表、规格对象、缓存，以及三个栅格引擎 |
+| 顶层 | `tkdeft` 的汇总入口（各子模块的常用名字） |
+| 绘制引擎 | 引擎注册表、规格对象、缓存、颜色解析，以及三个栅格引擎 |
 | 图形与画布 | SVG 形状助手、画布、绘制后端、交互控件基类 |
 | 基础 | `DObject` 配置容器、字体等工具 |
 
@@ -75,7 +87,7 @@ def main() -> int:
     for public_name, title in PAGES:
         target = MODULE_MAP.get(public_name, public_name)
         filename = f"{target}.md"
-        content = f"# {title}\n\n::: {target}\n"
+        content = f"# {title}\n\n::: {target}\n" + PAGE_OPTIONS.get(public_name, "")
         action = "更新" if (api_dir / filename).exists() else "新建"
         print(f"  {action} api/{filename:38s} {title}")
         if write:

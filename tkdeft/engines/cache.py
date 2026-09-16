@@ -27,17 +27,34 @@ import threading
 from collections import OrderedDict
 from typing import Any, Dict, Optional, Tuple
 
-__all__ = ["get_cache", "clear_cache", "cache_stats", "set_cache_budget"]
+__all__ = [
+    "ImageCache",
+    "DEFAULT_PIXEL_BUDGET",
+    "MAX_INTERPRETERS",
+    "get_cache",
+    "clear_cache",
+    "cache_stats",
+    "set_cache_budget",
+]
 
 #: 默认像素预算：约 8M 像素（32 MB 位图 + Tk 侧副本），足够覆盖常见界面
 DEFAULT_PIXEL_BUDGET = 8_000_000
 
 #: 同时保留的解释器缓存上限（多窗口 / 反复重建 root 的场景）
-_MAX_INTERPRETERS = 8
+MAX_INTERPRETERS = 8
+
+#: 内部沿用旧名字，保持向后兼容
+_MAX_INTERPRETERS = MAX_INTERPRETERS
 
 
 class ImageCache:
-    """单个 Tk 解释器对应的绘制结果缓存。"""
+    """单个 Tk 解释器对应的绘制结果缓存。
+
+    键是 ``(引擎名, 图元类型, spec)``；值是 ``(PhotoImage, 像素数)``。
+    所有方法都是线程安全的（由模块级锁保护），可以直接在多线程里查询统计。
+
+    :param budget: 像素预算；超出后新规格不再写入缓存（见模块文档里的说明）
+    """
 
     __slots__ = ("_entries", "_pixels", "_budget", "_hits", "_misses", "_overflow")
 
@@ -51,6 +68,7 @@ class ImageCache:
 
     # -- 查询 -------------------------------------------------------------
     def get(self, key: Any):
+        """取缓存图片；未命中返回 ``None``（同时累计命中率统计）。"""
         item = self._entries.get(key)
         if item is None:
             self._misses += 1
@@ -59,11 +77,20 @@ class ImageCache:
         self._entries.move_to_end(key)
         return item[0]
 
+    def __contains__(self, key: Any) -> bool:
+        return key in self._entries
+
+    def __len__(self) -> int:
+        return len(self._entries)
+
     # -- 写入 -------------------------------------------------------------
     def put(self, key: Any, photo, pixels: int) -> bool:
         """写入缓存；超出预算时 **静默放弃**（已发出的图片保持有效）。
 
-        返回是否真的写入了缓存。
+        :param key: ``(引擎名, 图元类型, spec)``
+        :param photo: ``tkinter.PhotoImage``
+        :param pixels: 该图片占用的像素数（用于预算核算）
+        :returns: 是否真的写入了缓存；``False`` 表示这次只能"每次重新渲染"
         """
         if key in self._entries:
             return True
@@ -76,6 +103,13 @@ class ImageCache:
 
     # -- 维护 -------------------------------------------------------------
     def clear(self) -> int:
+        """清空缓存并返回被清掉的条目数。
+
+        .. warning::
+           已经发出去的 :class:`~tkinter.PhotoImage` 仍然由调用方（画布）持有，
+           因此清空缓存不会让画面立刻变空白；真正的风险在于之后画布重新引用
+           同一规格时会重新渲染。
+        """
         count = len(self._entries)
         self._entries.clear()
         self._pixels = 0
@@ -83,13 +117,20 @@ class ImageCache:
 
     @property
     def budget(self) -> int:
+        """像素预算。"""
         return self._budget
 
     @budget.setter
     def budget(self, value: int) -> None:
         self._budget = max(0, int(value))
 
+    @property
+    def pixels(self) -> int:
+        """当前缓存占用的像素数。"""
+        return self._pixels
+
     def stats(self) -> Dict[str, Any]:
+        """这条缓存的统计信息（条目数、像素占用、命中率、溢出次数）。"""
         total = self._hits + self._misses
         return {
             "entries": len(self._entries),
@@ -102,6 +143,7 @@ class ImageCache:
         }
 
     def reset_stats(self) -> None:
+        """把命中/未命中/溢出计数清零（不动缓存内容）。"""
         self._hits = self._misses = self._overflow = 0
 
 
@@ -124,11 +166,11 @@ def _is_alive(tk) -> bool:
 
 def _prune_locked() -> None:
     """回收已销毁解释器的缓存；仍然超限时淘汰最久未用的。"""
-    if len(_CACHES) <= _MAX_INTERPRETERS:
+    if len(_CACHES) <= MAX_INTERPRETERS:
         return
     for key in [k for k, (tk, _) in _CACHES.items() if not _is_alive(tk)]:
         _CACHES.pop(key, None)
-    while len(_CACHES) > _MAX_INTERPRETERS:
+    while len(_CACHES) > MAX_INTERPRETERS:
         _CACHES.popitem(last=False)
 
 
@@ -152,12 +194,18 @@ def _cache_for(master) -> ImageCache:
 
 
 def get_cache(master) -> ImageCache:
-    """取（必要时创建）某个 Tk 解释器对应的缓存。"""
+    """取（必要时创建）某个 Tk 解释器对应的缓存。
+
+    :param master: 任意 Tk 控件，或 ``tkapp`` 本身
+    :returns: 绑定到该解释器的 :class:`ImageCache`
+    """
     return _cache_for(master)
 
 
 def clear_cache(master=None) -> int:
-    """清空缓存。``master=None`` 时清空全部解释器。
+    """清空缓存，返回被清掉的条目数。
+
+    :param master: 只清某个解释器的缓存；``None`` 表示清空全部解释器
 
     .. warning::
        清空后，仍然存在于画布上的 item 会因为图片被回收而变空白。
@@ -172,7 +220,11 @@ def clear_cache(master=None) -> int:
 
 
 def set_cache_budget(pixels: Optional[int]) -> None:
-    """设置像素预算（``None`` 表示不限制）。应用于所有解释器。"""
+    """设置像素预算，并立即应用到所有已存在的解释器缓存。
+
+    :param pixels: 预算（像素数）；``None`` 表示恢复默认
+        :data:`DEFAULT_PIXEL_BUDGET`（注意：并不是"不限制"）
+    """
     global _PIXEL_BUDGET
     with _LOCK:
         _PIXEL_BUDGET = DEFAULT_PIXEL_BUDGET if pixels is None else max(0, int(pixels))
@@ -181,7 +233,17 @@ def set_cache_budget(pixels: Optional[int]) -> None:
 
 
 def cache_stats(master=None) -> Dict[str, Any]:
-    """缓存统计，便于性能诊断。"""
+    """缓存统计，便于性能诊断。
+
+    :param master: 只看某个解释器；``None`` 表示汇总所有解释器
+        （额外带一个 ``interpreters`` 字段）
+
+    ::
+
+        >>> cache_stats()
+        {'interpreters': 1, 'entries': 62, 'pixels': 169244, 'budget': 8000000,
+         'hits': 178, 'misses': 99, 'hit_rate': 0.642, 'overflow': 0}
+    """
     with _LOCK:
         if master is not None:
             return _cache_for(master).stats()

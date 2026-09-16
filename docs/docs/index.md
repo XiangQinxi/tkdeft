@@ -55,6 +55,23 @@ spec = RoundRectSpec(width=120, height=32, rx=6,
 photo = render_roundrect(spec, master=my_canvas)   # -> PhotoImage
 ```
 
+也可以在画布上直接画（自动挑最快的路径、自动回退 SVG）：
+
+```python
+import tkinter
+from tkdeft import DCanvas
+
+root = tkinter.Tk()
+canvas = DCanvas(root, width=200, height=100)
+canvas.pack()
+canvas.draw_roundrect(0, 0, 120, 32, 6, fill="#ffffff", outline="#000000")
+root.mainloop()
+```
+
+最常用的名字（`RoundRectSpec` / `set_engine` / `DCanvas` / `DObject` …）
+都从 `tkdeft` 顶层再导出了一份，所以 `from tkdeft import ...` 与
+`from tkdeft.engines import ...` 等价。
+
 想搭自己的组件，请看 [自定义组件](usage/custom-widget.md)。
 
 ## 目录
@@ -115,3 +132,30 @@ photo = render_roundrect(spec, master=my_canvas)   # -> PhotoImage
   `RenderManager` 的 `winfo_zorder` 崩溃等问题
 * 文档补齐：[绘制引擎](usage/custom-drawing.md)、[自定义组件](usage/custom-widget.md)、
   [API 文档](api/index.md)
+
+### 2026-09-13
+发布`0.3.0`版本，主要工作是**把接口补齐、讲清楚**：
+
+* **绘制引擎层**
+    * 引擎注册表补充 `available_engines()` / `engine_names()` / `engine_index()` /
+      `engine_from_index()` / `describe_engines()` / `reset_engine()` / `unregister_engine()`
+    * 引擎基类新增 `render(spec)`（按规格类型分发）、`supports(kind)`、`info()`、`index`
+    * 拼错引擎名现在抛 `UnknownEngineError`，并给出"你是不是想用 …"的提示
+    * 渲染入口新增 `render(spec)` 与 `RENDERERS`；渲染失败可用
+      `last_engine_error()` / `clear_engine_error()` 查询
+    * 三种规格补齐 `from_box()`（按坐标对构造）、`pixels`、`to_dict()`、`describe()`、`kind`
+* **画布层**
+    * `DCanvas` 新增统一绘制入口 `draw_roundrect()` / `draw_track()` / `draw_thumb()`：
+      有栅格引擎就走位图快速路径，否则自动回退 SVG，返回值一定是 item id
+    * 新增可覆盖的 SVG 钩子 `draw_roundrect_svg()` / `draw_track_svg()` /
+      `draw_thumb_svg()` 与 `draw_svg_item()`，组件不必再抄一遍回退逻辑
+    * `raster_enabled` / `raster=False` 可以强制走 SVG（做引擎对照时很方便）
+* **绘制后端**
+    * `DSvgDraw` 补齐通用图元 `create_roundrect()` / `create_track()` / `create_thumb()`
+    * `create_svg_image(..., way=None)` 默认按当前引擎自动挑 tksvg / Wand
+* **基础件**
+    * `DObject` 补全 `dget` / `dhas` / `dkeys` / `dcopy` / `dreset` 等接口，
+      实例现在拥有自己的属性字典（不再共享类级默认值）
+    * 顶层 `tkdeft` 再导出常用名字；新增 `__version_info__`
+* `tkfluent` 同步跟进：组件里的"栅格优先 + SVG 回退"样板代码全部收敛到
+  tkdeft 的统一入口（9 个模块共删掉约 400 行重复实现）

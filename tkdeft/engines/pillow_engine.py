@@ -90,7 +90,9 @@ class PillowEngine(DrawEngine):
         stroke_width = float(spec.outline_width or 0.0)
         inset = stroke_width / 2.0 if stroke_width > 0 else 0.0
         rx = max(0.0, float(spec.rx) - inset)
-        ry = max(0.0, float(spec.effective_ry) - inset)
+        # 注意：Pillow 的 rounded_rectangle 只接受**一个**圆角半径，所以
+        # spec.effective_ry（y 方向半径）在这里用不上——这是引擎能力差异，
+        # 不是漏算；需要椭圆圆角请用 skia / cairo / SVG 引擎。
         box = (
             inset * s,
             inset * s,

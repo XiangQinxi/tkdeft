@@ -75,15 +75,19 @@ nav:
       - 自定义组件: "usage/custom-widget.md"
   - API:
       - api/index.md
+      - 顶层:
+          - api/tkdeft.md
       - 绘制引擎:
           - api/tkdeft.engines.md
           - api/tkdeft.engines.base.md
           - api/tkdeft.engines.cache.md
+          - api/tkdeft.engines.colors.md
           - api/tkdeft.engines.skia_engine.md
           - api/tkdeft.engines.pillow_engine.md
           - api/tkdeft.engines.cairo_engine.md
       - 图形与画布:
           - api/tkdeft.svg.md
+          - api/tkdeft.windows.md
           - api/tkdeft.windows.canvas.md
           - api/tkdeft.windows.draw.md
           - api/tkdeft.windows.drawwidget.md
