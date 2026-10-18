@@ -23,7 +23,8 @@ docs/
 ```
 
 可运行的示例在**仓库根**的 `examples/` 下（不属于文档站，但指南页会引用它）：
-`examples/ripple_button.py` 对应 [涟漪按钮示例](docs/usage/ripple-button.md)。
+`examples/ripple_button.py` 演示 [`tkdeft/extra/ripple.py`](../tkdeft/extra/ripple.py)
+里的 `RippleButton`，对应 [涟漪按钮示例](docs/usage/ripple-button.md)。
 
 ## 改内容
 
@@ -31,6 +32,7 @@ docs/
 | --- | --- |
 | 某段说明文字、示例代码 | 对应的 `.md`（`docs/docs/**`） |
 | 某个 API 的说明 | **改源码的文档字符串**，然后重新生成 API 页（见下） |
+| 成品控件（`tkdeft/extra/`） | 改 `tkdeft/extra/*.py`，再跑 `python examples/ripple_button.py --check` |
 | 导航顺序、新增页面 | `mkdocs.yml` 的 `nav` |
 | 配色、插图样式 | `docs/docs/stylesheets/extra.css` |
 
@@ -59,7 +61,7 @@ python gen_figures.py --write --only engines-compare   # 只生成一张
 | `three-primitives.png` | 同上，放大 3 倍并标注关键字段 |
 | `stroke-inset.png` | 示意图（线宽放大到 16px 才看得见）；**不是**截图对比，原因见函数注释 |
 | `perf-bars.png` | 汇总 `benchmarks/result_r*.json` |
-| `ripple-frames.png` | 引擎渲染的底色 + `examples/ripple_button.py` 的 `ripple_layer()` 逐帧合成（半透明图层没法用 `PrintWindow` 截，见 FAQ 第 13 条） |
+| `ripple-frames.png` | 引擎渲染的底色 + `tkdeft/extra/ripple.py` 的 `ripple_layer()` 逐帧合成（半透明图层没法用 `PrintWindow` 截，见 FAQ 第 13 条） |
 | `gallery-light.png` / `gallery-dark.png` | 起 tkfluent 组件画廊，用 Win32 `PrintWindow` 截整窗 |
 | `architecture.png` / `engine-paths.png` / `render-pipeline.png` / `cache.png` / `click-flow.png` | `diagrams/*.mmd` 经 mermaid-cli 渲染 |
 

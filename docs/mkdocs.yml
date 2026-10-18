@@ -113,6 +113,9 @@ nav:
           - api/tkdeft.windows.canvas.md
           - api/tkdeft.windows.draw.md
           - api/tkdeft.windows.drawwidget.md
+      - 组件:
+          - api/tkdeft.extra.md
+          - api/tkdeft.extra.ripple.md
       - 基础:
           - api/tkdeft.object.md
           - api/tkdeft.utility.md

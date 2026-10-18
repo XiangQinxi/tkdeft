@@ -837,6 +837,8 @@
       
         
       
+        
+      
     
     
     
@@ -1042,6 +1044,17 @@
     <span class="md-ellipsis">
       
         能力探测
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tkdeft--_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        成品控件
       
     </span>
   </a>
@@ -1584,7 +1597,7 @@
   <span class="md-ellipsis">
     
   
-    基础
+    组件
   
 
     
@@ -1597,6 +1610,126 @@
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    组件
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tkdeft.extra.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    extra · 可直接用的控件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tkdeft.extra.ripple.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    extra.ripple · Material 涟漪按钮
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    基础
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -2256,6 +2389,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#tkdeft--_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        成品控件
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2296,6 +2440,7 @@
 <li>:mod:<code>tkdeft.windows</code> —— <code>DCanvas</code> / <code>DDraw</code> / <code>DSvgDraw</code> / <code>DDrawWidget</code></li>
 <li>:mod:<code>tkdeft.object</code> —— <code>DObject</code> 配置容器</li>
 <li>:mod:<code>tkdeft.utility</code> —— 字体等零碎工具</li>
+<li>:mod:<code>tkdeft.extra</code> —— 用这些零件做好的成品控件（目前是 Material 涟漪按钮）</li>
 </ul>
 <p>最常用的东西都从顶层再导出一份，所以下面两种写法等价::</p>
 <pre><code>from tkdeft.engines import RoundRectSpec, set_engine, render_roundrect
@@ -2327,6 +2472,12 @@ root.mainloop()
 
 if getattr(tkdeft, "HAS_ENGINES", False):
     from tkdeft.engines import set_engine
+</code></pre>
+<h3 id="tkdeft--_3">成品控件</h3>
+<p>:mod:<code>tkdeft.extra</code> 里是直接可用的控件，它按需加载（用到时才 import Pillow 的
+<code>ImageTk</code>），两种写法都行::</p>
+<pre><code>from tkdeft.extra import RippleButton
+from tkdeft import RippleButton          # 等价，懒加载
 </code></pre>
 
 

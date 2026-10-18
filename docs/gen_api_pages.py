@@ -34,6 +34,8 @@ PAGES = [
     ("tkdeft.windows.drawwidget", "windows.drawwidget · 交互控件基类"),
     ("tkdeft.object", "object · DObject 配置容器"),
     ("tkdeft.utility", "utility · 字体等工具"),
+    ("tkdeft.extra", "extra · 可直接用的控件"),
+    ("tkdeft.extra.ripple", "extra.ripple · Material 涟漪按钮"),
 ]
 
 #: 文档名 -> 实际模块名（引擎子模块的文件名带 _engine 后缀）
@@ -49,6 +51,7 @@ MODULE_MAP = {
 PAGE_OPTIONS = {
     "tkdeft": "    options:\n      members: false\n      show_source: false\n",
     "tkdeft.windows": "    options:\n      members: false\n      show_source: false\n",
+    "tkdeft.extra": "    options:\n      members: false\n      show_source: false\n",
 }
 
 INDEX = """# API 文档
@@ -70,6 +73,7 @@ INDEX = """# API 文档
 | 顶层 | `tkdeft` 的汇总入口（各子模块的常用名字） |
 | 绘制引擎 | 引擎注册表、规格对象、缓存、颜色解析，以及三个栅格引擎 |
 | 图形与画布 | SVG 形状助手、画布、绘制后端、交互控件基类 |
+| 组件 | `tkdeft.extra` 里的成品控件（涟漪按钮） |
 | 基础 | `DObject` 配置容器、字体等工具 |
 
 ## 从哪读起
@@ -81,6 +85,7 @@ INDEX = """# API 文档
 | 自己写一个引擎 | [`tkdeft.engines.base`](tkdeft.engines.base.md) 的 `DrawEngine` |
 | 拼 SVG | [`tkdeft.svg`](tkdeft.svg.md) |
 | 组件的属性容器 | [`tkdeft.object`](tkdeft.object.md) 的 `DObject` |
+| 要一个现成的按钮 | [`tkdeft.extra.ripple`](tkdeft.extra.ripple.md) 的 `RippleButton` |
 
 ## 相关阅读
 

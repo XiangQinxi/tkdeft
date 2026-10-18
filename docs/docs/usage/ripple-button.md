@@ -1,22 +1,98 @@
-# 涟漪按钮：一个完整的自定义控件
+# 涟漪按钮：可直接用的成品控件
 
-这一页把 [自定义组件](custom-widget.md) 里的零件拼成一个**真的能动**的控件：
-Material 风格的圆角按钮，按下时光标处扩散出一圈涟漪，键盘可触发、可禁用、可换主题。
+这一页讲 `tkdeft.extra` 里的第一个成品控件：Material 风格的圆角按钮，
+按下时光标处扩散出一圈涟漪，键盘可触发、可禁用、可换主题。
 
-完整代码在仓库的 `examples/ripple_button.py`（单文件，约 650 行，含自检）。
-它演示四件事：
-
-* 用绘制引擎画按钮底色，用 Pillow 合成**半透明图层**（Tk 的 canvas item 做不到逐像素透明）；
-* 用 `after(16, ...)` 跑一段**按时间算进度**的动画，掉帧也不会拖长时长；
-* 把 `DDrawWidget` 的状态位接到涟漪上（悬停 / 按压 / 焦点 / 禁用）；
-* 换主题只需要换一份配色字典再重画。
+控件在 **`tkdeft/extra/ripple.py`**，配好就能用；`examples/ripple_button.py`
+只剩演示窗口和自检。这一页先讲怎么用，再拆开讲它是怎么画出来的——
+想照着自己做一个带涟漪的控件，后面几节可以原样搬走。
 
 <figure markdown>
   ![涟漪逐帧与不透明度曲线](../assets/ripple-frames.png)
-  <figcaption>四帧由示例自己的 <code>ripple_layer()</code> 合成：底色走绘制引擎，涟漪是「圆角遮罩 ∩ 扩散圆」的 RGBA 图层。蓝点是按下位置，曲线是同一份 <code>ripple_alpha()</code></figcaption>
+  <figcaption>四帧由控件自己的 <code>ripple_layer()</code> 合成：底色走绘制引擎，涟漪是「圆角遮罩 ∩ 扩散圆」的 RGBA 图层。蓝点是按下位置，曲线是同一份 <code>ripple_alpha()</code></figcaption>
 </figure>
 
-## 跑起来
+## 用起来
+
+```python
+import tkinter
+
+from tkdeft.extra import RippleButton
+
+root = tkinter.Tk()
+button = RippleButton(root, text="确定", command=lambda: print("clicked"))
+button.pack(padx=24, pady=24)
+root.mainloop()
+```
+
+`command` 与 `tk.Button` 一致：鼠标在控件内松开、或空格/回车，都会调用一次；
+同时控件还会生成 `<<Clicked>>` 虚拟事件，方便 `bind`：
+
+```python
+button.bind("<<Clicked>>", lambda event: print("clicked"))
+button.dconfigure(theme="dark")      # 换肤：改完立即重绘
+button.dconfigure(enabled=False)     # 变灰且不响应
+```
+
+### 参数
+
+| 构造参数 | 默认 | 说明 |
+| --- | --- | --- |
+| `master` | — | 父容器 |
+| `text` | `"涟漪按钮"` | 按钮文字 |
+| `theme` | `"light"` | `THEMES` 里的主题名 |
+| `command` | `None` | 点击回调，不带参数 |
+| `font` | `None` | 字体对象；默认用系统默认字体加粗 |
+| `**kwargs` | — | 直接交给 `DCanvas`：`width` / `height` / `cursor` / `background` … |
+
+### 可配置项
+
+`dconfigure()` 只接受下面这些键（改完自动重绘），`dcget(key)` 读回：
+
+| 配置 | 默认 | 说明 |
+| --- | --- | --- |
+| `text` | `"涟漪按钮"` | 文案 |
+| `theme` | `"light"` | `THEMES` 的键，决定 `palette` |
+| `enabled` | `True` | 置 `False` 变灰、不响应点击 |
+| `corner_radius` | `8` | 圆角半径，自动夹到不超过一半宽高 |
+| `ripple_opacity` | `None` | 涟漪峰值 alpha；`None` 表示跟随主题 |
+| `font` | `None` | 字体对象 |
+
+### 方法
+
+| 方法 | 说明 |
+| --- | --- |
+| `ripple(x, y, started=None)` | 从控件坐标 `(x, y)` 起播一次涟漪；`started` 传 `time.monotonic()` 时刻，可用来快进到某一帧 |
+| `stop_ripple()` | 立刻停播并擦掉图层 |
+| `dconfigure(**kwargs)` | 改配置并重绘，返回 `self` 可链式调用 |
+
+### 自定义主题
+
+主题就是一份字典——复制一份改几个键，再按名字引用即可：
+
+```python
+from tkdeft.extra import THEMES, RippleButton
+
+THEMES["brand"] = {
+    **THEMES["light"],
+    "rest": "#005fb8",
+    "hover": "#0f6cc4",
+    "pressed": "#004a91",
+    "text": "#ffffff",
+    "ripple": "#ffffff",
+    "ripple_opacity": 0.24,
+    "focus": "#60cdff",
+}
+
+button = RippleButton(root, text="品牌按钮", theme="brand")
+```
+
+!!! tip "先设引擎"
+    涟漪建议跑在进程内栅格引擎上（`skia` / `cairo` / `pillow`），
+    一句 `set_engine("skia")` 就够。SVG 引擎每帧都要写临时文件再解析，
+    功能一样但会明显掉帧，取舍见下面的[性能](#perf)表。
+
+## 跑示例
 
 ```bash
 python examples/ripple_button.py                      # 默认自动挑栅格引擎（skia > cairo > pillow）
@@ -31,7 +107,7 @@ python examples/ripple_button.py --check              # 只跑自检，不开窗
 | `--theme {light,dark}` | 初始主题；窗口里按 `T` 也能切 |
 | `--check` | 非交互自检：涟漪几何 + 控件生命周期，退出码 `0` 表示全过 |
 
-按 `空格` 或 `回车` 也能从按钮中心触发一次涟漪（需要按钮先拿到焦点，点一下即可）。
+窗口里按 `空格` / `回车` 从中心触发涟漪（需要按钮先拿到焦点，点一下即可）。
 
 ## 为什么不用 `create_oval`
 
@@ -127,7 +203,7 @@ class _Ripple:
 ```
 
 这样**掉帧只丢帧、不拖时长**：主线程卡一下，下一帧直接跳到正确的进度。
-把 `started` 参数留给外部传，是给自检和截图用的——一行就能复现"播到 40%"的那一帧。
+`ripple(started=...)` 把起始时刻开放出来，一行就能复现"播到 40%"的那一帧。
 
 `self.after(...)` 挂在控件自己身上，取消也用控件自己的 `after_cancel`；
 **不要对 `root` 调 `after_cancel`**（见 [常见问题与排查](faq.md) 第 5 条）。
@@ -208,15 +284,18 @@ def _event_on_button1(self, event=None):
 ```
 
 键盘触发单独绑：`<space>` / `<Return>` 从中心起涟漪并发一次 `<<Clicked>>`，
-和 `tk.Button` 的行为对齐。
-
-换主题就是换字典再重画，不需要重建控件：
+和 `tk.Button` 的行为对齐。`command` 统一由 `<<Clicked>>` 触发，
+所以"鼠标松开"和"键盘按下"两条路径都只会调用一次：
 
 ```python
-button.dconfigure(theme="dark")     # 本控件覆写了 dconfigure，改完立即 _draw()
+self.bind("<<Clicked>>", self._invoke_command, add="+")
+
+def _invoke_command(self, event=None):
+    if self.dcget("enabled", True) and self.command is not None:
+        self.command()
 ```
 
-## 三个真实踩过的坑
+## 写它的时候踩过的三个坑
 
 ### 坑 1：基类顺序写错会直接崩
 
@@ -254,7 +333,8 @@ self.addtag_withtag("body", item)
 **映射之前**就发完了（那时 `winfo_width()` 还是 `1`），映射之后再也不会来一次——
 于是控件永远停在"没画"的状态。
 
-**怎么办**：补一个 `<Map>` 绑定，映射发生时再画一次：
+**怎么办**：补一个 `<Map>` 绑定，映射发生时再画一次（控件里已经这么做，
+你自己写控件时建议照抄）：
 
 ```python
 self.bind("<Map>", self._event_map, add="+")
@@ -264,12 +344,12 @@ def _event_map(self, event=None):
 ```
 
 这个问题只影响"先建 UI 再进事件循环"的写法；如果你在已经显示的窗口里
-动态创建控件，`<Configure>` 会正常到来，看不出异常。写自己的控件时建议直接照抄这段。
+动态创建控件，`<Configure>` 会正常到来，看不出异常。
 
-## 性能
+## 性能 { #perf }
 
 每帧都是**全量重绘**（`delete("all")` + 重新渲染底色 + 合成涟漪图层），
-在一台普通开发机上测一个 200×48 的按钮、40 帧的耗时：
+在本仓库的开发机上测一个 200×48 的按钮、40 帧的耗时：
 
 | 引擎 | 中位数 | p95 |
 | --- | --- | --- |
@@ -286,11 +366,27 @@ def _event_map(self, event=None):
 !!! tip "想再快一点"
     真正贵的是每帧重新渲染底色。把底色渲一次缓存成 `PhotoImage`，
     只在尺寸 / 主题 / 状态变化时重建，涟漪帧就只剩"合成 + 贴图"。
-    示例里没这么做，是因为它想演示"最直白的写法够不够用"——答案在这个尺寸下是够的。
+    控件里没这么做，是因为它想演示"最直白的写法够不够用"——答案在这个尺寸下是够的。
 
 ## 换成你自己的控件
 
-把这个示例搬到你自己的控件上，只需要替换四件事：
+两条路：
+
+**继承它**，只改外观——
+
+```python
+from easydict import EasyDict
+
+from tkdeft.extra import RippleButton
+
+
+class DangerButton(RippleButton):
+    attributes = EasyDict(
+        {**RippleButton.attributes, "corner_radius": 20, "ripple_opacity": 0.2}
+    )
+```
+
+**或者照抄它的骨架**，把涟漪挪到别的控件上，只需替换四件事：
 
 1. **底色**——`draw_roundrect` 换成你的绘制调用（`draw_track` / `draw_thumb` / 自定义后端）；
 2. **涟漪形状**——`ripple_layer()` 里的圆角矩形遮罩换成你控件的轮廓；

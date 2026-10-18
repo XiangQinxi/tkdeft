@@ -7,6 +7,7 @@
 * :mod:`tkdeft.windows` —— ``DCanvas`` / ``DDraw`` / ``DSvgDraw`` / ``DDrawWidget``
 * :mod:`tkdeft.object` —— ``DObject`` 配置容器
 * :mod:`tkdeft.utility` —— 字体等零碎工具
+* :mod:`tkdeft.extra` —— 用这些零件做好的成品控件（目前是 Material 涟漪按钮）
 
 最常用的东西都从顶层再导出一份，所以下面两种写法等价::
 
@@ -44,7 +45,19 @@
 
     if getattr(tkdeft, "HAS_ENGINES", False):
         from tkdeft.engines import set_engine
+
+成品控件
+--------
+:mod:`tkdeft.extra` 里是直接可用的控件，它按需加载（用到时才 import Pillow 的
+``ImageTk``），两种写法都行::
+
+    from tkdeft.extra import RippleButton
+    from tkdeft import RippleButton          # 等价，懒加载
 """
+
+from __future__ import annotations
+
+import importlib
 
 from . import engines, svg, utility, windows
 from .engines import (
@@ -96,16 +109,38 @@ __version_info__ = tuple(int(part) for part in __version__.split(".") if part.is
 #: 旧版本没有这个子包，用它做能力探测比解析版本号更直接。
 HAS_ENGINES = True
 
+
+def __getattr__(name: str):
+    """按需加载 :mod:`tkdeft.extra`。
+
+    ``import tkdeft`` 不应该顺带把 Pillow 的 ``ImageTk`` 和整个控件模块拉进来，
+    所以这里只在真的用到时再导入::
+
+        from tkdeft import RippleButton    # 触发 __getattr__
+    """
+    if name in {"extra", "RippleButton"}:
+        # 用 import_module 而不是 ``from . import extra``：后者会走
+        # ``_handle_fromlist`` → ``getattr(self, "extra")`` → 又回到本函数，无限递归。
+        module = importlib.import_module(".extra", __name__)
+        if name == "extra":
+            return module
+        return module.RippleButton
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
 __all__ = [
     # 子包
     "engines",
     "svg",
     "utility",
     "windows",
+    "extra",
     # 版本与能力探测
     "__version__",
     "__version_info__",
     "HAS_ENGINES",
+    # 成品控件（懒加载）
+    "RippleButton",
     # 基础
     "DObject",
     # 画布与绘制后端

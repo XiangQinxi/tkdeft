@@ -30,7 +30,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 ASSETS = os.path.join(HERE, "docs", "assets")
 BENCH = os.path.join(REPO, "benchmarks")
-EXAMPLES = os.path.join(REPO, "examples")
 DIAGRAMS = os.path.join(HERE, "diagrams")
 
 #: 渲染流程图用的浏览器（mermaid-cli 走 Puppeteer，用系统已有的即可，
@@ -587,19 +586,18 @@ def figure_perf_bars():
 
 # ---------------------------------------------------------------- 图 5：涟漪逐帧
 def figure_ripple(renderer: _Renderer):
-    """涟漪按钮的四帧 + 不透明度曲线：全部用示例自己的 ``ripple_layer()`` 合成。
+    """涟漪按钮的四帧 + 不透明度曲线：全部用控件自己的 ``ripple_layer()`` 合成。
 
-    这里不截窗口，而是把**引擎真实渲染的底色**和示例里的 ``ripple_layer()``
-    逐帧 ``alpha_composite``，因为半透明图层在 ``PrintWindow`` 抓图里会消失
-    （真实窗口上看得见，截出来只剩底色——见 usage/faq.md 第 13 条）。
+    这里不截窗口，而是把**引擎真实渲染的底色**和 ``tkdeft.extra.ripple`` 里的
+    ``ripple_layer()`` 逐帧 ``alpha_composite``，因为半透明图层在
+    ``PrintWindow`` 抓图里会消失（真实窗口上看得见，截出来只剩底色——
+    见 usage/faq.md 第 13 条）。
     """
     from PIL import ImageDraw
 
-    if EXAMPLES not in sys.path:
-        sys.path.insert(0, EXAMPLES)
     try:
-        from ripple_button import ripple_alpha, ripple_layer
-    except Exception as exc:          # 示例被删掉时跳过，仓库里的图不受影响
+        from tkdeft.extra.ripple import ripple_alpha, ripple_layer
+    except Exception as exc:          # 旧版本 tkdeft 没有 extra 时跳过，图不受影响
         print(f"  跳过 ripple-frames：{type(exc).__name__}: {exc}")
         return None
 
