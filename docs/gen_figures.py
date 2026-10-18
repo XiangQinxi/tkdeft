@@ -30,6 +30,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 ASSETS = os.path.join(HERE, "docs", "assets")
 BENCH = os.path.join(REPO, "benchmarks")
+EXAMPLES = os.path.join(REPO, "examples")
 DIAGRAMS = os.path.join(HERE, "diagrams")
 
 #: 渲染流程图用的浏览器（mermaid-cli 走 Puppeteer，用系统已有的即可，
@@ -584,7 +585,115 @@ def figure_perf_bars():
     return canvas
 
 
-# ---------------------------------------------------------------- 图 5：画廊截图
+# ---------------------------------------------------------------- 图 5：涟漪逐帧
+def figure_ripple(renderer: _Renderer):
+    """涟漪按钮的四帧 + 不透明度曲线：全部用示例自己的 ``ripple_layer()`` 合成。
+
+    这里不截窗口，而是把**引擎真实渲染的底色**和示例里的 ``ripple_layer()``
+    逐帧 ``alpha_composite``，因为半透明图层在 ``PrintWindow`` 抓图里会消失
+    （真实窗口上看得见，截出来只剩底色——见 usage/faq.md 第 13 条）。
+    """
+    from PIL import ImageDraw
+
+    if EXAMPLES not in sys.path:
+        sys.path.insert(0, EXAMPLES)
+    try:
+        from ripple_button import ripple_alpha, ripple_layer
+    except Exception as exc:          # 示例被删掉时跳过，仓库里的图不受影响
+        print(f"  跳过 ripple-frames：{type(exc).__name__}: {exc}")
+        return None
+
+    from tkdeft import RoundRectSpec
+
+    engine = "skia" if renderer._available.get("skia") else "pillow"
+    button_w, button_h, corner = 200, 48, 8
+    spec = RoundRectSpec(
+        width=button_w, height=button_h, rx=corner,
+        fill="#ffffff", outline="#000000", outline_opacity=0.12, outline_width=1.0,
+    )
+    body = renderer.render(engine, ("roundrect", "按钮", spec))
+    f_label = _font(13)
+    f_head, f_sub = _font(16), _font(12)
+    f_note, f_cap = _font(12), _font(11)
+
+    frames = (0.0, 0.16, 0.34, 0.72)
+    origin = (40.0, 24.0)
+
+    pad, gap, tile_h = 36, 24, 72
+    width = pad * 2 + len(frames) * button_w + gap * (len(frames) - 1)
+    card_top, card_bottom = 16, 348
+    canvas = _new(width, card_bottom + 16)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle(
+        (16, card_top, width - 16, card_bottom), radius=10,
+        fill=CARD, outline=LINE, width=1,
+    )
+
+    _draw_text(draw, (pad, card_top + 16),
+               "涟漪：一次按下 → 500 ms 扩散 → 淡出", f_head, ACCENT)
+    _draw_text(
+        draw, (pad, card_top + 44),
+        "每一帧都是一张「圆角遮罩 ∩ 扩散圆」的 RGBA 图层，半透明压在底色上",
+        f_sub, MUTED,
+    )
+
+    tile_top = card_top + 76
+    for index, progress in enumerate(frames):
+        x = pad + index * (button_w + gap)
+        draw.rounded_rectangle(
+            (x, tile_top, x + button_w, tile_top + tile_h), radius=10, fill=BG,
+        )
+        frame = body.copy()
+        if progress > 0.0:
+            layer = ripple_layer(
+                button_w, button_h, corner, origin[0], origin[1], progress,
+                color="#000000", peak_opacity=0.12,
+            )
+            frame.alpha_composite(layer)
+        canvas.paste(frame, (x, tile_top + (tile_h - button_h) // 2), frame)
+        _draw_text(
+            draw, (x + button_w // 2, tile_top + tile_h // 2),
+            "涟漪按钮", f_label, TEXT, anchor="mm",
+        )
+        _draw_text(
+            draw, (x + button_w // 2, tile_top + tile_h + 8),
+            f"t = {0 if progress == 0.0 else int(progress * 500)} ms"
+            + ("" if progress else "（静止）"),
+            f_cap, MUTED, anchor="ma",
+        )
+        # 圆心小点：告诉你涟漪是从哪儿冒出来的（故意贴近左边缘，避开文字）
+        if progress > 0.0:
+            cx = x + origin[0]
+            cy = tile_top + (tile_h - button_h) // 2 + origin[1]
+            draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill=ACCENT)
+
+    # 不透明度曲线
+    plot_top, plot_bottom, plot_left, plot_right = 268, 322, pad, width - pad - 60
+    _draw_text(draw, (pad, plot_top - 22),
+               "不透明度：前 15% 淡入，之后按幂曲线淡出（峰值 12%）", f_note, MUTED)
+    draw.line((plot_left, plot_bottom, plot_right, plot_bottom), fill=LINE, width=1)
+    draw.line((plot_left, plot_top, plot_left, plot_bottom), fill=LINE, width=1)
+    peak = 0.12
+    points = []
+    for step in range(101):
+        progress = step / 100.0
+        x = plot_left + (plot_right - plot_left) * progress
+        y = plot_bottom - (plot_bottom - plot_top) * (ripple_alpha(progress, peak) / peak)
+        points.append((x, y))
+    draw.line(points, fill=ACCENT, width=2, joint="curve")
+    for progress in frames[1:]:
+        x = plot_left + (plot_right - plot_left) * progress
+        y = plot_bottom - (plot_bottom - plot_top) * (ripple_alpha(progress, peak) / peak)
+        draw.line((x, y, x, plot_bottom), fill="#c9c9c9", width=1)
+        draw.ellipse((x - 3, y - 3, x + 3, y + 3), fill=ACCENT)
+    _draw_text(draw, (plot_right + 8, plot_top - 2), "12%", f_cap, MUTED)
+    _draw_text(draw, (plot_right + 8, plot_bottom - 8), "0%", f_cap, MUTED)
+    _draw_text(draw, (plot_left, plot_bottom + 6), "0 ms", f_cap, MUTED)
+    _draw_text(draw, (plot_right, plot_bottom + 6), "500 ms", f_cap, MUTED, anchor="ra")
+    return canvas
+
+
+# ---------------------------------------------------------------- 图 6：画廊截图
 def figure_gallery(mode: str, out_name: str):
     """整窗截图：复用 benchmarks/visual_demo.py 的 Win32 PrintWindow。"""
     if BENCH not in sys.path:
@@ -662,6 +771,7 @@ FIGURES = {
     "three-primitives": "three-primitives.png · 三种图元与关键字段",
     "stroke-inset": "stroke-inset.png · 描边内缩前后（四边描边完整性）",
     "perf-bars": "perf-bars.png · 各引擎端到端耗时",
+    "ripple-frames": "ripple-frames.png · 涟漪逐帧与不透明度曲线",
     "gallery-light": "gallery-light.png · 画廊截图（浅色）",
     "gallery-dark": "gallery-dark.png · 画廊截图（深色）",
     "architecture": "architecture.png · 架构总览（diagrams/architecture.mmd）",
@@ -699,6 +809,7 @@ def main(argv=None) -> int:
             "three-primitives": lambda: _save(figure_three_primitives(renderer), "three-primitives.png"),
             "stroke-inset": lambda: _save(figure_stroke_inset(renderer), "stroke-inset.png"),
             "perf-bars": lambda: _save(figure_perf_bars(), "perf-bars.png"),
+            "ripple-frames": lambda: _save(figure_ripple(renderer), "ripple-frames.png"),
             "gallery-light": lambda: figure_gallery("light", "gallery-light.png"),
             "gallery-dark": lambda: figure_gallery("dark", "gallery-dark.png"),
             "architecture": lambda: figure_diagram("architecture", "architecture.png"),

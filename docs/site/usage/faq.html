@@ -587,6 +587,8 @@
       
         
       
+        
+      
     
     
     
@@ -685,6 +687,34 @@
     
   
     自定义组件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ripple-button.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    涟漪按钮示例
   
 
     
@@ -2160,6 +2190,8 @@
       
         
       
+        
+      
     
     
     
@@ -2310,6 +2342,36 @@
     
   
     版本
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../blog/category/%E7%A4%BA%E4%BE%8B.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    示例
   
 
     
@@ -2903,6 +2965,17 @@ python<span class="w"> </span>benchmarks/visual_demo.py<span class="w"> </span>d
 <p class="admonition-title">截图前记得让窗口映射</p>
 <p>窗口处于 <code>withdraw()</code> 状态时 <code>PrintWindow</code> 抓到的是空白——截图前先
 <code>deiconify()</code> 或 <code>update()</code>。</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">PrintWindow 抓不到 canvas 上的半透明叠加层</p>
+<p><strong>症状</strong>：窗口里明明有一层半透明的东西（涟漪、遮罩、阴影），截图里只剩底色；
+同一个窗口连截几帧，文件哈希一模一样。</p>
+<p><strong>原因</strong>：带 alpha 的 <code>PhotoImage</code> 贴到 canvas 上时，合成发生在窗口表面这一层；
+<code>PrintWindow</code> 走 <code>WM_PRINT</code> 重画路径，实测拿不到这部分结果（不透明的图能截到）。
+屏幕 BitBlt 反而能截到——但那就回到了"受遮挡 / 坐标映射影响"的老问题上。</p>
+<p><strong>怎么办</strong>：要出图就<strong>先把图层合成到不透明的底图上</strong>再截（<code>docs/gen_figures.py</code>
+里的 <code>figure_ripple()</code> 就是把涟漪图层直接 <code>alpha_composite</code> 到底色上）。
+只在交互中看得见的效果，别指望 <code>visual_demo.py</code> 能截到。</p>
 </div>
 
 

@@ -65,6 +65,18 @@ root.mainloop()
 完整文档（安装 / 快速上手 / 概念与架构 / 指南 / API）：
 <https://tkdeft.netlify.app>
 
+仓库里的 `examples/` 是可以直接跑的例子。目前有一个
+[Material 涟漪按钮](examples/ripple_button.py)：圆角按钮 + 按下处扩散的涟漪、
+悬停 / 按压 / 焦点 / 禁用、空格触发、`T` 换主题，并带一个非交互自检。
+
+```bash
+python examples/ripple_button.py            # 自动挑栅格引擎（skia > cairo > pillow）
+python examples/ripple_button.py --check    # 只跑自检，不开窗口
+```
+
+写法讲解见文档站的
+[涟漪按钮：一个完整的自定义控件](https://tkdeft.netlify.app/usage/ripple-button)。
+
 ## 绘制引擎
 
 `tkdeft` 把"**画什么**"和"**用什么画**"分开了。组件只需要描述一个

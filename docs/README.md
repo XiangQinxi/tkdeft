@@ -15,12 +15,15 @@ docs/
 └── docs/                 真正的站点内容
     ├── index.md          主页
     ├── getstarted/       安装 / 快速上手 / 概念与架构
-    ├── usage/            指南总览 / 绘制引擎 / 自定义组件 / 回归与性能 / FAQ / 升级
+    ├── usage/            指南总览 / 绘制引擎 / 自定义组件 / 涟漪按钮示例 / 回归与性能 / FAQ / 升级
     ├── api/              由 gen_api_pages.py + 源码文档字符串生成
     ├── assets/           插图（提交进仓库）
     ├── template/ blog/   模板说明与博客
     └── stylesheets/extra.css
 ```
+
+可运行的示例在**仓库根**的 `examples/` 下（不属于文档站，但指南页会引用它）：
+`examples/ripple_button.py` 对应 [涟漪按钮示例](docs/usage/ripple-button.md)。
 
 ## 改内容
 
@@ -56,6 +59,7 @@ python gen_figures.py --write --only engines-compare   # 只生成一张
 | `three-primitives.png` | 同上，放大 3 倍并标注关键字段 |
 | `stroke-inset.png` | 示意图（线宽放大到 16px 才看得见）；**不是**截图对比，原因见函数注释 |
 | `perf-bars.png` | 汇总 `benchmarks/result_r*.json` |
+| `ripple-frames.png` | 引擎渲染的底色 + `examples/ripple_button.py` 的 `ripple_layer()` 逐帧合成（半透明图层没法用 `PrintWindow` 截，见 FAQ 第 13 条） |
 | `gallery-light.png` / `gallery-dark.png` | 起 tkfluent 组件画廊，用 Win32 `PrintWindow` 截整窗 |
 | `architecture.png` / `engine-paths.png` / `render-pipeline.png` / `cache.png` / `click-flow.png` | `diagrams/*.mmd` 经 mermaid-cli 渲染 |
 

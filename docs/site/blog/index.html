@@ -585,6 +585,8 @@
       
         
       
+        
+      
     
     
     
@@ -680,6 +682,34 @@
     
   
     自定义组件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/ripple-button.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    涟漪按钮示例
   
 
     
@@ -1868,6 +1898,8 @@
       
         
       
+        
+      
     
     
     
@@ -2031,6 +2063,36 @@
 
               
             
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="category/%E7%A4%BA%E4%BE%8B.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    示例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2087,6 +2149,79 @@
 也会发在这里；日常使用说明仍然在<a href="../usage/index.html">指南</a>里。</p>
 </div>
       </header>
+      
+        <article class="md-post md-post--excerpt">
+  <header class="md-post__header">
+    
+    <div class="md-post__meta md-meta">
+      <ul class="md-meta__list">
+        <li class="md-meta__item">
+          <time datetime="2026-10-18 00:00:00+00:00">2026年10月18日</time></li>
+        
+          <li class="md-meta__item">
+            分类于
+            
+              <a href="category/%E7%A4%BA%E4%BE%8B.html" class="md-meta__link">示例</a></li>
+        
+        
+          
+          <li class="md-meta__item">
+            
+              需要 1 分钟阅读时间
+            
+          </li>
+        
+        
+      </ul>
+      
+    </div>
+  </header>
+  <div class="md-post__content md-typeset">
+    <h2 id="material"><a class="toclink" href="2026/10/18/%E6%96%B0%E5%A2%9E%E7%A4%BA%E4%BE%8Bmaterial-%E6%B6%9F%E6%BC%AA%E6%8C%89%E9%92%AE.html">新增示例：Material 涟漪按钮</a></h2>
+<p><code>tkdeft</code> 本身不带组件，但"从零件到控件"这一步一直只有文字说明。
+这次补了一个<strong>能直接跑、也能当模板抄</strong>的完整示例：</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>examples/ripple_button.py<span class="w">                </span><span class="c1"># 默认自动挑栅格引擎</span>
+python<span class="w"> </span>examples/ripple_button.py<span class="w"> </span>--engine<span class="w"> </span>tksvg<span class="w"> </span><span class="c1"># 换引擎看每帧开销</span>
+python<span class="w"> </span>examples/ripple_button.py<span class="w"> </span>--check<span class="w">        </span><span class="c1"># 自检，不开窗口</span>
+</code></pre></div>
+<p>它做的事：圆角按钮 + 按下处扩散的涟漪（500 ms，缓出 + 淡出）、悬停 / 按压 /
+焦点 / 禁用四个状态、空格与回车触发、<code>T</code> 换主题。</p>
+<h3 id="_1"><a class="toclink" href="2026/10/18/%E6%96%B0%E5%A2%9E%E7%A4%BA%E4%BE%8Bmaterial-%E6%B6%9F%E6%BC%AA%E6%8C%89%E9%92%AE.html#_1">值得单独说的几点</a></h3>
+<ul>
+<li><strong>半透明涟漪没有用 <code>create_oval</code></strong>：Tk 的 canvas item 没有逐像素 alpha。
+  示例在 Pillow 里算「圆 ∩ 圆角矩形」的遮罩，超采样 3 倍再缩回，得到一张
+  与按钮等大的 RGBA 图层，<code>create_image</code> 贴上去。</li>
+<li><strong>动画进度按 <code>time.monotonic()</code> 算</strong>，不是每帧累加 16 ms——
+  主线程卡一下，下一帧直接跳到正确进度，整段动画的时长不会被拖长。</li>
+<li><strong>每帧全量重绘</strong>在这个尺寸下完全够用：一个 200×48 的按钮，
+  中位耗时 <code>skia</code> 0.42 ms、<code>pillow</code> 0.38 ms，默认的 <code>tksvg</code> 也只要 4.66 ms
+  （60 fps 的预算是 16.7 ms）。</li>
+</ul>
+<h3 id="_2"><a class="toclink" href="2026/10/18/%E6%96%B0%E5%A2%9E%E7%A4%BA%E4%BE%8Bmaterial-%E6%B6%9F%E6%BC%AA%E6%8C%89%E9%92%AE.html#_2">顺手记下三个坑</a></h3>
+<p>写这个示例时踩到的、文档里原来没写清楚的：</p>
+<ol>
+<li><code>class MyButton(DCanvas, DDrawWidget)</code> 会直接 MRO 报错——
+   <code>DDrawWidget</code> 已经继承 <code>DCanvas</code>，只写后者就行；</li>
+<li><code>draw_roundrect(..., tags=...)</code> 在<strong>SVG 回退路径</strong>上会抛
+   <code>Invalid attribute 'tags' for svg-element &lt;rect&gt;</code>，打标签要用
+   <code>addtag_withtag(返回的 item id)</code>；</li>
+<li>先 <code>pack()</code> 再 <code>mainloop()</code> 时，<code>&lt;Configure&gt;</code> 往往在<strong>映射之前</strong>就发完了，
+   而 <code>DDrawWidget._draw()</code> 在未映射时直接返回——控件会一直空白，
+   直到鼠标划过。补一个 <code>&lt;Map&gt;</code> 绑定即可。</li>
+</ol>
+<p>另外还发现：<strong><code>PrintWindow</code> 抓不到 canvas 上的半透明叠加层</strong>（窗口里看得见、
+截图里没有），所以文档插图改成"引擎渲染的底色 + 示例自己的 <code>ripple_layer()</code>
+逐帧合成"。这一条已经写进 <a href="../usage/faq.html">常见问题与排查</a> 第 13 条。</p>
+<h3 id="_3"><a class="toclink" href="2026/10/18/%E6%96%B0%E5%A2%9E%E7%A4%BA%E4%BE%8Bmaterial-%E6%B6%9F%E6%BC%AA%E6%8C%89%E9%92%AE.html#_3">文档</a></h3>
+<p>新增 <a href="../usage/ripple-button.html">涟漪按钮：一个完整的自定义控件</a>，
+按"为什么不用 <code>create_oval</code> → 遮罩 → 曲线 → 动画循环 → 叠放与保活 →
+三个坑 → 性能"的顺序讲，最后给出"换成你自己的控件"要替换的四件事。
+插图 <code>ripple-frames.png</code> 由 <code>docs/gen_figures.py --write --only ripple-frames</code> 生成，
+可重新跑。</p>
+    
+    
+  </div>
+</article>
       
         <article class="md-post md-post--excerpt">
   <header class="md-post__header">

@@ -364,3 +364,15 @@ python benchmarks/visual_demo.py dark pillow
 !!! note "截图前记得让窗口映射"
     窗口处于 `withdraw()` 状态时 `PrintWindow` 抓到的是空白——截图前先
     `deiconify()` 或 `update()`。
+
+!!! warning "PrintWindow 抓不到 canvas 上的半透明叠加层"
+    **症状**：窗口里明明有一层半透明的东西（涟漪、遮罩、阴影），截图里只剩底色；
+    同一个窗口连截几帧，文件哈希一模一样。
+
+    **原因**：带 alpha 的 `PhotoImage` 贴到 canvas 上时，合成发生在窗口表面这一层；
+    `PrintWindow` 走 `WM_PRINT` 重画路径，实测拿不到这部分结果（不透明的图能截到）。
+    屏幕 BitBlt 反而能截到——但那就回到了"受遮挡 / 坐标映射影响"的老问题上。
+
+    **怎么办**：要出图就**先把图层合成到不透明的底图上**再截（`docs/gen_figures.py`
+    里的 `figure_ripple()` 就是把涟漪图层直接 `alpha_composite` 到底色上）。
+    只在交互中看得见的效果，别指望 `visual_demo.py` 能截到。
