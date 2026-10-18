@@ -99,11 +99,21 @@ class DCanvas(Canvas):
         return item
 
     def _prune_photo_refs(self):
-        """丢掉已经不在画布上的 item 所对应的图片引用。"""
+        """丢掉已经不在画布上的 item 所对应的图片引用。
+
+        .. note::
+           判定"这个 item 还在不在"必须用 ``type()`` 的**返回值**：
+           对已经删除的 item，Tk 返回的是 ``None`` 而不是抛异常。
+           旧实现写成 ``except`` 收集，于是**一个也清不掉**——
+           控件每重绘一次（每次 ``<Configure>``、每帧动画）就往
+           ``_photo_refs`` 里多塞一个引用，直到超过阈值后每次
+           ``_keep_photo`` 都要全表扫一遍，退化成平方复杂度。
+        """
         stale = []
         for item in self._photo_refs:
             try:
-                self.type(item)
+                if not self.type(item):
+                    stale.append(item)
             except Exception:
                 stale.append(item)
         for item in stale:
