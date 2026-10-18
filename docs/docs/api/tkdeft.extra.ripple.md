@@ -1,3 +1,3 @@
-# extra.ripple · Material 涟漪按钮
+# extra.ripple · Material 涟漪效果
 
 ::: tkdeft.extra.ripple

@@ -65,18 +65,21 @@ root.mainloop()
 完整文档（安装 / 快速上手 / 概念与架构 / 指南 / API）：
 <https://tkdeft.netlify.app>
 
-`tkdeft.extra` 里放可以直接用的成品控件。目前有一个
-[Material 涟漪按钮](tkdeft/extra/ripple.py)：圆角按钮 + 按下处扩散的涟漪、
-悬停 / 按压 / 焦点 / 禁用、空格触发、`T` 换主题。
+`tkdeft.extra` 里放可以直接用的功能，不是成品控件。目前有一个
+[Material 涟漪效果](tkdeft/extra/ripple.py)：给任意控件加一层从按下处扩散的半透明涟漪，
+圆角裁剪、抗锯齿、按时间算进度都处理好，你的按钮长什么样它不管。
 
 ```python
-from tkdeft.extra import RippleButton
+from tkdeft.extra.ripple import Ripple
 
-button = RippleButton(root, text="确定", command=on_ok)
-button.pack(padx=24, pady=24)
+self.ripple = Ripple(self, on_frame=self._paint)   # ① 建控制器，每帧回调你重绘
+self.ripple.start(event.x, event.y)                # ② 点击处起涟漪
+self.ripple.paint(color="#000000", opacity=0.12,   # ③ 在重绘里贴一层
+                  corner_radius=8)
 ```
 
-仓库里的 `examples/ripple_button.py` 是它的演示窗口，也带一个非交互自检：
+仓库里的 `examples/ripple_button.py` 是接法演示：圆角按钮、悬停/按压/焦点/禁用、
+`T` 换主题都由示例自己画，涟漪只借 `tkdeft.extra.ripple`；它同时带一个非交互自检：
 
 ```bash
 python examples/ripple_button.py            # 自动挑栅格引擎（skia > cairo > pillow）

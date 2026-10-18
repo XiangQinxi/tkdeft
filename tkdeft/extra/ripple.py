@@ -1,31 +1,34 @@
-"""Material 涟漪按钮：``tkdeft.extra`` 里的成品控件。
+"""Material 涟漪效果的可复用零件：给任意画布控件加一层涟漪。
 
-用法::
+这里**不含按钮**。控件的外观、状态、文字都由你自己画，只用这里的三样东西：
 
-    import tkinter
+* :func:`ripple_layer` —— 算出某一帧的 RGBA 图层（圆角裁剪 + 抗锯齿 + 半透明）；
+* :class:`Ripple` —— 管理「谁在扩散、扩散到哪了」，到点回调你重绘；
+* :func:`ease_out_cubic` / :func:`ripple_alpha` —— 想自己控制节奏时改这两条曲线。
 
-    from tkdeft.extra import RippleButton
+接到已有控件上通常只加三处::
 
-    root = tkinter.Tk()
-    button = RippleButton(root, text="确定", command=lambda: print("clicked"))
-    button.pack(padx=24, pady=24)
-    root.mainloop()
+    from tkdeft.extra.ripple import Ripple
 
-涟漪是一张半透明图层：**圆角矩形遮罩 ∩ 扩散圆**，由 Pillow 现场合成——
-Tk 的 canvas item 没有 alpha，遮不住圆角；而 Pillow 一次就能把半透明、
-圆角裁剪和抗锯齿都做对。按钮的底色与描边仍然走 tkdeft 的绘制引擎，
-所以 ``set_engine("skia")`` 这类设置对它依然有效。
+    class MyButton(DDrawWidget):
+        def __init__(self, master, **kwargs):
+            super().__init__(master, **kwargs)
+            self.ripple = Ripple(self, on_frame=self._paint)
 
-* 状态位 ``enter`` / ``button1`` / ``isfocus`` 由
-  :class:`~tkdeft.windows.drawwidget.DDrawWidget` 维护，一变就重绘；
-* 点击（鼠标在控件内松开，或空格/回车）会调用 ``command`` 并生成
-  ``<<Clicked>>``；
-* 配色在 :data:`THEMES` 里，``dconfigure(theme="dark")`` 即换肤。
+        def _paint(self):
+            self.delete("all")
+            ...画底色...
+            self.ripple.paint(color="#000000", opacity=0.12, corner_radius=8)
+            ...画文字...
 
-.. note::
-   本模块依赖 Pillow（tkdeft 本身已经依赖它）。动画建议用进程内栅格引擎
-   （``skia`` / ``cairo`` / ``pillow``）：SVG 引擎每帧都要写临时文件再解析，
-   涟漪会明显掉帧，功能本身仍然正确。
+        def _event_on_button1(self, event):
+            super()._event_on_button1(event)
+            self.ripple.start(event.x, event.y)
+
+每帧重绘由你决定：``Ripple`` 不碰 canvas item，只在 ``on_frame`` 时叫你一声，
+所以涟漪压在哪一层、和文字谁先谁后，完全由 ``paint()`` 的调用位置决定。
+
+不依赖 ``DDrawWidget`` 也行——任何有 ``create_image`` / ``winfo_width`` 的控件都能用。
 """
 
 from __future__ import annotations
@@ -33,24 +36,20 @@ from __future__ import annotations
 import math
 import time
 from dataclasses import dataclass
-from tkinter import font as tkfont
-from typing import Dict, Optional
+from typing import Callable, Dict, List, Optional
 
-from easydict import EasyDict
 from PIL import Image, ImageChops, ImageDraw, ImageTk
 
-from ..windows.drawwidget import DDrawWidget
-
 __all__ = [
-    "THEMES",
     "RIPPLE_MS",
     "FRAME_MS",
     "SUPERSAMPLE",
+    "Ripple",
+    "RippleState",
     "ease_out_cubic",
     "ripple_alpha",
     "ripple_radius",
     "ripple_layer",
-    "RippleButton",
 ]
 
 #: 一次涟漪的总时长（毫秒）。Material 规范里大控件约 450–600ms。
@@ -62,44 +61,9 @@ FRAME_MS = 16
 #: 栅格化涟漪时的超采样倍率（最后缩小，边缘才不锯齿）。
 SUPERSAMPLE = 3
 
-#: 配色字典。换主题＝换一份字典再重绘，不需要改绘制代码。
-#: 可以通过 ``RIPPLE_THEMES["mine"] = {...}`` 追加自己的主题。
-THEMES: Dict[str, Dict[str, object]] = {
-    "light": {
-        "page": "#f3f3f3",
-        "rest": "#ffffff",
-        "hover": "#f7f7f7",
-        "pressed": "#ededed",
-        "disabled": "#f0f0f0",
-        "outline": "#000000",
-        "outline_opacity": 0.12,
-        "text": "#1b1b1b",
-        "text_disabled": "#8a8a8a",
-        "muted": "#6b6b6b",
-        "ripple": "#000000",
-        "ripple_opacity": 0.12,
-        "focus": "#005fb8",
-    },
-    "dark": {
-        "page": "#202020",
-        "rest": "#2b2b2b",
-        "hover": "#333333",
-        "pressed": "#262626",
-        "disabled": "#262626",
-        "outline": "#ffffff",
-        "outline_opacity": 0.10,
-        "text": "#f5f5f5",
-        "text_disabled": "#7a7a7a",
-        "muted": "#a0a0a0",
-        "ripple": "#ffffff",
-        "ripple_opacity": 0.16,
-        "focus": "#60cdff",
-    },
-}
-
 
 # ----------------------------------------------------------------------
-# 涟漪的数学：半径、不透明度、图层
+# 数学与图层
 # ----------------------------------------------------------------------
 def ease_out_cubic(progress: float) -> float:
     """Material 的「减速」曲线：起步快、收尾慢。
@@ -126,10 +90,10 @@ def ripple_alpha(progress: float, peak: float = 0.12) -> float:
 
 
 def ripple_radius(width: float, height: float, x: float, y: float) -> float:
-    """从 ``(x, y)`` 到最远角的距离——涟漪扩到它才算盖满整个按钮。
+    """从 ``(x, y)`` 到最远角的距离——涟漪扩到它才算盖满整个控件。
 
-    :param width: 按钮宽度
-    :param height: 按钮高度
+    :param width: 控件宽度
+    :param height: 控件高度
     :param x: 圆心 x
     :param y: 圆心 y
     :returns: 需要扩散到的半径
@@ -143,29 +107,29 @@ def ripple_radius(width: float, height: float, x: float, y: float) -> float:
 def ripple_layer(
     width: int,
     height: int,
-    radius: float,
+    corner_radius: float,
     x: float,
     y: float,
     progress: float,
     color: str = "#000000",
     peak_opacity: float = 0.12,
 ) -> Image.Image:
-    """算出某一帧的涟漪图层（RGBA，尺寸就是按钮尺寸）。
+    """算出某一帧的涟漪图层（RGBA，尺寸就是控件尺寸）。
 
     为什么不用 ``Canvas.create_oval``：Tk 的 canvas item 没有 alpha——
-    给 canvas item 设 ``-alpha`` 是整块位图的透明度，而且**圆角遮不住**。
+    给 item 设 ``-alpha`` 是整块位图的透明度，而且**圆角遮不住**。
     这里改成在 Pillow 里先画「圆 ∩ 圆角矩形」的遮罩，再整体缩小：
     半透明、圆角裁剪、抗锯齿就都对了。
 
-    :param width: 按钮宽度（像素）
-    :param height: 按钮高度（像素）
-    :param radius: 按钮圆角半径，用来裁剪涟漪
+    :param width: 控件宽度（像素）
+    :param height: 控件高度（像素）
+    :param corner_radius: 控件圆角半径，用来裁剪涟漪（矩形控件传 ``0``）
     :param x: 涟漪圆心 x（控件坐标）
     :param y: 涟漪圆心 y
     :param progress: ``0``–``1`` 的播放进度
     :param color: 涟漪颜色
     :param peak_opacity: 最浓时的 alpha
-    :returns: 与按钮等大的 RGBA 图层，进度 0/1 时完全透明
+    :returns: 与控件等大的 RGBA 图层，进度 0/1 时完全透明
     """
     width = int(round(width))
     height = int(round(height))
@@ -180,7 +144,7 @@ def ripple_layer(
     # 1) 圆角矩形遮罩：涟漪不能漫出圆角
     clip = Image.new("L", size, 0)
     ImageDraw.Draw(clip).rounded_rectangle(
-        (0, 0, size[0] - 1, size[1] - 1), radius=radius * scale, fill=255
+        (0, 0, size[0] - 1, size[1] - 1), radius=corner_radius * scale, fill=255
     )
 
     # 2) 当前半径的圆
@@ -199,306 +163,208 @@ def ripple_layer(
     return layer
 
 
-def _ui_font(size: int, weight: str = "normal"):
-    """复制一份系统默认字体并调大小——比自己写家族名可靠。"""
-    font = tkfont.nametofont("TkDefaultFont").copy()
-    font.configure(size=size, weight=weight)
-    return font
-
-
+# ----------------------------------------------------------------------
+# 状态与动画
+# ----------------------------------------------------------------------
 @dataclass
-class _Ripple:
-    """一次涟漪的状态：圆心 + 开始时刻（``time.monotonic()``）。"""
+class RippleState:
+    """一次涟漪：圆心、开始时刻，以及「现在播到哪了」。"""
 
     x: float
     y: float
     started: float
 
-    def progress(self) -> float:
+    def progress(self, duration: float = RIPPLE_MS) -> float:
+        """当前进度（``0``–``1``），按 ``time.monotonic()`` 现算。"""
         elapsed_ms = (time.monotonic() - self.started) * 1000.0
-        return min(1.0, max(0.0, elapsed_ms / RIPPLE_MS))
+        return min(1.0, max(0.0, elapsed_ms / duration))
 
 
-# ----------------------------------------------------------------------
-# 控件
-# ----------------------------------------------------------------------
-class RippleButton(DDrawWidget):
-    """带 Material 涟漪的圆角按钮。
+class Ripple:
+    """把涟漪接到一个控件上：只管状态与计时，绘制时机交给你。
 
-    :class:`~tkdeft.windows.drawwidget.DDrawWidget` 本身就是一种
-    :class:`~tkdeft.windows.canvas.DCanvas`，所以继承它就有「能画圆角矩形」
-    和 ``enter`` / ``button1`` / ``isfocus`` 三个状态位 + ``<<Clicked>>`` 事件。
+    :param widget: 宿主控件（``DCanvas`` / ``DDrawWidget`` 或任何有
+        ``create_image`` / ``winfo_width`` 的 Tk 控件）；用来取尺寸、贴图层
+    :param on_frame: 每帧回调，通常是宿主自己的重绘方法；``None`` 表示不自动刷新
+    :param duration: 一次涟漪的时长（毫秒），默认 :data:`RIPPLE_MS`
+    :param frame_ms: 帧间隔（毫秒），默认 :data:`FRAME_MS`
 
-    :param master: 父容器
-    :param text: 按钮文字
-    :param theme: :data:`THEMES` 里的主题名（``"light"`` / ``"dark"``）
-    :param command: 点击回调（与 ``tk.Button`` 一致，不带参数）
-    :param font: 文字字体，默认是系统默认字体加粗；传 ``tkinter.font.Font`` 可覆盖
-
-    可配置项（用 ``dconfigure`` 修改，改完立即重绘）：
-
-    ``text``
-        按钮文字。
-    ``theme``
-        主题名，决定 :attr:`palette`。
-    ``enabled``
-        置 ``False`` 时按钮变灰且不响应点击，状态查询返回 ``"disabled"``。
-    ``corner_radius``
-        圆角半径，默认 ``8``；会自动夹到不超过一半宽高。
-    ``ripple_opacity``
-        涟漪峰值 alpha；``None`` 表示跟随主题。
-    ``font``
-        字体对象；``None`` 表示用默认字体。
+    控制器不保存颜色：颜色/浓度/圆角都在 :meth:`paint` 时传进来，所以同一份
+    状态可以跟着主题换色，不需要重建对象。
     """
-
-    attributes = EasyDict(
-        {
-            "text": "涟漪按钮",
-            "theme": "light",
-            "enabled": True,
-            "corner_radius": 8,
-            "ripple_opacity": None,
-            "font": None,
-        }
-    )
 
     def __init__(
         self,
-        master=None,
+        widget,
+        on_frame: Optional[Callable[[], None]] = None,
         *,
-        text: str = "涟漪按钮",
-        theme: str = "light",
-        command=None,
-        font=None,
-        **kwargs
+        duration: float = RIPPLE_MS,
+        frame_ms: int = FRAME_MS,
     ):
-        kwargs.setdefault("width", 200)
-        kwargs.setdefault("height", 48)
-        kwargs.setdefault("cursor", "hand2")
-        kwargs.setdefault("takefocus", 1)
-        kwargs.setdefault("background", THEMES["light"]["page"])
-        super().__init__(master, **kwargs)
+        self.widget = widget
+        self.on_frame = on_frame
+        self.duration = duration
+        self.frame_ms = frame_ms
 
-        self.attributes = EasyDict(dict(type(self).attributes))
-        self.attributes.text = text
-        self.attributes.theme = theme
-        self.attributes.font = font
-        self.command = command
-
-        self._default_font = _ui_font(10, "bold")
-        self._ripple: Optional[_Ripple] = None
+        self._states: List[RippleState] = []
         self._job: Optional[str] = None
+        self._photos: Dict[int, object] = {}
 
-        # <<Clicked>> 由基类在"鼠标在控件内松开"时发出；空格/回车这里也补一次，
-        # 统一由它触发 command，避免两条路径各调一次。
-        self.bind("<<Clicked>>", self._invoke_command, add="+")
-        self.bind("<space>", self._event_activate, add="+")
-        self.bind("<Return>", self._event_activate, add="+")
-        self.bind("<Map>", self._event_map, add="+")
-        self.bind("<Destroy>", self._event_destroy, add="+")
+        # 宿主被销毁时把 after 撤掉，免得回调打到已销毁的控件上
+        try:
+            widget.bind("<Destroy>", self._event_destroy, add="+")
+        except Exception:            # 不是 Tk 控件（测试替身）就跳过
+            pass
 
     # ------------------------------------------------------------------
-    # 配置
+    # 状态
     # ------------------------------------------------------------------
     @property
-    def palette(self) -> Dict[str, object]:
-        """当前主题的配色字典（``THEMES`` 里的一项）。"""
-        return THEMES.get(self.dcget("theme", "light"), THEMES["light"])
+    def states(self) -> List[RippleState]:
+        """正在播放的涟漪（只读副本，按开始顺序）。"""
+        return list(self._states)
 
     @property
-    def font(self):
-        """实际使用的字体：配置了就用配置的，否则用默认加粗字体。"""
-        return self.dcget("font", None) or self._default_font
+    def active(self) -> bool:
+        """是否还有涟漪在播。"""
+        return bool(self._states)
 
-    def dconfigure(self, *args, **kwargs) -> "RippleButton":
-        """改配置后立即重绘（``dconfigure(theme="dark")`` 就能换主题）。"""
-        super().dconfigure(*args, **kwargs)
-        self._draw()
-        return self
-
-    def _invoke_command(self, event=None):
-        """``<<Clicked>>`` 的默认处理：调用 ``command``。"""
-        if not self.dcget("enabled", True):
-            return None
-        if self.command is not None:
-            self.command()
-        return None
-
-    # ------------------------------------------------------------------
-    # 绘制
-    # ------------------------------------------------------------------
-    def _draw(self, event=None):
-        super()._draw(event)
-        if self.winfo_ismapped():
-            self._paint()
-
-    def _paint(self):
-        width = self.winfo_width()
-        height = self.winfo_height()
-        if width <= 1 or height <= 1:
-            return
-
-        palette = self.palette
-        state = self.interaction_state(self.dcget("enabled", True))
-        radius = float(
-            min(self.dcget("corner_radius", 8), width / 2.0, height / 2.0)
-        )
-
-        self.delete("all")
-
-        # 1) 底色 + 1px 描边：交给绘制引擎（栅格引擎会命中缓存）
-        fill = palette["disabled"] if state == "disabled" else palette[state]
-        body = self.draw_roundrect(
-            0,
-            0,
-            width,
-            height,
-            radius,
-            fill=fill,
-            outline=palette["outline"],
-            outline_opacity=palette["outline_opacity"],
-            width=1,
-            temppath=self.temppath,
-        )
-        # draw_* 的返回值就是 canvas item id；打标签方便「只删某一件」
-        self.addtag_withtag("body", body)
-
-        # 2) 涟漪：压在底色之上、文字之下
-        if self._ripple is not None and state != "disabled":
-            self._draw_ripple(width, height, radius)
-
-        # 3) 文字
-        text_color = (
-            palette["text_disabled"] if state == "disabled" else palette["text"]
-        )
-        self.create_text(
-            width / 2.0,
-            height / 2.0,
-            text=self.dcget("text", ""),
-            fill=text_color,
-            font=self.font,
-            tags=("text",),
-        )
-
-        # 4) 键盘焦点环：画在最上层，向内缩 3px，不压住文字
-        if self.isfocus and state != "disabled":
-            ring = self.draw_roundrect(
-                3,
-                3,
-                width - 3,
-                height - 3,
-                max(radius - 3.0, 1.0),
-                fill="transparent",
-                outline=palette["focus"],
-                outline_opacity=1.0,
-                width=2,
-                temppath=self.temppath2,
-            )
-            self.addtag_withtag("focus", ring)
-
-    def _ripple_opacity(self) -> float:
-        """涟漪峰值 alpha：配置优先，否则跟随主题。"""
-        configured = self.dcget("ripple_opacity", None)
-        if configured is None:
-            return float(self.palette["ripple_opacity"])
-        return float(configured)
-
-    def _draw_ripple(self, width: int, height: int, radius: float):
-        ripple = self._ripple
-        if ripple is None:
-            return
-        layer = ripple_layer(
-            width,
-            height,
-            radius,
-            ripple.x,
-            ripple.y,
-            ripple.progress(),
-            color=self.palette["ripple"],
-            peak_opacity=self._ripple_opacity(),
-        )
-        photo = ImageTk.PhotoImage(layer, master=self)
-        item = self.create_image(0, 0, anchor="nw", image=photo, tags=("ripple",))
-        # Tk 不会自己保住 PhotoImage，松手就变白板
-        self._keep_photo(item, photo)
-
-    # ------------------------------------------------------------------
-    # 涟漪动画
-    # ------------------------------------------------------------------
-    def ripple(self, x: float, y: float, started: Optional[float] = None) -> None:
-        """从 ``(x, y)`` 起播一次涟漪。
+    def start(
+        self,
+        x: Optional[float] = None,
+        y: Optional[float] = None,
+        started: Optional[float] = None,
+    ) -> RippleState:
+        """从 ``(x, y)`` 起播一次涟漪；不传坐标按控件中心算。
 
         :param x: 圆心 x（控件坐标）
         :param y: 圆心 y
         :param started: 起始时刻（``time.monotonic()``）；给自检/截图复现用，
             传 ``time.monotonic() - 0.2`` 就等于快进到 40% 进度
+        :returns: 新加入的状态，可用它自己算进度
         """
-        self._stop_tick()
-        self._ripple = _Ripple(
+        if x is None:
+            x = self.widget.winfo_width() / 2.0
+        if y is None:
+            y = self.widget.winfo_height() / 2.0
+        state = RippleState(
             float(x), float(y), time.monotonic() if started is None else started
         )
-        self._paint()
+        self._states.append(state)
         self._schedule()
+        return state
 
-    def stop_ripple(self) -> None:
-        """立刻停掉正在播的涟漪并擦干净。"""
+    def stop(self) -> None:
+        """立刻停掉所有涟漪并撤掉计时器。"""
         self._stop_tick()
-        self._ripple = None
-        self._paint()
+        self._states.clear()
 
-    def _schedule(self):
-        if self._job is None and self._ripple is not None:
-            self._job = self.after(FRAME_MS, self._tick)
+    def advance(self) -> None:
+        """丢掉已经播完的涟漪（一般不用手调，内部计时器会做）。"""
+        self._states = [
+            state for state in self._states if state.progress(self.duration) < 1.0
+        ]
 
-    def _stop_tick(self):
+    # ------------------------------------------------------------------
+    # 计时
+    # ------------------------------------------------------------------
+    def _schedule(self) -> None:
+        if self._job is None and self._states:
+            self._job = self.widget.after(self.frame_ms, self._tick)
+
+    def _stop_tick(self) -> None:
         if self._job is not None:
-            self.after_cancel(self._job)
+            self.widget.after_cancel(self._job)
             self._job = None
 
-    def _tick(self):
+    def _tick(self) -> None:
         self._job = None
-        if not self.winfo_exists() or self._ripple is None:
+        if not self._states:
             return
-        if self._ripple.progress() >= 1.0:
-            # 最后一帧把涟漪擦掉，纹理和叠加层都回到静止状态
-            self._ripple = None
-            self._paint()
-            return
-        self._paint()
+        self.advance()
+        self._notify()
         self._schedule()
 
-    # ------------------------------------------------------------------
-    # 事件
-    # ------------------------------------------------------------------
-    def _event_map(self, event=None):
-        """窗口第一次真正显示出来时补画一次。
+    def _notify(self) -> None:
+        if self.on_frame is not None:
+            self.on_frame()
 
-        ``DDrawWidget._draw`` 在 ``winfo_ismapped()`` 为假时直接返回（那时的
-        ``winfo_width()`` 还是 1）。而「先把控件 pack 好、再 ``mainloop()``」
-        的写法里，``<Configure>`` 往往在映射**之前**就发完了，之后不会再来
-        一次——所以只靠基类的绑定，按钮会一直空着，直到鼠标划过才画出来。
+    # ------------------------------------------------------------------
+    # 绘制
+    # ------------------------------------------------------------------
+    def paint(
+        self,
+        color: str = "#000000",
+        opacity: float = 0.12,
+        corner_radius: float = 0.0,
+        tag: str = "ripple",
+    ) -> int:
+        """把所有正在播的涟漪画到宿主控件上，返回最后一张图层对应的 item。
+
+        在你自己的 ``_paint`` 里调用——位置决定层级：先画底色再调它，
+        涟漪就在底色之上；之后再画文字，文字就在最上面。
+
+        :param color: 涟漪颜色
+        :param opacity: 最浓时的 alpha
+        :param corner_radius: 控件圆角半径；矩形控件传 ``0``
+        :param tag: 给贴图打的 canvas tag，方便宿主用 ``delete(tag)`` 单独清理
+        :returns: 最后一张图层对应的 canvas item id；没有涟漪时返回 ``0``
         """
-        self._draw(event)
+        self._prune_photos()
+        width = self.widget.winfo_width()
+        height = self.widget.winfo_height()
+        if width <= 1 or height <= 1:
+            return 0
 
-    def _event_on_button1(self, event=None):
-        super()._event_on_button1(event)
-        if not self.dcget("enabled", True):
+        last = 0
+        for state in self._states:
+            progress = state.progress(self.duration)
+            if progress >= 1.0:
+                continue
+            layer = ripple_layer(
+                width,
+                height,
+                corner_radius,
+                state.x,
+                state.y,
+                progress,
+                color=color,
+                peak_opacity=opacity,
+            )
+            photo = ImageTk.PhotoImage(layer, master=self.widget)
+            item = self.widget.create_image(
+                0, 0, anchor="nw", image=photo, tags=(tag,)
+            )
+            self._keep_photo(item, photo)
+            last = item
+        return last
+
+    def _keep_photo(self, item: int, photo) -> None:
+        """Tk 不会自己保住 PhotoImage：交给 DCanvas 的缓存，否则自己记账。"""
+        keep = getattr(self.widget, "_keep_photo", None)
+        if callable(keep):
+            keep(item, photo)
             return
-        self.focus_set()
-        x = event.x if event is not None else self.winfo_width() / 2.0
-        y = event.y if event is not None else self.winfo_height() / 2.0
-        self.ripple(x, y)
+        if hasattr(self.widget, "_photo_refs") and isinstance(
+            self.widget._photo_refs, dict
+        ):
+            self.widget._photo_refs[item] = photo
+            return
+        self._photos[item] = photo
 
-    def _event_activate(self, event=None):
-        """空格 / 回车：从中心播涟漪，并发一次 ``<<Clicked>>``。"""
-        if not self.dcget("enabled", True) or not self.isfocus:
-            return None
-        self.ripple(self.winfo_width() / 2.0, self.winfo_height() / 2.0)
-        self.event_generate("<<Clicked>>")
-        return "break"
+    def _prune_photos(self) -> None:
+        """删掉已被宿主 ``delete`` 过的 item 对应的照片引用。"""
+        if not self._photos:
+            return
+        stale = [item for item in self._photos if not self.widget.type(item)]
+        for item in stale:
+            del self._photos[item]
 
-    def _event_destroy(self, event=None):
-        if event is not None and getattr(event, "widget", None) is not self:
+    # ------------------------------------------------------------------
+    # 生命周期
+    # ------------------------------------------------------------------
+    def _event_destroy(self, event=None) -> None:
+        if event is not None and getattr(event, "widget", None) is not self.widget:
             return
         self._stop_tick()
-        self._ripple = None
+        self._states.clear()

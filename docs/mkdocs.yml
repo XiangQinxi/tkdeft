@@ -91,7 +91,7 @@ nav:
       - 指南总览: "usage/index.md"
       - 绘制引擎: "usage/custom-drawing.md"
       - 自定义组件: "usage/custom-widget.md"
-      - 涟漪按钮示例: "usage/ripple-button.md"
+      - 涟漪效果: "usage/ripple-button.md"
       - 回归与性能: "usage/benchmarks.md"
       - 常见问题与排查: "usage/faq.md"
       - 从 0.2 升级到 0.3: "usage/upgrade-0.3.md"
@@ -113,7 +113,7 @@ nav:
           - api/tkdeft.windows.canvas.md
           - api/tkdeft.windows.draw.md
           - api/tkdeft.windows.drawwidget.md
-      - 组件:
+      - 效果:
           - api/tkdeft.extra.md
           - api/tkdeft.extra.ripple.md
       - 基础:

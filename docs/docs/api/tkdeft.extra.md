@@ -1,4 +1,4 @@
-# extra · 可直接用的控件
+# extra · 可选的附加功能
 
 ::: tkdeft.extra
     options:

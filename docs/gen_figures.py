@@ -586,7 +586,7 @@ def figure_perf_bars():
 
 # ---------------------------------------------------------------- 图 5：涟漪逐帧
 def figure_ripple(renderer: _Renderer):
-    """涟漪按钮的四帧 + 不透明度曲线：全部用控件自己的 ``ripple_layer()`` 合成。
+    """涟漪按钮的四帧 + 不透明度曲线：全部用 ``tkdeft.extra.ripple`` 合成。
 
     这里不截窗口，而是把**引擎真实渲染的底色**和 ``tkdeft.extra.ripple`` 里的
     ``ripple_layer()`` 逐帧 ``alpha_composite``，因为半透明图层在

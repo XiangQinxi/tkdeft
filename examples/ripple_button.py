@@ -1,7 +1,7 @@
-"""Material 涟漪按钮示例：把 ``tkdeft.extra`` 里的成品控件跑起来。
+"""Material 涟漪按钮示例：用 ``tkdeft.extra.ripple`` 给一个自绘按钮加涟漪。
 
-控件本身在 :mod:`tkdeft.extra.ripple` 里，这个文件只做三件事：
-起一个演示窗口、按 ``T`` 换主题、提供不开窗口的自检。
+``tkdeft.extra.ripple`` 只提供**涟漪功能**，不提供按钮。这个文件才定义按钮：
+圆角底色、悬停/按压/禁用状态、文字、焦点环，再加上三行涟漪调用。
 
 运行::
 
@@ -10,7 +10,7 @@
     python examples/ripple_button.py --theme dark
     python examples/ripple_button.py --check            # 不开窗口的自检
 
-写法的逐步讲解见文档站 ``usage/ripple-button`` 一页。
+拆解讲解见文档站 ``usage/ripple-button`` 一页。
 """
 
 from __future__ import annotations
@@ -21,13 +21,14 @@ import sys
 import time
 import tkinter as tk
 from tkinter import font as tkfont
-from typing import Optional
+from typing import Dict, Optional
+
+from easydict import EasyDict
 
 from tkdeft import DDrawWidget
 from tkdeft.engines import available_engines, set_engine
 from tkdeft.extra.ripple import (
-    THEMES,
-    RippleButton,
+    Ripple,
     ease_out_cubic,
     ripple_alpha,
     ripple_layer,
@@ -37,7 +38,41 @@ from tkdeft.extra.ripple import (
 # Windows 控制台默认是 GBK，中文和箭头容易乱码
 sys.stdout.reconfigure(encoding="utf-8")
 
-__all__ = ["DemoApp", "check", "main"]
+__all__ = ["THEMES", "RippleButton", "DemoApp", "check", "main"]
+
+#: 配色字典。换主题＝换一份字典再重绘，不需要改绘制代码。
+THEMES: Dict[str, Dict[str, object]] = {
+    "light": {
+        "page": "#f3f3f3",
+        "rest": "#ffffff",
+        "hover": "#f7f7f7",
+        "pressed": "#ededed",
+        "disabled": "#f0f0f0",
+        "outline": "#000000",
+        "outline_opacity": 0.12,
+        "text": "#1b1b1b",
+        "text_disabled": "#8a8a8a",
+        "muted": "#6b6b6b",
+        "ripple": "#000000",
+        "ripple_opacity": 0.12,
+        "focus": "#005fb8",
+    },
+    "dark": {
+        "page": "#202020",
+        "rest": "#2b2b2b",
+        "hover": "#333333",
+        "pressed": "#262626",
+        "disabled": "#262626",
+        "outline": "#ffffff",
+        "outline_opacity": 0.10,
+        "text": "#f5f5f5",
+        "text_disabled": "#7a7a7a",
+        "muted": "#a0a0a0",
+        "ripple": "#ffffff",
+        "ripple_opacity": 0.16,
+        "focus": "#60cdff",
+    },
+}
 
 
 def _ui_font(size: int, weight: str = "normal"):
@@ -45,6 +80,194 @@ def _ui_font(size: int, weight: str = "normal"):
     font = tkfont.nametofont("TkDefaultFont").copy()
     font.configure(size=size, weight=weight)
     return font
+
+
+class RippleButton(DDrawWidget):
+    """带涟漪的圆角按钮——顺带演示怎么把涟漪接到自己的控件上。"""
+
+    attributes = EasyDict(
+        {
+            "text": "涟漪按钮",
+            "theme": "light",
+            "enabled": True,
+            "corner_radius": 8,
+            "ripple_opacity": None,
+            "font": None,
+        }
+    )
+
+    def __init__(
+        self,
+        master=None,
+        *,
+        text: str = "涟漪按钮",
+        theme: str = "light",
+        command=None,
+        font=None,
+        **kwargs
+    ):
+        kwargs.setdefault("width", 200)
+        kwargs.setdefault("height", 48)
+        kwargs.setdefault("cursor", "hand2")
+        kwargs.setdefault("takefocus", 1)
+        kwargs.setdefault("background", THEMES["light"]["page"])
+        super().__init__(master, **kwargs)
+
+        self.attributes = EasyDict(dict(type(self).attributes))
+        self.attributes.text = text
+        self.attributes.theme = theme
+        self.attributes.font = font
+        self.command = command
+
+        self._default_font = _ui_font(10, "bold")
+
+        # ① 建一个涟漪控制器：它只记账和计时，每帧回调我们自己重绘
+        self.ripple = Ripple(self, on_frame=self._paint)
+
+        self.bind("<<Clicked>>", self._invoke_command, add="+")
+        self.bind("<space>", self._event_activate, add="+")
+        self.bind("<Return>", self._event_activate, add="+")
+        self.bind("<Map>", self._event_map, add="+")
+        self.bind("<Destroy>", self._event_destroy, add="+")
+
+    # ------------------------------------------------------------------
+    # 配置
+    # ------------------------------------------------------------------
+    @property
+    def palette(self) -> Dict[str, object]:
+        """当前主题的配色字典。"""
+        return THEMES.get(self.dcget("theme", "light"), THEMES["light"])
+
+    @property
+    def font(self):
+        """实际使用的字体：配置了就用配置的，否则用默认加粗字体。"""
+        return self.dcget("font", None) or self._default_font
+
+    def dconfigure(self, *args, **kwargs) -> "RippleButton":
+        """改配置后立即重绘（``dconfigure(theme="dark")`` 就能换主题）。"""
+        super().dconfigure(*args, **kwargs)
+        self._draw()
+        return self
+
+    def _invoke_command(self, event=None):
+        """``<<Clicked>>`` 的默认处理：调用 ``command``。"""
+        if not self.dcget("enabled", True):
+            return None
+        if self.command is not None:
+            self.command()
+        return None
+
+    # ------------------------------------------------------------------
+    # 绘制
+    # ------------------------------------------------------------------
+    def _draw(self, event=None):
+        super()._draw(event)
+        if self.winfo_ismapped():
+            self._paint()
+
+    def _paint(self):
+        width = self.winfo_width()
+        height = self.winfo_height()
+        if width <= 1 or height <= 1:
+            return
+
+        palette = self.palette
+        state = self.interaction_state(self.dcget("enabled", True))
+        radius = float(
+            min(self.dcget("corner_radius", 8), width / 2.0, height / 2.0)
+        )
+
+        self.delete("all")
+
+        # 1) 底色 + 1px 描边：交给绘制引擎（栅格引擎会命中缓存）
+        fill = palette["disabled"] if state == "disabled" else palette[state]
+        body = self.draw_roundrect(
+            0,
+            0,
+            width,
+            height,
+            radius,
+            fill=fill,
+            outline=palette["outline"],
+            outline_opacity=palette["outline_opacity"],
+            width=1,
+            temppath=self.temppath,
+        )
+        self.addtag_withtag("body", body)
+
+        # 2) ② 在这一层贴涟漪：压在底色之上、文字之下
+        if state != "disabled":
+            self.ripple.paint(
+                color=self.palette["ripple"],
+                opacity=self.ripple_opacity(),
+                corner_radius=radius,
+            )
+
+        # 3) 文字
+        text_color = (
+            palette["text_disabled"] if state == "disabled" else palette["text"]
+        )
+        self.create_text(
+            width / 2.0,
+            height / 2.0,
+            text=self.dcget("text", ""),
+            fill=text_color,
+            font=self.font,
+            tags=("text",),
+        )
+
+        # 4) 键盘焦点环：画在最上层，向内缩 3px，不压住文字
+        if self.isfocus and state != "disabled":
+            ring = self.draw_roundrect(
+                3,
+                3,
+                width - 3,
+                height - 3,
+                max(radius - 3.0, 1.0),
+                fill="transparent",
+                outline=palette["focus"],
+                outline_opacity=1.0,
+                width=2,
+                temppath=self.temppath2,
+            )
+            self.addtag_withtag("focus", ring)
+
+    def ripple_opacity(self) -> float:
+        """涟漪峰值 alpha：配置优先，否则跟随主题。"""
+        configured = self.dcget("ripple_opacity", None)
+        if configured is None:
+            return float(self.palette["ripple_opacity"])
+        return float(configured)
+
+    # ------------------------------------------------------------------
+    # 事件
+    # ------------------------------------------------------------------
+    def _event_map(self, event=None):
+        """窗口第一次真正显示出来时补画一次（``<Configure>`` 常在映射之前）。"""
+        self._draw(event)
+
+    def _event_on_button1(self, event=None):
+        super()._event_on_button1(event)
+        if not self.dcget("enabled", True):
+            return
+        self.focus_set()
+        # ③ 从光标处起涟漪；控制器会按 16ms 一帧回调 _paint
+        x = event.x if event is not None else self.winfo_width() / 2.0
+        y = event.y if event is not None else self.winfo_height() / 2.0
+        self.ripple.start(x, y)
+
+    def _event_activate(self, event=None):
+        """空格 / 回车：从中心播涟漪，并发一次 ``<<Clicked>>``。"""
+        if not self.dcget("enabled", True) or not self.isfocus:
+            return None
+        self.ripple.start()
+        self.event_generate("<<Clicked>>")
+        return "break"
+
+    def _event_destroy(self, event=None):
+        if event is not None and getattr(event, "widget", None) is not self:
+            return
+        self.ripple.stop()
 
 
 class DemoApp:
@@ -73,7 +296,6 @@ class DemoApp:
         )
         self.title_label.pack(pady=(34, 10))
 
-        # command 和 tk.Button 一样：点击（含空格/回车）后调用一次
         self.button = RippleButton(
             self.root, text="涟漪按钮", theme=self.theme, command=self._on_clicked
         )
@@ -112,7 +334,6 @@ class DemoApp:
         for label in (self.title_label, self.status, self.hint):
             label.configure(background=palette["page"], foreground=palette["muted"])
         self.title_label.configure(foreground=palette["text"])
-        # dconfigure 内部会重绘，配色字典换掉就完成了换肤
         self.button.dconfigure(theme=self.theme)
 
     def run(self):
@@ -120,7 +341,7 @@ class DemoApp:
 
 
 def check(engine: Optional[str] = None) -> int:
-    """自检涟漪的几何/透明度，以及控件能不能真的跑完一段动画。
+    """自检涟漪的几何/透明度，以及控制器接到按钮上能不能真的跑起来。
 
     :param engine: 指定绘制引擎；为空则保持 tkdeft 当前引擎
     :returns: ``0`` 全部通过，``1`` 有失败项
@@ -153,7 +374,7 @@ def check(engine: Optional[str] = None) -> int:
     layer = ripple_layer(160, 40, 8, 80, 20, 0.5)
     expect(layer.getpixel((80, 20))[3] > 0, "圆心处有半透明像素")
     expect(layer.getpixel((0, 0))[3] == 0, "圆角外的像素被裁掉")
-    expect(layer.size == (160, 40), "图层与按钮等大")
+    expect(layer.size == (160, 40), "图层与控件等大")
 
     widths = []
     for progress in (0.2, 0.5, 0.9):
@@ -161,7 +382,7 @@ def check(engine: Optional[str] = None) -> int:
         widths.append(0 if box is None else box[2] - box[0])
     expect(widths[0] < widths[1] <= widths[2], f"涟漪随时间扩散（{widths}）")
 
-    print("== 控件生命周期（需要一个能映射窗口的桌面）==")
+    print("== 控制器接到控件上（需要一个能映射窗口的桌面）==")
     try:
         root = tk.Tk()
     except tk.TclError as exc:
@@ -179,16 +400,22 @@ def check(engine: Optional[str] = None) -> int:
             root.destroy()
         else:
             expect(len(button.find_all()) >= 2, "映射后画出了底色与文字")
-            expect(isinstance(button, DDrawWidget), "继承自 DDrawWidget 基类")
+            expect(isinstance(button.ripple, Ripple), "按钮持有一个 Ripple 控制器")
+
             start = time.monotonic() - 0.2  # 直接快进到 40% 进度
-            button.ripple(80, 24, started=start)
+            button.ripple.start(80, 24, started=start)
             root.update()
-            expect(button._ripple is not None, "点击后涟漪在播")
-            expect(len(button.find_withtag("ripple")) == 1, "涟漪是一个独立图层")
+            expect(button.ripple.active, "点击后涟漪在播")
+            button._paint()               # 宿主自己在下一帧会这么调
+            button.update_idletasks()
+            expect(len(button.find_withtag("ripple")) == 1, "涟漪是一层独立贴图")
             expect(len(button._photo_refs) < 256, "动画没有堆积图片引用")
-            button.stop_ripple()
-            root.update()
+
+            button.ripple.stop()
+            button._paint()
+            button.update_idletasks()
             expect(not button.find_withtag("ripple"), "停止后涟漪图层被移除")
+
             button.event_generate("<<Clicked>>")
             root.update()
             expect(len(clicked) == 1, "<<Clicked>> 调到 command 且只调一次")

@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://tkdeft.netlify.app/blog/2026/10/18/%E6%96%B0%E5%A2%9E%E6%88%90%E5%93%81%E6%8E%A7%E4%BB%B6material-%E6%B6%9F%E6%BC%AA%E6%8C%89%E9%92%AE.html">
+        <link rel="canonical" href="https://tkdeft.netlify.app/blog/2026/10/18/%E6%96%B0%E5%A2%9E%E5%8A%9F%E8%83%BDmaterial-%E6%B6%9F%E6%BC%AA%E6%95%88%E6%9E%9C.html">
       
       
         <link rel="prev" href="../../09/13/%E5%8F%91%E5%B8%83-030%E6%8A%8A%E6%8E%A5%E5%8F%A3%E8%A1%A5%E9%BD%90%E8%AE%B2%E6%B8%85%E6%A5%9A.html">
@@ -26,7 +26,7 @@
     
     
       
-        <title>新增成品控件：Material 涟漪按钮 - tkdeft开发文档</title>
+        <title>新增功能：Material 涟漪效果 - tkdeft开发文档</title>
       
     
     
@@ -117,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              新增成品控件：Material 涟漪按钮
+              新增功能：Material 涟漪效果
             
           </span>
         </div>
@@ -709,7 +709,7 @@
   <span class="md-ellipsis">
     
   
-    涟漪按钮示例
+    涟漪效果
   
 
     
@@ -1493,7 +1493,7 @@
   <span class="md-ellipsis">
     
   
-    组件
+    效果
   
 
     
@@ -1509,7 +1509,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    组件
+    效果
   
 
           </label>
@@ -1529,7 +1529,7 @@
   <span class="md-ellipsis">
     
   
-    extra · 可直接用的控件
+    extra · 可选的附加功能
   
 
     
@@ -1557,7 +1557,7 @@
   <span class="md-ellipsis">
     
   
-    extra.ripple · Material 涟漪按钮
+    extra.ripple · Material 涟漪效果
   
 
     
@@ -2374,40 +2374,40 @@
 
 
 
-<h1 id="material">新增成品控件：Material 涟漪按钮</h1>
-<p><code>tkdeft</code> 本身不带组件，但"从零件到控件"这一步一直只有文字说明。
-这次干脆把示例做成了<strong>可以直接 import 的成品控件</strong>：<code>tkdeft.extra.ripple</code>。</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">tkinter</span>
+<h1 id="material">新增功能：Material 涟漪效果</h1>
+<p><code>tkdeft</code> 本身不带组件，这次也没有加组件——加的是<strong>一个可以接到任何控件上的效果</strong>：
+<code>tkdeft.extra.ripple</code>。你的按钮照旧自己画，只要在点击处记一笔、在重绘里贴一层。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.extra.ripple</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ripple</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.extra</span><span class="w"> </span><span class="kn">import</span> <span class="n">RippleButton</span>
-
-<span class="n">root</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
-<span class="n">button</span> <span class="o">=</span> <span class="n">RippleButton</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;确定&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;clicked&quot;</span><span class="p">))</span>
-<span class="n">button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">padx</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
-<span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">ripple</span> <span class="o">=</span> <span class="n">Ripple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">on_frame</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_paint</span><span class="p">)</span>   <span class="c1"># 建控制器，每帧回调重绘</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">ripple</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>                <span class="c1"># 点击处起涟漪</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">ripple</span><span class="o">.</span><span class="n">paint</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;#000000&quot;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.12</span><span class="p">,</span>   <span class="c1"># 在合适层级贴一层</span>
+                  <span class="n">corner_radius</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 </code></pre></div>
-<p><code>tkdeft.extra</code> 是新开的子包：核心包继续只提供零件，成品控件单独放、按需加载。
-<code>examples/ripple_button.py</code> 现在是它的演示窗口，也带自检：</p>
+<p><code>tkdeft.extra</code> 是新开的子包：核心包继续只提供零件，可选功能单独放、按需加载
+（<code>import tkdeft</code> 不会顺带把 Pillow 的 <code>ImageTk</code> 拉起来）。</p>
+<p><code>examples/ripple_button.py</code> 里有一个完整的按钮示范：圆角底色、悬停 / 按压 /
+焦点 / 禁用、空格触发、<code>T</code> 换主题都由示例自己画，涟漪只借这三行。也带自检：</p>
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>examples/ripple_button.py<span class="w">                </span><span class="c1"># 默认自动挑栅格引擎</span>
 python<span class="w"> </span>examples/ripple_button.py<span class="w"> </span>--engine<span class="w"> </span>tksvg<span class="w"> </span><span class="c1"># 换引擎看每帧开销</span>
 python<span class="w"> </span>examples/ripple_button.py<span class="w"> </span>--check<span class="w">        </span><span class="c1"># 自检，不开窗口</span>
 </code></pre></div>
-<p>控件做的事：圆角按钮 + 按下处扩散的涟漪（500 ms，缓出 + 淡出）、悬停 / 按压 /
-焦点 / 禁用四个状态、空格与回车触发、<code>command</code> 回调与 <code>&lt;&lt;Clicked&gt;&gt;</code> 事件、
-两套主题（<code>THEMES</code> 里再塞一份字典就是自己的主题）。</p>
 <h2 id="_1">值得单独说的几点</h2>
 <ul>
 <li><strong>半透明涟漪没有用 <code>create_oval</code></strong>：Tk 的 canvas item 没有逐像素 alpha。
-  控件在 Pillow 里算「圆 ∩ 圆角矩形」的遮罩，超采样 3 倍再缩回，得到一张
-  与按钮等大的 RGBA 图层，<code>create_image</code> 贴上去。</li>
+  这里在 Pillow 里算「圆 ∩ 圆角矩形」的遮罩，超采样 3 倍再缩回，得到一张
+  与控件等大的 RGBA 图层，<code>create_image</code> 贴上去。底色画在它下面、文字画在上面，
+  层级由宿主决定。</li>
 <li><strong>动画进度按 <code>time.monotonic()</code> 算</strong>，不是每帧累加 16 ms——
   主线程卡一下，下一帧直接跳到正确进度，整段动画的时长不会被拖长。</li>
 <li><strong>每帧全量重绘</strong>在这个尺寸下完全够用：一个 200×48 的按钮，
-  中位耗时 <code>skia</code> 0.42 ms、<code>pillow</code> 0.38 ms，默认的 <code>tksvg</code> 也只要 4.66 ms
-  （60 fps 的预算是 16.7 ms）。</li>
+  中位耗时 <code>skia</code> 0.42 ms、<code>pillow</code> 0.38 ms、<code>cairo</code> 0.41 ms，
+  默认的 <code>tksvg</code> 也只要 4.66 ms（60 fps 的预算是 16.7 ms）。</li>
+<li><strong>控制器不碰 canvas item、也不存颜色</strong>：<code>paint()</code> 每次现取颜色与圆角，
+  所以同一份状态能跟着主题换色，不需要重建对象。</li>
 </ul>
 <h2 id="_2">顺手记下三个坑</h2>
-<p>写这个控件时踩到的、文档里原来没写清楚的：</p>
+<p>写这个效果时踩到的、文档里原来没写清楚的：</p>
 <ol>
 <li><code>class MyButton(DCanvas, DDrawWidget)</code> 会直接 MRO 报错——
    <code>DDrawWidget</code> 已经继承 <code>DCanvas</code>，只写后者就行；</li>
@@ -2416,16 +2416,16 @@ python<span class="w"> </span>examples/ripple_button.py<span class="w"> </span>-
    <code>addtag_withtag(返回的 item id)</code>；</li>
 <li>先 <code>pack()</code> 再 <code>mainloop()</code> 时，<code>&lt;Configure&gt;</code> 往往在<strong>映射之前</strong>就发完了，
    而 <code>DDrawWidget._draw()</code> 在未映射时直接返回——控件会一直空白，
-   直到鼠标划过。补一个 <code>&lt;Map&gt;</code> 绑定即可（控件里已经这么做）。</li>
+   直到鼠标划过。补一个 <code>&lt;Map&gt;</code> 绑定即可（示例里已经这么做）。</li>
 </ol>
 <p>另外还发现：<strong><code>PrintWindow</code> 抓不到 canvas 上的半透明叠加层</strong>（窗口里看得见、
-截图里没有），所以文档插图改成"引擎渲染的底色 + 控件自己的 <code>ripple_layer()</code>
-逐帧合成"。这一条已经写进 <a href="../../../../usage/faq.html">常见问题与排查</a> 第 13 条。</p>
+截图里没有），所以文档插图改成"引擎渲染的底色 + <code>ripple_layer()</code> 逐帧合成"。
+这一条已经写进 <a href="../../../../usage/faq.html">常见问题与排查</a> 第 13 条。</p>
 <h2 id="_3">文档</h2>
-<p>新增 <a href="../../../../usage/ripple-button.html">涟漪按钮：可直接用的成品控件</a>，
-先讲怎么用（参数、可配置项、事件、自定义主题），再按"为什么不用
-<code>create_oval</code> → 遮罩 → 曲线 → 动画循环 → 叠放与保活 → 三个坑 → 性能"拆开讲，
-最后给出"换成你自己的控件"的两条路。
+<p>新增 <a href="../../../../usage/ripple-button.html">涟漪效果：给任意控件加一层扩散动画</a>，
+先讲怎么接（三步、控制器与纯函数的 API），再按"为什么不用
+<code>create_oval</code> → 遮罩怎么算 → 浓度与半径两条曲线 → 计时 → 图片保活 → 三个坑 →
+性能"拆开讲。
 插图 <code>ripple-frames.png</code> 由 <code>docs/gen_figures.py --write --only ripple-frames</code> 生成，
 可重新跑。</p>
 

@@ -7,7 +7,7 @@
 * :mod:`tkdeft.windows` —— ``DCanvas`` / ``DDraw`` / ``DSvgDraw`` / ``DDrawWidget``
 * :mod:`tkdeft.object` —— ``DObject`` 配置容器
 * :mod:`tkdeft.utility` —— 字体等零碎工具
-* :mod:`tkdeft.extra` —— 用这些零件做好的成品控件（目前是 Material 涟漪按钮）
+* :mod:`tkdeft.extra` —— 可选的附加功能（目前是 Material 涟漪效果）
 
 最常用的东西都从顶层再导出一份，所以下面两种写法等价::
 
@@ -46,13 +46,13 @@
     if getattr(tkdeft, "HAS_ENGINES", False):
         from tkdeft.engines import set_engine
 
-成品控件
+附加功能
 --------
-:mod:`tkdeft.extra` 里是直接可用的控件，它按需加载（用到时才 import Pillow 的
-``ImageTk``），两种写法都行::
+:mod:`tkdeft.extra` 里是可以直接拿去用的小功能，它按需加载（用到时才 import
+Pillow 的 ``ImageTk``）::
 
-    from tkdeft.extra import RippleButton
-    from tkdeft import RippleButton          # 等价，懒加载
+    from tkdeft.extra.ripple import Ripple
+    from tkdeft import extra          # 等价，懒加载整个子包
 """
 
 from __future__ import annotations
@@ -113,18 +113,15 @@ HAS_ENGINES = True
 def __getattr__(name: str):
     """按需加载 :mod:`tkdeft.extra`。
 
-    ``import tkdeft`` 不应该顺带把 Pillow 的 ``ImageTk`` 和整个控件模块拉进来，
+    ``import tkdeft`` 不应该顺带把 Pillow 的 ``ImageTk`` 和附加功能拉进来，
     所以这里只在真的用到时再导入::
 
-        from tkdeft import RippleButton    # 触发 __getattr__
+        from tkdeft import extra          # 触发 __getattr__
     """
-    if name in {"extra", "RippleButton"}:
+    if name == "extra":
         # 用 import_module 而不是 ``from . import extra``：后者会走
         # ``_handle_fromlist`` → ``getattr(self, "extra")`` → 又回到本函数，无限递归。
-        module = importlib.import_module(".extra", __name__)
-        if name == "extra":
-            return module
-        return module.RippleButton
+        return importlib.import_module(".extra", __name__)
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
@@ -139,8 +136,6 @@ __all__ = [
     "__version__",
     "__version_info__",
     "HAS_ENGINES",
-    # 成品控件（懒加载）
-    "RippleButton",
     # 基础
     "DObject",
     # 画布与绘制后端

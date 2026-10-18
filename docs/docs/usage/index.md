@@ -32,16 +32,14 @@
 * 三个统一绘制入口与两个"强制走某条路"的开关；
 * 怎么写自己的绘制后端（`create_drawing` / `scratch_path` / `cleanup`）。
 
-### [涟漪按钮示例](ripple-button.md)
+### [涟漪效果](ripple-button.md)
 
-`tkdeft.extra` 里已经有一个成品控件——Material 圆角按钮 + 按下处扩散的涟漪，
-配好配色就能用；这一页既讲用法，也拆开讲它是怎么拼出来的：
+`tkdeft.extra.ripple` 只提供**涟漪本身**，不提供按钮；已有控件加三行调用就能用：
 
-* `RippleButton` 的参数、可配置项、`command` / `<<Clicked>>` 与自定义主题；
+* `Ripple` 控制器（`start` / `paint` / `stop`）与 `ripple_layer()` 等纯函数的 API；
 * 为什么半透明涟漪不能用 `create_oval`，要用 Pillow 合成 RGBA 图层；
-* 遮罩（圆 ∩ 圆角矩形）、缓动与淡出两条曲线；
-* `after(16, ...)` 的动画循环，为什么进度用 `monotonic()` 算而不是累加；
-* 三个真实踩过的坑：MRO、`draw_roundrect` 不吃 `tags`、首帧空白要补 `<Map>`。
+* 遮罩（圆 ∩ 圆角矩形）、缓动与淡出两条曲线、按 `monotonic()` 算进度的计时器；
+* 把涟漪接到自己的控件上时会踩的三个坑：MRO、`draw_roundrect` 不吃 `tags`、首帧空白要补 `<Map>`。
 
 ### [回归与性能](benchmarks.md)
 

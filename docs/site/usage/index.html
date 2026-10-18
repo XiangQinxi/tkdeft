@@ -714,7 +714,7 @@
   <span class="md-ellipsis">
     
   
-    涟漪按钮示例
+    涟漪效果
   
 
     
@@ -1498,7 +1498,7 @@
   <span class="md-ellipsis">
     
   
-    组件
+    效果
   
 
     
@@ -1514,7 +1514,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    组件
+    效果
   
 
           </label>
@@ -1534,7 +1534,7 @@
   <span class="md-ellipsis">
     
   
-    extra · 可直接用的控件
+    extra · 可选的附加功能
   
 
     
@@ -1562,7 +1562,7 @@
   <span class="md-ellipsis">
     
   
-    extra.ripple · Material 涟漪按钮
+    extra.ripple · Material 涟漪效果
   
 
     
@@ -2305,7 +2305,7 @@
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
-        涟漪按钮示例
+        涟漪效果
       
     </span>
   </a>
@@ -2426,15 +2426,13 @@
 <li>三个统一绘制入口与两个"强制走某条路"的开关；</li>
 <li>怎么写自己的绘制后端（<code>create_drawing</code> / <code>scratch_path</code> / <code>cleanup</code>）。</li>
 </ul>
-<h3 id="_6"><a href="ripple-button.html">涟漪按钮示例</a></h3>
-<p><code>tkdeft.extra</code> 里已经有一个成品控件——Material 圆角按钮 + 按下处扩散的涟漪，
-配好配色就能用；这一页既讲用法，也拆开讲它是怎么拼出来的：</p>
+<h3 id="_6"><a href="ripple-button.html">涟漪效果</a></h3>
+<p><code>tkdeft.extra.ripple</code> 只提供<strong>涟漪本身</strong>，不提供按钮；已有控件加三行调用就能用：</p>
 <ul>
-<li><code>RippleButton</code> 的参数、可配置项、<code>command</code> / <code>&lt;&lt;Clicked&gt;&gt;</code> 与自定义主题；</li>
+<li><code>Ripple</code> 控制器（<code>start</code> / <code>paint</code> / <code>stop</code>）与 <code>ripple_layer()</code> 等纯函数的 API；</li>
 <li>为什么半透明涟漪不能用 <code>create_oval</code>，要用 Pillow 合成 RGBA 图层；</li>
-<li>遮罩（圆 ∩ 圆角矩形）、缓动与淡出两条曲线；</li>
-<li><code>after(16, ...)</code> 的动画循环，为什么进度用 <code>monotonic()</code> 算而不是累加；</li>
-<li>三个真实踩过的坑：MRO、<code>draw_roundrect</code> 不吃 <code>tags</code>、首帧空白要补 <code>&lt;Map&gt;</code>。</li>
+<li>遮罩（圆 ∩ 圆角矩形）、缓动与淡出两条曲线、按 <code>monotonic()</code> 算进度的计时器；</li>
+<li>把涟漪接到自己的控件上时会踩的三个坑：MRO、<code>draw_roundrect</code> 不吃 <code>tags</code>、首帧空白要补 <code>&lt;Map&gt;</code>。</li>
 </ul>
 <h3 id="_7"><a href="benchmarks.html">回归与性能</a></h3>
 <p><code>benchmarks/</code> 一身两职：回归套件 + 性能基准。</p>

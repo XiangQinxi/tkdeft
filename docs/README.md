@@ -15,7 +15,7 @@ docs/
 └── docs/                 真正的站点内容
     ├── index.md          主页
     ├── getstarted/       安装 / 快速上手 / 概念与架构
-    ├── usage/            指南总览 / 绘制引擎 / 自定义组件 / 涟漪按钮示例 / 回归与性能 / FAQ / 升级
+    ├── usage/            指南总览 / 绘制引擎 / 自定义组件 / 涟漪效果 / 回归与性能 / FAQ / 升级
     ├── api/              由 gen_api_pages.py + 源码文档字符串生成
     ├── assets/           插图（提交进仓库）
     ├── template/ blog/   模板说明与博客
@@ -23,8 +23,8 @@ docs/
 ```
 
 可运行的示例在**仓库根**的 `examples/` 下（不属于文档站，但指南页会引用它）：
-`examples/ripple_button.py` 演示 [`tkdeft/extra/ripple.py`](../tkdeft/extra/ripple.py)
-里的 `RippleButton`，对应 [涟漪按钮示例](docs/usage/ripple-button.md)。
+`examples/ripple_button.py` 演示怎么把 [`tkdeft/extra/ripple.py`](../tkdeft/extra/ripple.py)
+里的涟漪接到自己的按钮上，对应 [涟漪效果](docs/usage/ripple-button.md)。
 
 ## 改内容
 
@@ -32,7 +32,7 @@ docs/
 | --- | --- |
 | 某段说明文字、示例代码 | 对应的 `.md`（`docs/docs/**`） |
 | 某个 API 的说明 | **改源码的文档字符串**，然后重新生成 API 页（见下） |
-| 成品控件（`tkdeft/extra/`） | 改 `tkdeft/extra/*.py`，再跑 `python examples/ripple_button.py --check` |
+| 附加功能（`tkdeft/extra/`） | 改 `tkdeft/extra/*.py`，再跑 `python examples/ripple_button.py --check` |
 | 导航顺序、新增页面 | `mkdocs.yml` 的 `nav` |
 | 配色、插图样式 | `docs/docs/stylesheets/extra.css` |
 
