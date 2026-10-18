@@ -100,9 +100,9 @@ from .windows import (
 
 #: 版本号。tkfluent 会据此判断环境里的 tkdeft 是否够新。
 #: 注意：需要与 pyproject.toml 里的 version 保持一致。
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
-#: :data:`__version__` 的数字形式，便于比较：``(0, 3, 0)``
+#: :data:`__version__` 的数字形式，便于比较：``(0, 4, 0)``
 __version_info__ = tuple(int(part) for part in __version__.split(".") if part.isdigit())
 
 #: 是否提供绘制引擎层（tkfluent >= 0.2.0 依赖它）。

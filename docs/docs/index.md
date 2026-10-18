@@ -106,7 +106,7 @@ print(cache_stats())       # 命中率，便于诊断
 
 | | |
 | --- | --- |
-| 版本 | `0.3.0`（tkdeft 与 tkfluent 同步发版） |
+| 版本 | `0.4.0`（新增 `tkdeft.extra` 涟漪效果） |
 | 回归 | `python benchmarks/run_all.py` **9 项**全绿（引擎自检 / 保真度 / 画廊 / 冒烟 / 保活 / 布局 / 命令行 / 文档站 / 性能） |
 | 文档站 | `mkdocs build --strict` 零警告 |
 | 静态检查 | `ruff check tkdeft` 零告警 |
@@ -141,6 +141,7 @@ python benchmarks/run_all.py              # 9 项
 
 | 版本 | 一句话 |
 | --- | --- |
+| [`0.4.0`](blog/posts/2026-10-18-release.md) | 新增 `tkdeft.extra`：可复用的 Material 涟漪效果（控制器 + 纯函数） |
 | [`0.3.0`](blog/posts/2026-09-13.md) | 把对外接口补齐：统一绘制入口、引擎查询、`DObject` 接口补全 |
 | [`0.2.0`](blog/posts/2026-09-12.md) | 可插拔绘制引擎层 + 进程内栅格引擎 + 规格缓存 |
 | [`0.1.0`](blog/posts/2025-06-26.md) | 完善功能，定位收敛为"tkfluent 的底层零件库" |

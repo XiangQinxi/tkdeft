@@ -2288,6 +2288,77 @@
           <li class="md-meta__item">
             分类于
             
+              <a href="../category/%E7%89%88%E6%9C%AC.html" class="md-meta__link">版本</a></li>
+        
+        
+          
+          <li class="md-meta__item">
+            
+              需要 1 分钟阅读时间
+            
+          </li>
+        
+        
+      </ul>
+      
+    </div>
+  </header>
+  <div class="md-post__content md-typeset">
+    <h2 id="040-tkdeftextra-material"><a class="toclink" href="../2026/10/18/%E5%8F%91%E5%B8%83-040%E6%96%B0%E5%A2%9E-tkdeftextra-%E4%B8%8E-material-%E6%B6%9F%E6%BC%AA%E6%95%88%E6%9E%9C.html">发布 <code>0.4.0</code>：新增 <code>tkdeft.extra</code> 与 Material 涟漪效果</a></h2>
+<p>0.4.0 是<strong>纯加法</strong>：核心包一行没改，旧代码原样能跑。新增的是一个可选的子包，
+以及里面第一个可以直接拿去用的效果。</p>
+<h3 id="tkdeftextra"><a class="toclink" href="../2026/10/18/%E5%8F%91%E5%B8%83-040%E6%96%B0%E5%A2%9E-tkdeftextra-%E4%B8%8E-material-%E6%B6%9F%E6%BC%AA%E6%95%88%E6%9E%9C.html#tkdeftextra"><code>tkdeft.extra</code></a></h3>
+<p>核心包继续只提供零件（画布、绘制后端、配置容器）；"用零件做出来的东西"以后放
+<code>tkdeft.extra</code>，按需加载——<code>import tkdeft</code> 不会顺带把 Pillow 的 <code>ImageTk</code> 拉起来。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft</span><span class="w"> </span><span class="kn">import</span> <span class="n">extra</span>          <span class="c1"># 懒加载整个子包</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.extra.ripple</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ripple</span>
+</code></pre></div>
+<h3 id="tkdeftextraripple"><a class="toclink" href="../2026/10/18/%E5%8F%91%E5%B8%83-040%E6%96%B0%E5%A2%9E-tkdeftextra-%E4%B8%8E-material-%E6%B6%9F%E6%BC%AA%E6%95%88%E6%9E%9C.html#tkdeftextraripple">涟漪效果：<code>tkdeft.extra.ripple</code></a></h3>
+<p>它<strong>不提供按钮</strong>，只提供涟漪本身，所以任何控件都能用：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">tkdeft.extra.ripple</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ripple</span>
+
+<span class="bp">self</span><span class="o">.</span><span class="n">ripple</span> <span class="o">=</span> <span class="n">Ripple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">on_frame</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_paint</span><span class="p">)</span>   <span class="c1"># ① 建控制器</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">ripple</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>                <span class="c1"># ② 点击处起涟漪</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">ripple</span><span class="o">.</span><span class="n">paint</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;#000000&quot;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.12</span><span class="p">,</span>   <span class="c1"># ③ 在重绘里贴一层</span>
+                  <span class="n">corner_radius</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</code></pre></div>
+<p>导出内容：</p>
+<ul>
+<li><code>Ripple(widget, on_frame=None, *, duration=500, frame_ms=16)</code> —— 管理状态与计时，
+  有 <code>start()</code> / <code>paint()</code> / <code>stop()</code> / <code>active</code> / <code>states</code>；</li>
+<li><code>ripple_layer()</code> —— 算出某一帧的 RGBA 图层（圆角裁剪 + 抗锯齿 + 半透明）；</li>
+<li><code>ripple_alpha()</code> / <code>ripple_radius()</code> / <code>ease_out_cubic()</code> —— 浓度、半径、缓动三条曲线。</li>
+</ul>
+<p>控制器不碰 canvas item、也不存颜色：贴在哪一层、跟不跟主题换色，都由宿主决定。
+不依赖 <code>DDrawWidget</code> 也行，任何有 <code>create_image</code> / <code>winfo_width</code> 的控件都能接。</p>
+<h3 id="_1"><a class="toclink" href="../2026/10/18/%E5%8F%91%E5%B8%83-040%E6%96%B0%E5%A2%9E-tkdeftextra-%E4%B8%8E-material-%E6%B6%9F%E6%BC%AA%E6%95%88%E6%9E%9C.html#_1">示例与文档</a></h3>
+<p><code>examples/ripple_button.py</code> 里有一个完整按钮作为接法参照（圆角底色、悬停 / 按压 /
+焦点 / 禁用、空格触发、<code>T</code> 换主题），并带非交互自检：</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>examples/ripple_button.py<span class="w"> </span>--check
+</code></pre></div>
+<p>新文档页 <a href="../../usage/ripple-button.html">涟漪效果：给任意控件加一层扩散动画</a>
+先讲三步接上，再拆遮罩、曲线、计时与图片保活，最后是三个真实踩过的坑。</p>
+<h3 id="_2"><a class="toclink" href="../2026/10/18/%E5%8F%91%E5%B8%83-040%E6%96%B0%E5%A2%9E-tkdeftextra-%E4%B8%8E-material-%E6%B6%9F%E6%BC%AA%E6%95%88%E6%9E%9C.html#_2">升级</a></h3>
+<p>无需改代码。想用新功能：</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>tkdeft
+</code></pre></div>
+<p><code>0.3.x</code> 的 API 全部保留，<code>tkdeft.extra</code> 只是新目录。</p>
+    
+    
+  </div>
+</article>
+      
+        <article class="md-post md-post--excerpt">
+  <header class="md-post__header">
+    
+    <div class="md-post__meta md-meta">
+      <ul class="md-meta__list">
+        <li class="md-meta__item">
+          <time datetime="2026-10-18 00:00:00+00:00">2026年10月18日</time></li>
+        
+          <li class="md-meta__item">
+            分类于
+            
               <a href="../category/%E7%A4%BA%E4%BE%8B.html" class="md-meta__link">示例</a></li>
         
         

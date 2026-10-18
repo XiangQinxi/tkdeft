@@ -51,7 +51,7 @@ pip install "tkdeft[raster]"    # 上面两个都装
 ```python
 import tkdeft
 
-print(tkdeft.__version__)            # 0.3.0
+print(tkdeft.__version__)            # 0.4.0
 
 from tkdeft.engines import describe_engines
 
